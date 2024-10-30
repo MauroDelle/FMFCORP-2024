@@ -1,0 +1,7 @@
+{
+  "name": "fmfCorp-app",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}
