@@ -1,0 +1,143 @@
+<!-- Menú lateral -->
+<ion-menu contentId="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-title>Menú</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding">
+    <ion-list>
+      <ion-item>
+        <ion-icon name="person-circle-outline" slot="start"></ion-icon>
+        <ion-label>
+          <h2>{{ currentUser?.nombre || 'Usuario' }}</h2>
+          <p>{{ currentUser?.type || 'Sin rol' }}</p>
+        </ion-label>
+      </ion-item>
+
+      <!-- Menú para Cliente -->
+      @if (currentUser?.type === 'cliente') {
+        <ion-item button>
+          <ion-label>Ver Menú</ion-label>
+        </ion-item>
+        <ion-item button>
+          <ion-label>Mis Reservas</ion-label>
+        </ion-item>
+        <ion-item button>
+          <ion-label>Encuestas</ion-label>
+        </ion-item>
+      }
+
+      <!-- Menú para Empleado -->
+      @if (currentUser?.type === 'empleado') {
+        <ion-item button>
+          <ion-label>Pedidos Activos</ion-label>
+        </ion-item>
+        <ion-item button>
+          <ion-label>Mis Turnos</ion-label>
+        </ion-item>
+      }
+
+      <!-- Menú para Supervisor -->
+      @if (currentUser?.type === 'supervisor') {
+        <ion-item button>
+          <ion-label>Gestión Empleados</ion-label>
+        </ion-item>
+        <ion-item button>
+          <ion-label>Reportes</ion-label>
+        </ion-item>
+        <ion-item button>
+          <ion-label>Mesas</ion-label>
+        </ion-item>
+      }
+
+      <!-- Menú para Dueño -->
+      @if (currentUser?.type === 'dueño' || currentUser?.type === 'dueno') {
+        <ion-item button>
+          <ion-label>Dashboard</ion-label>
+        </ion-item>
+        <ion-item button>
+          <ion-label>Gestión Completa</ion-label>
+        </ion-item>
+      }
+
+      <ion-item button (click)="handleLogout()" color="danger">
+        <ion-icon name="log-out-outline" slot="start"></ion-icon>
+        <ion-label>Cerrar Sesión</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<div class="ion-page" id="main-content">
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>{{ getUserTypeTitle() }}</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="handleLogout()">
+          <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="ion-padding">
+    <!-- Contenido específico para Cliente -->
+    @if (currentUser?.type === 'cliente') {
+      <h2>Bienvenido Cliente</h2>
+      <ion-list>
+        <ion-item button detail>
+          <ion-label>Escanear QR Mesa</ion-label>
+        </ion-item>
+        <ion-item button detail>
+          <ion-label>Ver Carta</ion-label>
+        </ion-item>
+        <ion-item button detail>
+          <ion-label>Hacer Reserva</ion-label>
+        </ion-item>
+      </ion-list>
+    }
+
+    <!-- Contenido específico para Empleado -->
+    @if (currentUser?.type === 'empleado') {
+      <h2>Panel de Empleado</h2>
+      <ion-list>
+        <ion-item button detail>
+          <ion-label>Ver Pedidos Pendientes</ion-label>
+        </ion-item>
+        <ion-item button detail>
+          <ion-label>Registrar Asistencia</ion-label>
+        </ion-item>
+      </ion-list>
+    }
+
+    <!-- Contenido específico para Supervisor -->
+    @if (currentUser?.type === 'supervisor') {
+      <h2>Panel de Supervisor</h2>
+      <ion-list>
+        <ion-item button detail>
+          <ion-label>Gestionar Empleados</ion-label>
+        </ion-item>
+        <ion-item button detail>
+          <ion-label>Ver Estadísticas</ion-label>
+        </ion-item>
+      </ion-list>
+    }
+
+    <!-- Contenido específico para Dueño -->
+    @if (currentUser?.type === 'dueño' || currentUser?.type === 'dueno') {
+      <h2>Panel de Dueño</h2>
+      <ion-list>
+        @for (menuItem of duenoMenuItems; track menuItem.id) {
+          <ion-item button detail>
+            <ion-icon [name]="menuItem.icon" slot="start"></ion-icon>
+            <ion-label>{{ menuItem.label }}</ion-label>
+          </ion-item>
+        }
+      </ion-list>
+    }
+  </ion-content>
+</div>

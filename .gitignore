@@ -1,2 +1,9 @@
-
-/node_modules
+.angular/
+.vscode/
+android/
+node_modules/
+.ionic/
+www/
+platforms/
+plugins/
+package-lock.json
