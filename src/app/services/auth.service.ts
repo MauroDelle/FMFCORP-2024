@@ -262,6 +262,7 @@ export class AuthService {
   handleSuccessfulAuth(userCredential: any, text: string = ''): void {
     this.loggedUser = userCredential.user;
     this.observeUserState();
+    /*
     Swal.fire({
       title: 'Bienvenido!',
       text: text,
@@ -270,6 +271,7 @@ export class AuthService {
       confirmButtonColor: 'var(--ion-color-primary)',
       heightAuto: false,
     });
+    */
   }
 
   handleErrorAuth(error: any, docId?: any): void {
