@@ -2,12 +2,19 @@
   "dependencies": {
     "@angular/common": "^18.2.10",
     "@angular/core": "^18.2.10",
+    "@angular/fire": "^18.0.1",
     "@angular/forms": "^18.2.10",
     "@angular/platform-browser": "^18.2.10",
     "@angular/platform-browser-dynamic": "^18.2.10",
     "@angular/router": "^18.2.10",
+    "@capacitor-mlkit/barcode-scanning": "^6.2.0",
     "@capacitor/android": "^6.1.2",
-    "@ionic/angular": "^8.4.0"
+    "@capacitor/barcode-scanner": "^1.0.1",
+    "@capacitor/camera": "^6.1.0",
+    "@capacitor/preferences": "^6.0.2",
+    "@capacitor/push-notifications": "^6.0.2",
+    "@ionic/angular": "^8.4.0",
+    "sweetalert2": "^11.14.5"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^18.2.11",

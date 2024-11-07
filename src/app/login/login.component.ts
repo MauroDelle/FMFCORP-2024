@@ -1,19 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { IonContent, IonHeader, IonToolbar, IonTitle, IonItem, IonLabel, IonInput, 
          IonButton, IonIcon, IonSegment, IonSegmentButton, IonButtons, IonFab, 
          IonFabButton, ToastController } from '@ionic/angular/standalone';
 import { AuthService } from '../services/auth.service';
 import { addIcons } from 'ionicons';
 import { eyeOutline, eyeOffOutline } from 'ionicons/icons';
-
+import { ValidatorsService } from '../services/validators.service';
+import { TestUser } from '../interface/testUser.Interface';
+import { ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   standalone: true,
+  providers: [AuthService],
   imports: [
+    ReactiveFormsModule,
     FormsModule,
     IonContent,
     IonHeader,
@@ -31,85 +35,60 @@ import { eyeOutline, eyeOffOutline } from 'ionicons/icons';
     IonFabButton
   ]
 })
-export class LoginComponent {
-  credentials = {
-    email: '',
-    password: ''
-  };
-  userType: string = 'cliente';
-  showPassword: boolean = false;
+export class LoginComponent implements OnInit {
 
+
+  public myForm: FormGroup;
+  public isLoading: boolean = false;
+  public userType: string = 'cliente';
+  public showPassword: boolean = false; // Agregar esta propiedad
   constructor(
-    private authService: AuthService,
-    private router: Router,
-    private toastController: ToastController
+    private fb: FormBuilder,
+    private validatorsService: ValidatorsService,
+    private authService: AuthService
   ) {
-    addIcons({ eyeOutline, eyeOffOutline });
-  }
-
-  async handleLogin() {
-    // Validar campos vacíos
-    if (!this.credentials.email || !this.credentials.password) {
-      await this.presentToast('Por favor complete todos los campos', 'warning');
-      return;
-    }
-
-    // Validar formato de email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(this.credentials.email)) {
-      await this.presentToast('Por favor ingrese un email válido', 'warning');
-      return;
-    }
-
-    if (this.authService.login(this.credentials.email, this.credentials.password)) {
-      await this.presentToast('¡Bienvenido!', 'success');
-      this.router.navigate(['/home']);
-    } else {
-      await this.presentToast('Credenciales inválidas', 'danger');
-    }
-  }
-
-  async presentToast(message: string, color: 'success' | 'warning' | 'danger') {
-    const toast = await this.toastController.create({
-      message,
-      duration: 2000,
-      color,
-      position: 'top'
+    this.myForm = this.fb.group({
+      email: ['', [Validators.required, Validators.pattern(this.validatorsService.emailPattern)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
     });
-    toast.present();
   }
 
-  setTestUser(type: string) {
-    switch(type) {
-      case 'cliente':
-        this.credentials = {
-          email: 'cliente@yopmail.com',
-          password: 'cliente123'
-        };
-        this.userType = 'cliente';
-        break;
-      case 'empleado':
-        this.credentials = {
-          email: 'empleado@yopmail.com',
-          password: 'empleado123'
-        };
-        this.userType = 'empleado';
-        break;
-      case 'supervisor':
-        this.credentials = {
-          email: 'supervisor@yopmail.com',
-          password: 'super123'
-        };
-        this.userType = 'supervisor';
-        break;
-      case 'dueño':
-      case 'dueno':
-        this.credentials = {
-          email: 'dueno@yopmail.com',
-          password: 'dueno123'
-        };
-        this.userType = 'dueño';
-        break;
-    }
+  checkboxSelected: any = null; // Variable para almacenar el checkbox seleccionado
+
+  public testUsers: TestUser[] = [];
+
+
+  selectCheckbox(user: any) {
+    this.checkboxSelected = user; // Asignar el usuario seleccionado a la variable
+  }
+
+  ngOnInit(): void {
+    this.testUsers = this.authService.testUsers;
+  }
+
+  isValidField(field: string): boolean | null {
+    return this.validatorsService.isValidField(this.myForm, field);
+  }
+
+  getErrorByField(field: string): string | null {
+    return this.validatorsService.getErrorByField(this.myForm, field);
+  }
+
+  login(email: string, password: string): void {
+    this.isLoading = true;
+    this.authService.login(email, password).then(() => {
+      this.isLoading = false;
+      this.myForm.reset();
+    });
+  }
+
+  fastLogin(email: string, password: string): void {
+    this.myForm.controls['email'].setValue(email);
+    this.myForm.controls['password'].setValue(password);
+  }
+
+  onSubmit(): void {
+    const { email, password } = this.myForm.value;
+    this.login(email, password);
   }
 }

@@ -1,65 +1,58 @@
 <ion-header>
-    <ion-toolbar>
-      <ion-title>La Comanda</ion-title>
-    </ion-toolbar>
-  </ion-header>
-  
-  <ion-content class="ion-padding">
-    <div class="login-container">
-      <h2>Bienvenido</h2>
-      <p>Ingrese sus credenciales</p>
-  
-      <ion-segment [(ngModel)]="userType" class="ion-margin-vertical">
-        <ion-segment-button value="cliente">
-          <ion-label (click)="setTestUser('cliente')">Cliente</ion-label>
-        </ion-segment-button>
-        <ion-segment-button value="empleado">
-          <ion-label (click)="setTestUser('empleado')">Empleado</ion-label>
-        </ion-segment-button>
-        <ion-segment-button value="supervisor">
-          <ion-label (click)="setTestUser('supervisor')">Supervisor</ion-label>
-        </ion-segment-button>
-        <ion-segment-button value="dueño">
-          <ion-label (click)="setTestUser('dueño')">Dueño</ion-label>
-        </ion-segment-button>
-      </ion-segment>
-  
+  <ion-toolbar>
+    <ion-title>La Comanda</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="login-container">
+    <h2>Bienvenido</h2>
+    <p>Ingrese sus credenciales</p>
+
+    <ion-segment [(ngModel)]="userType" class="ion-margin-vertical">
+      <ion-segment-button value="cliente" (click)="fastLogin('cliente@example.com', '123456')">
+        <ion-label>Cliente</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="empleado" (click)="fastLogin('empleado@example.com', '123456')">
+        <ion-label>Empleado</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="supervisor" (click)="fastLogin('supervisor@example.com', '123456')">
+        <ion-label>Supervisor</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="dueño" (click)="fastLogin('dueno@example.com', '123456')">
+        <ion-label>Dueño</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
       <ion-item>
         <ion-label position="floating">Email</ion-label>
-        <ion-input type="email" [(ngModel)]="credentials.email" placeholder="usuario@ejemplo.com"></ion-input>
+        <ion-input type="email" formControlName="email" placeholder="usuario@ejemplo.com"></ion-input>
       </ion-item>
-  
+
       <ion-item>
         <ion-label position="floating">Contraseña</ion-label>
-        <ion-input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="credentials.password" placeholder="••••••••"></ion-input>
+        <ion-input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="••••••••"></ion-input>
         <ion-button slot="end" fill="clear" (click)="showPassword = !showPassword">
           <ion-icon slot="icon-only" [name]="showPassword ? 'eye-off-outline' : 'eye-outline'"></ion-icon>
         </ion-button>
       </ion-item>
-  
-      <ion-button expand="block" class="ion-margin-top" (click)="handleLogin()">
+
+      <ion-button expand="block" class="ion-margin-top" type="submit" [disabled]="myForm.invalid">
         Ingresar
       </ion-button>
-  
-      <ion-button expand="block" fill="clear" class="ion-margin-top">
-        ¿Olvidaste tu contraseña?
-      </ion-button>
-    </div>
-  
-    <!-- Botones de acceso rápido -->
-    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-      <ion-fab-button size="small" color="success" (click)="setTestUser('cliente')">
-        C
-      </ion-fab-button>
-      <ion-fab-button size="small" color="primary" (click)="setTestUser('empleado')">
-        E
-      </ion-fab-button>
-      <ion-fab-button size="small" color="secondary" (click)="setTestUser('supervisor')">
-        S
-      </ion-fab-button>
-      <ion-fab-button size="small" color="warning" (click)="setTestUser('dueño')">
-        D
-      </ion-fab-button>
-    </ion-fab>
-  </ion-content>
-  
+    </form>
+
+    <ion-button expand="block" fill="clear" class="ion-margin-top">
+      ¿Olvidaste tu contraseña?
+    </ion-button>
+  </div>
+
+  <!-- Botones de acceso rápido -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button size="small" color="success" (click)="fastLogin('cliente@example.com', '123456')">C</ion-fab-button>
+    <ion-fab-button size="small" color="primary" (click)="fastLogin('empleado@example.com', '123456')">E</ion-fab-button>
+    <ion-fab-button size="small" color="secondary" (click)="fastLogin('supervisor@example.com', '123456')">S</ion-fab-button>
+    <ion-fab-button size="small" color="warning" (click)="fastLogin('dueno@example.com', '123456')">D</ion-fab-button>
+  </ion-fab>
+</ion-content>

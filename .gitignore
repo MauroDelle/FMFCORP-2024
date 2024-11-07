@@ -7,3 +7,7 @@ www/
 platforms/
 plugins/
 package-lock.json
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json
