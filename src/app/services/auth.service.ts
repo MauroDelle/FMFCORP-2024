@@ -19,7 +19,7 @@ export interface User {
   providedIn: 'root'
 })
 export class AuthService {
-  private afAuth = inject(AngularFireAuth);
+  public afAuth = inject(AngularFireAuth);
   private router = inject(Router);
   private ngZone = inject(NgZone);
   private validatorsService = inject(ValidatorsService);
