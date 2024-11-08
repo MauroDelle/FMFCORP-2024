@@ -11,6 +11,7 @@ import { AuthService } from './app/services/auth.service';
 import { FIREBASE_OPTIONS } from '@angular/fire/compat';
 import { environment } from './environments/environment.prod';
 import { provideHttpClient } from '@angular/common/http';
+import { getStorage, provideStorage } from '@angular/fire/storage';
 
 
 bootstrapApplication(AppComponent, {
@@ -19,7 +20,8 @@ bootstrapApplication(AppComponent, {
     { provide: FIREBASE_OPTIONS, useValue: environment.firebaseConfig },
     provideHttpClient(),
     provideIonicAngular(),
-    provideRouter(routes, withPreloading(PreloadAllModules)), provideFirebaseApp(() => initializeApp({"projectId":"fmfcorp-2024","appId":"1:840951034886:web:379469070cb7cd83d97f87","storageBucket":"fmfcorp-2024.firebasestorage.app","apiKey":"AIzaSyBlrdSM53jysbRqtamk49KGfNOQinGoaEk","authDomain":"fmfcorp-2024.firebaseapp.com","messagingSenderId":"840951034886"})), provideAuth(() => getAuth()), provideFirestore(() => getFirestore()), provideDatabase(() => getDatabase()), provideFirebaseApp(() => initializeApp({"projectId":"fmfcorp-2024","appId":"1:840951034886:web:379469070cb7cd83d97f87","storageBucket":"fmfcorp-2024.firebasestorage.app","apiKey":"AIzaSyBlrdSM53jysbRqtamk49KGfNOQinGoaEk","authDomain":"fmfcorp-2024.firebaseapp.com","messagingSenderId":"840951034886"})), provideAuth(() => getAuth()), provideFirestore(() => getFirestore()), provideDatabase(() => getDatabase()), 
-    AuthService
-  ],
+    provideRouter(routes, withPreloading(PreloadAllModules)),
+    provideFirebaseApp(() => initializeApp({"projectId":"relevamiento-visual1-pps","appId":"1:879394204092:web:747990fe2a1d4620dce3b9","storageBucket":"relevamiento-visual1-pps.appspot.com","apiKey":"AIzaSyD0D0hBDUAopqoUmPflWS4ZKU4e8fwBDAM","authDomain":"relevamiento-visual1-pps.firebaseapp.com","messagingSenderId":"879394204092"})), provideAuth(() => getAuth()), provideFirestore(() => getFirestore()), provideStorage(() => getStorage()),
+    AuthService,
+  ]
 });
