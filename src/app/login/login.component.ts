@@ -1,5 +1,5 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, inject, OnInit } from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
 import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { IonContent, IonHeader, IonToolbar, IonTitle, IonItem, IonLabel, IonInput, 
          IonButton, IonIcon, IonSegment, IonSegmentButton, IonButtons, IonFab, 
@@ -10,6 +10,7 @@ import { eyeOutline, eyeOffOutline } from 'ionicons/icons';
 import { ValidatorsService } from '../services/validators.service';
 import { TestUser } from '../interface/testUser.Interface';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -17,6 +18,9 @@ import { ReactiveFormsModule } from '@angular/forms';
   standalone: true,
   providers: [AuthService],
   imports: [
+    CommonModule,
+    TitleCasePipe,
+    RouterModule,
     ReactiveFormsModule,
     FormsModule,
     IonContent,
@@ -33,7 +37,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     IonButtons,
     IonFab,
     IonFabButton
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA] 
 })
 export class LoginComponent implements OnInit {
 

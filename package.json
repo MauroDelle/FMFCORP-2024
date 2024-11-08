@@ -19,7 +19,7 @@
     "@angular/platform-browser-dynamic": "^18.2.10",
     "@angular/router": "^18.2.10",
     "@capacitor-mlkit/barcode-scanning": "^6.2.0",
-    "@capacitor/android": "6.1.2",
+    "@capacitor/android": "^6.1.2",
     "@capacitor/camera": "^6.1.0",
     "@capacitor/preferences": "^6.0.2",
     "@capacitor/push-notifications": "^6.0.2",

@@ -10,16 +10,16 @@
     <p>Ingrese sus credenciales</p>
 
     <ion-segment [(ngModel)]="userType" class="ion-margin-vertical">
-      <ion-segment-button value="cliente" (click)="fastLogin('cliente@example.com', '123456')">
+      <ion-segment-button value="cliente" (click)="fastLogin('cliente@cliente.com', '444444')">
         <ion-label>Cliente</ion-label>
       </ion-segment-button>
       <ion-segment-button value="empleado" (click)="fastLogin('empleado@example.com', '123456')">
         <ion-label>Empleado</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="supervisor" (click)="fastLogin('supervisor@example.com', '123456')">
+      <ion-segment-button value="supervisor" (click)="fastLogin('supervisor@supervisor.com', '222222')">
         <ion-label>Supervisor</ion-label>
       </ion-segment-button>
-      <ion-segment-button value="dueño" (click)="fastLogin('dueno@example.com', '123456')">
+      <ion-segment-button value="dueño" (click)="fastLogin('duenio@duenio.com', '111111')">
         <ion-label>Dueño</ion-label>
       </ion-segment-button>
     </ion-segment>
