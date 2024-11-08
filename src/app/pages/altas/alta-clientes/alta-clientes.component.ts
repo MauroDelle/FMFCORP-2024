@@ -23,7 +23,7 @@ addIcons({
   templateUrl: './alta-clientes.component.html',
   styleUrls: ['./alta-clientes.component.scss'],
   standalone: true,
-  imports: [IonFabButton, IonFab, IonIcon, IonCol, IonRow, IonGrid, CommonModule, IonSpinner, IonAlert, ReactiveFormsModule, FormsModule, IonText, IonLabel, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonInput, IonItem, IonButton, IonHeader, IonToolbar, IonTitle, IonContent],
+  imports: [ReactiveFormsModule, FormsModule, IonFabButton, IonFab, IonIcon, IonCol, IonRow, IonGrid, CommonModule, IonSpinner, IonAlert, ReactiveFormsModule, FormsModule, IonText, IonLabel, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonInput, IonItem, IonButton, IonHeader, IonToolbar, IonTitle, IonContent],
 
 })
 export class AltaClientesComponent  implements OnInit {

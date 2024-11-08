@@ -16,6 +16,7 @@ import { Capacitor } from '@capacitor/core';
 import Swal from 'sweetalert2';
 import { ValidatorsService } from 'src/app/services/validators.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { IonicModule } from '@ionic/angular';
 
 
 @Component({
@@ -23,7 +24,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
   templateUrl: './alta-producto.component.html',
   styleUrls: ['./alta-producto.component.scss'],
   standalone  : true,
-  imports: [IonFabButton, IonFab, IonIcon, IonCol, IonRow, IonGrid, CommonModule, IonSpinner, IonAlert, ReactiveFormsModule, FormsModule, IonText, IonLabel, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonInput, IonItem, IonButton, IonHeader, IonToolbar, IonTitle, IonContent]
+  imports: [IonicModule, IonFabButton, IonFab, IonIcon, IonCol, IonRow, IonGrid, CommonModule, IonSpinner, IonAlert, ReactiveFormsModule, FormsModule, IonText, IonLabel, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonInput, IonItem, IonButton, IonHeader, IonToolbar, IonTitle, IonContent]
 })
 export class AltaProductoComponent  implements OnInit {
 
