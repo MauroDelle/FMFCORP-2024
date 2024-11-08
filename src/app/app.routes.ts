@@ -19,6 +19,10 @@ export const routes: Routes = [
     path: 'registrarse/cliente',
     loadComponent: () => import('./pages/altas/alta-clientes/alta-clientes.component').then((m) => m.AltaClientesComponent),
   },
+  {
+    path: 'alta-mesa',
+    loadComponent: () => import('./pages/altas/alta-mesa/alta-mesa.component').then((m) => m.AltaMesaComponent),
+  },
   { 
     path: '', 
     redirectTo: 'splash', 

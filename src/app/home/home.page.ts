@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, OnInit, OnDestroy, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { Router } from '@angular/router';
 import { 
   IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton, 
@@ -12,8 +12,7 @@ import {
   logOutOutline, personCircleOutline, homeOutline, menuOutline, 
   statsChartOutline, peopleOutline, restaurantOutline,
   calendarOutline, clipboardOutline, timeOutline, listOutline,
-  barChartOutline, gridOutline
-} from 'ionicons/icons';
+  barChartOutline, gridOutline, settingsOutline } from 'ionicons/icons';
 import { DatabaseService } from '../services/database.service';
 import { CommonModule } from '@angular/common';
 import { FcmService } from '../services/fcm.service';
@@ -49,7 +48,8 @@ interface UserProfile {
     IonCard,
     IonCardHeader,
     IonCardTitle
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomePage implements OnInit, OnDestroy {
   currentUser: UserProfile | null = null;
@@ -65,12 +65,7 @@ export class HomePage implements OnInit, OnDestroy {
     private platform: Platform,
     private fcm: FcmService
   ) {
-    addIcons({ 
-      logOutOutline, personCircleOutline, homeOutline, menuOutline,
-      statsChartOutline, peopleOutline, restaurantOutline,
-      calendarOutline, clipboardOutline, timeOutline, listOutline,
-      barChartOutline, gridOutline
-    });
+    addIcons({personCircleOutline,restaurantOutline,calendarOutline,clipboardOutline,listOutline,timeOutline,peopleOutline,barChartOutline,gridOutline,statsChartOutline,settingsOutline,logOutOutline,homeOutline,menuOutline});
   }
 
   async ngOnInit() {
