@@ -255,7 +255,7 @@ export class AuthService {
 
   observeUserState() {
     this.afAuth.authState.subscribe((userState) => {
-      userState && this.ngZone.run(() => this.router.navigate(['/registrarse/cliente']));
+      userState && this.ngZone.run(() => this.router.navigate(['/home']));
     });
   }
 
