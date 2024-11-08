@@ -1,14 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { ToastController , IonIcon, IonCol, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonItem, IonInput, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonLabel, IonText, IonAlert, IonSpinner, IonGrid, IonRow, IonFab, IonFabButton } from '@ionic/angular/standalone';
+import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
+import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { IonIcon, IonCol, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonItem, IonInput, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonLabel, IonText, IonAlert, IonSpinner, IonGrid, IonRow, IonFab, IonFabButton } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { cameraOutline } from 'ionicons/icons';
+import { Cliente } from 'src/app/clases/cliente';
+import { AuthService } from 'src/app/services/auth.service';
+import { DatabaseService } from 'src/app/services/database.service';
+import { FirestoreService } from 'src/app/services/firestore.service';
+import { StorageService } from 'src/app/services/storage.service';
+import { ToastService } from 'src/app/services/toast.service';
+import { Capacitor } from '@capacitor/core';
 
 addIcons({
   'camera-outline': cameraOutline
 });
-
 
 @Component({
   selector: 'app-alta-clientes',
@@ -16,14 +24,18 @@ addIcons({
   styleUrls: ['./alta-clientes.component.scss'],
   standalone: true,
   imports: [IonFabButton, IonFab, IonIcon, IonCol, IonRow, IonGrid, CommonModule, IonSpinner, IonAlert, ReactiveFormsModule, FormsModule, IonText, IonLabel, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonInput, IonItem, IonButton, IonHeader, IonToolbar, IonTitle, IonContent],
+
 })
 export class AltaClientesComponent  implements OnInit {
   form: FormGroup;
 
   clienteAnonimo: boolean = false;
   mostrarSpinner= false;
+  fotoUrl: any = '';
+  barcodes: Barcode[] = [];
+  informacionQr: string | null = null;
   
-  constructor(private fb: FormBuilder) { 
+  constructor(private fb: FormBuilder, private firesoreService: FirestoreService, private toastService: ToastService, private storageService: StorageService, private databaseService: DatabaseService, private authService: AuthService) { 
     this.form = this.fb.group(
       {
         nombre: ['', [Validators.required, Validators.pattern(/^[a-zA-Z\s]*$/)]],
@@ -47,7 +59,39 @@ export class AltaClientesComponent  implements OnInit {
     return clave.value === confirmarClave.value ? null : { passwordMismatch: true };
   }
 
-  scan(){}
+  async scan(): Promise<void> {
+    const { barcodes } = await BarcodeScanner.scan();
+    console.log("scan",barcodes);
+    if (barcodes.length > 0) {
+      this.informacionQr = barcodes[0].rawValue; // Asignar la información del primer código QR escaneado
+      this.fillForm(this.informacionQr); // Rellenar el formulario con la información del QR
+    }
+    this.barcodes.push(...barcodes);
+  }
+
+  async requestPermissions(): Promise<boolean> {
+    const { camera } = await BarcodeScanner.requestPermissions();
+    return camera === 'granted' || camera === 'limited';
+  }
+
+  fillForm(informacionQr: string): void {
+    console.log("informacionQr",informacionQr);
+    try {
+      const qrData = informacionQr.split('@');
+      if (qrData.length >= 5) {
+        // Cambiado a 5 para asegurar que hay suficiente información
+        this.form.patchValue({
+          apellido: qrData[1].trim(),
+          nombre: qrData[2].trim(),
+          dni: qrData[4].trim(),
+        });
+      } else {
+        throw new Error('Formato de QR incorrecto');
+      }
+    } catch (error) {
+      console.error('Error parsing QR data', error);
+    }
+  }
 
   toggleAnonimo(event: any) {
     this.clienteAnonimo = event.detail.checked;
@@ -78,11 +122,128 @@ export class AltaClientesComponent  implements OnInit {
     this.form.updateValueAndValidity(); // Actualizar validadores a nivel de formulario
   }
 
+  async tomarFoto(){
+    try {
+      console.log("tomar foto");
+      const image = await Camera.getPhoto({
+        quality: 90,
+        allowEditing: false,
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Camera,
+      });
 
-  tomarFoto(){}
+      if (image && image.webPath) {
+        const photoUrl = Capacitor.convertFileSrc(image.webPath);
+        const response = await fetch(photoUrl);
+        const blob = await response.blob();
+        const file = new File([blob], `image_${new Date().getTime()}.jpeg`, {
+          type: 'image/jpeg',
+        });
+        this.fotoUrl = file
 
-  registrarse(){
-    //hacer guardao en firebase
+        // const base64 = await this.convertirABase64(file);
+        // console.log("Base64:", base64);
+
+      }
+    } catch (error) {
+      console.error('Error al tomar la foto:', error);
+      alert('Ocurrió un error al tomar la foto.');
+    }
   }
 
+  convertirABase64(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        // Extraer solo la parte Base64 (sin el prefijo data:image/jpeg;base64,)
+        const base64String = (reader.result as string).split(',')[1];
+        resolve(base64String);
+      };
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
+  }
+  
+
+  
+  async guardarImagen() {
+    try {
+      const nombreArchivo =  this.form.value.dni + this.form.value.nombre + this.form.value.apellido;
+      const fotoBase64 = this.fotoUrl;
+      const dataURL = `data:image/jpeg;base64,${fotoBase64}`;
+
+      const urlDescarga = await this.storageService.uploadImages('fotosPerfil',nombreArchivo,this.fotoUrl);
+
+      if (!urlDescarga) {
+        this.toastService.presentToast('No se pudo obtener la URL de descarga de la imagen', 'top', 'danger');
+        return false;
+      }
+
+      console.log("urlDescarga",urlDescarga);
+      return urlDescarga;
+    } catch (error) {
+      console.error('Error al guardar la imagen:', error);
+      return false;
+    }
+  }
+
+  async verificarUsuarioExistente(dni: any): Promise<boolean> {
+    try {
+      const response = await this.firesoreService.getClienteByDni(dni);
+      console.log("response getClienteByDni", response);
+  
+      // Retorna true si la respuesta tiene al menos un cliente, false de lo contrario
+      return !!(response && response.length > 0);
+    } catch (error) {
+      console.error("Error al verificar usuario existente:", error);
+      return false;
+    }
+  }
+  
+  async registrarse() {
+    if (this.form.invalid) {
+      return;
+    }
+
+    if (!this.clienteAnonimo && await this.verificarUsuarioExistente(this.form.value.dni)) {
+      this.toastService.presentToast('Ya hay un usuario registrado con ese DNI', 'top', 'danger');
+    } else {
+      this.mostrarSpinner=true;
+
+      const imagenGuardada = await this.guardarImagen();
+
+      const { nombre, apellido, dni, email, clave } = this.form.value;
+      const nuevoUsuario = new Cliente(
+        nombre,
+        this.clienteAnonimo ? '' : apellido,
+        this.clienteAnonimo ? '' : dni,
+        this.clienteAnonimo ? '' : email,
+        this.clienteAnonimo ? '' : clave,
+        this.clienteAnonimo ? 'autorizado' : 'pendiente',
+        this.clienteAnonimo,
+        imagenGuardada ? imagenGuardada.toString() : '' ,
+        "Cliente"
+      );
+
+      if (imagenGuardada) {
+        this.databaseService.crear('clientes', nuevoUsuario.toJSON()).then((docRef) => {
+          console.log('Documento escrito con ID: ', docRef.id);
+
+          if (this.clienteAnonimo) {
+            this.authService.registerAnonymous(docRef.id, nuevoUsuario.toJSON());
+          } else {
+            this.authService.register(email, clave, docRef.id);
+          }
+        }).catch((error: any) => {
+          this.mostrarSpinner=false;
+          console.error('Error al crear el usuario:', error);
+          this.toastService.presentToast('Hubo un problema al crear el usuario. Por favor, inténtelo de nuevo.', 'top', 'danger');
+        });
+      } else {
+        this.mostrarSpinner=false;
+        console.error('No se pudo guardar la imagen, abortando creación de usuario.');
+        this.toastService.presentToast('No se pudo guardar la imagen, abortando creación de usuario.', 'top', 'danger');
+      }
+    }
+  }
 }

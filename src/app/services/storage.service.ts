@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Storage, getDownloadURL, ref, uploadBytes } from '@angular/fire/storage';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/storage';
 
@@ -20,6 +21,17 @@ export class StorageService {
     }
   }
 
+  async uploadImages(carpeta: string, nombre: string,file:any){
+    let ubicacion = `${carpeta}/${nombre}`; //le digo la ubicacion de la foto en el firebaseStorage
+    const imgRef = ref(this.storageRef,ubicacion)
+    
+    return await uploadBytes(imgRef,file).then(async()=>{
+      return await getDownloadURL(imgRef)
+        .then( async (imgUrl) => {
+          return imgUrl;
+       });
+    })
+  }
 
   async obtenerImagen(carpeta:string, nombreImg: string) {
     try {

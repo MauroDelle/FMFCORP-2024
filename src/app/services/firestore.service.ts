@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Preferences } from '@capacitor/preferences';
 import { from, Observable } from 'rxjs';
-import { Firestore, addDoc, collection, collectionData, getDoc, getDocs, updateDoc } from '@angular/fire/firestore';
+import { Firestore, addDoc, collection, collectionData, doc, getDoc, getDocs, query, updateDoc, where } from '@angular/fire/firestore';
 
 export const APP_TOKEN = 'app_token';
 
@@ -21,6 +21,25 @@ export class FirestoreService {
     const observable = collectionData(col);
 
     return observable;
+  }
+
+  async getClienteByDni(dni: any) {
+    try {
+      const clientesCollection = collection(this.firestore, 'clientes');
+  
+      const q = query(clientesCollection, where('dni', '==', dni));
+  
+      const querySnapshot = await getDocs(q);
+      const clienteData = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+
+      return clienteData;
+    } catch (error) {
+      console.error('Error actualizando el documento: ', error);
+      return;
+    }
   }
 
   setStorage(key: string, value: any) {

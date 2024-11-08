@@ -255,7 +255,7 @@ export class AuthService {
 
   observeUserState() {
     this.afAuth.authState.subscribe((userState) => {
-      userState && this.ngZone.run(() => this.router.navigate(['/home']));
+      userState && this.ngZone.run(() => this.router.navigate(['/registrarse/cliente']));
     });
   }
 
@@ -311,7 +311,7 @@ export class AuthService {
   logout() {
     return this.afAuth.signOut().then(() => {
       localStorage.removeItem('loggedUser');
-      this.router.navigate(['/auth/login']);
+      this.router.navigate(['/login']);
     });
   }
 }
