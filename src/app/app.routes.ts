@@ -16,12 +16,16 @@ export const routes: Routes = [
     loadComponent: () => import('./login/login.component').then((m) => m.LoginComponent),
   },
   {
-    path: 'registrarse/cliente',
+    path: 'registrarse-cliente',
     loadComponent: () => import('./pages/altas/alta-clientes/alta-clientes.component').then((m) => m.AltaClientesComponent),
   },
   {
     path: 'alta-mesa',
     loadComponent: () => import('./pages/altas/alta-mesa/alta-mesa.component').then((m) => m.AltaMesaComponent),
+  },
+  {
+    path: 'alta-producto',
+    loadComponent: () => import('./pages/altas/alta-producto/alta-producto.component').then((m) => m.AltaProductoComponent),
   },
   { 
     path: '', 

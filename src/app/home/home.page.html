@@ -162,6 +162,26 @@
         </ion-item>
       </ion-list>
     </div>
+
+    <div *ngIf="currentUser?.type === 'cocinero' || currentUser?.type === 'bartender'">
+      <h2>Panel de {{ currentUser?.type }}</h2>
+      <ion-list>
+        <ion-item button detail (click)="navigateTo('/dashboard')">
+          <ion-label>Dashboard</ion-label>
+        </ion-item>
+        <ion-item button detail (click)="navigateTo('/alta-producto')">
+          <ion-label>Alta Producto</ion-label>
+        </ion-item>
+        <ion-item button detail (click)="navigateTo('/alta-mesa')">
+          <ion-label>Pedidos Pendientes</ion-label>
+        </ion-item>
+        <ion-item button detail (click)="navigateTo('/estadisticas')">
+          <ion-label>Ver Estadísticas</ion-label>
+        </ion-item>
+      </ion-list>
+    </div>
+
+
     
   </ion-content>
 </div>
