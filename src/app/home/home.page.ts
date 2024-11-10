@@ -76,7 +76,10 @@ export class HomePage implements OnInit, OnDestroy {
       if (user) {
         try {
           // Get additional user data from database
-          const userData = await this.database.obtenerUsuarioPorEmail(user.email!);
+          let userData = await this.database.obtenerUsuarioPorEmail(user.email!);
+          if(userData == null || userData == undefined){
+            userData = await this.database.obtenerClientePorEmail(user.email!);
+          }
           
           this.currentUser = {
             email: user.email!,
