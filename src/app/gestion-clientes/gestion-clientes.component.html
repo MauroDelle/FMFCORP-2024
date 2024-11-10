@@ -1,0 +1,35 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-center">Gestión de Clientes</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-text-center">
+  <ion-card>
+    <ion-card-title>Clientes pendientes de aprobación</ion-card-title>
+    <ion-card-subtitle>Acceso único para Dueño/Supervisor</ion-card-subtitle>
+    
+    <ion-list>
+      <ion-item *ngFor="let cliente of clientesPendientes">
+        <ion-avatar slot="start">
+          <img [src]="cliente.urlFoto" alt="">
+        </ion-avatar>
+        <ion-label>
+          <h2>{{cliente.nombre}} {{cliente.apellido}}</h2>
+        </ion-label>
+        <div class="buttons-container">
+          <ion-button color="success" (click)="gestionarSolicitud(cliente, true)">AUTORIZAR</ion-button>
+          <ion-button color="danger" (click)="gestionarSolicitud(cliente, false)">RECHAZAR</ion-button>
+        </div>
+      </ion-item>
+    </ion-list>
+    
+    <div class="no-clients" *ngIf="clientesPendientes.length === 0">
+      <img src="../../../assets/images/check.png" alt="" style="height: 100px;">
+      <h3>No hay clientes pendientes de aprobación</h3>
+    </div>
+  </ion-card>
+</ion-content>

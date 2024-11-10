@@ -147,4 +147,16 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   scan(){}
+  
+
+  isAdminUser() {
+    const userType = this.currentUser?.type;
+    return userType === 'dueño' || userType === 'dueno' || userType === 'supervisor';
+  }
+
+  navigateToClientManagement() {
+    if (this.isAdminUser()) {
+      this.router.navigate(['/gestion-clientes']);
+    }
+  }
 }
