@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "879394204092",
+    "project_id": "relevamiento-visual1-pps",
+    "storage_bucket": "relevamiento-visual1-pps.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:879394204092:android:48c1f705302c14afdce3b9",
+        "android_client_info": {
+          "package_name": "fmf.bar.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiVGyMxXvFKATHIwJrgjnsFN0RjBeuBg4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
