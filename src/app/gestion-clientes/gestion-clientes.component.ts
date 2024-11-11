@@ -10,6 +10,7 @@ import {
   IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonAvatar,
   AlertController, Platform, IonBackButton } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
+import { EmailService } from '../services/email.service';
 
 @Component({
   selector: 'app-gestion-clientes',
@@ -45,7 +46,7 @@ export class GestionClientesComponent  implements OnInit {
   idUsuarioSeleccionado: any;
   clientesPendientes: any[] = [];
 
-  constructor(private database: DatabaseService, private notificationSvc: NotificationService) { }
+  constructor(private database: DatabaseService, private notificationSvc: NotificationService, private emailService: EmailService) { }
 
   ngOnInit() {
     this.cargarClientesPendientes();
@@ -101,16 +102,7 @@ async gestionarSolicitud(clienteSeleccionado: any, autorizar: boolean) {
       console.log(clienteActualizado.toJSON(), idUsuarioSeleccionado);
       await this.database.actualizar("clientes", clienteActualizado.toJSON(), idUsuarioSeleccionado);
 
-      // Llamar a sendMail con el estado de autorización adecuado
-      this.notificationSvc.sendMail(autorizar, clienteSeleccionado.nombre, clienteSeleccionado.email)
-        .subscribe({
-          next: (response) => {
-            console.log('Correo enviado con éxito:', response);
-          },
-          error: (error) => {
-            console.error('Error al enviar el correo:', error);
-          }
-        });
+      this.emailService.enviarCorreo(clienteActualizado.email, autorizar == true ? 1 : 0 );
 
       console.log('Cliente actualizado con éxito.');
     } else {
