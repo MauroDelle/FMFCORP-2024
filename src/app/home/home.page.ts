@@ -56,6 +56,7 @@ export class HomePage implements OnInit, OnDestroy {
   isSupported = false;
   informacionQr: string | null = null;
   private authSubscription?: Subscription;
+  public loggedUser: any;
 
   constructor(
     private authService: AuthService,
@@ -66,6 +67,14 @@ export class HomePage implements OnInit, OnDestroy {
     private fcm: FcmService
   ) {
     addIcons({personCircleOutline,restaurantOutline,calendarOutline,clipboardOutline,listOutline,timeOutline,peopleOutline,barChartOutline,gridOutline,statsChartOutline,settingsOutline,logOutOutline,homeOutline,menuOutline});
+    this.platform.ready().then(() => {
+      this.loggedUser = this.authService.loggedUser;
+      console.log(this.loggedUser.email);
+      console.log(this.loggedUser.uid);
+      this.fcm.initPush(this.loggedUser.uid);  // Asegúrate de pasar el UID del usuario aquí
+    }).catch(e => {
+      console.log('error fcm: ', e);
+    });
   }
 
   async ngOnInit() {

@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
 })
 export class NotificationService {
 
-  private apiUrl = 'https://push-notification-server-yucx.onrender.com';
-
+  private apiUrl = 'https://serverpps-3.onrender.com';
+                    
   constructor(private http: HttpClient) { }
 
   sendNotification(token: string, title: string, body: string): Observable<any> {
