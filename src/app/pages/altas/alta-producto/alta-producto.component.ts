@@ -24,10 +24,12 @@ import { IonicModule } from '@ionic/angular';
   templateUrl: './alta-producto.component.html',
   styleUrls: ['./alta-producto.component.scss'],
   standalone  : true,
-  imports: [IonicModule, IonFabButton, IonFab, IonIcon, IonCol, IonRow, IonGrid, CommonModule, IonSpinner, IonAlert, ReactiveFormsModule, FormsModule, IonText, IonLabel, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonInput, IonItem, IonButton, IonHeader, IonToolbar, IonTitle, IonContent]
+  imports: [IonicModule, // Keeps all Ionic components in one import
+    CommonModule,
+    ReactiveFormsModule,
+    FormsModule]
 })
 export class AltaProductoComponent  implements OnInit {
-
 
   public isLoading: boolean = false;
   public rutasImagen: Array<string> = [];
@@ -49,7 +51,6 @@ export class AltaProductoComponent  implements OnInit {
     tiempo: ['', [Validators.required, Validators.min(1)]],
     tipo: [null, [Validators.required]],
   });
-
   
   resetData() {
     this.myForm.reset();
