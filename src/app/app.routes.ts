@@ -29,7 +29,11 @@ export const routes: Routes = [
   },
   {
     path: 'gestion-clientes',
-    loadComponent: () => import('./gestion-clientes/gestion-clientes.component').then((m) => m.GestionClientesComponent),
+    loadComponent: () => import('./pages/gestion-clientes/gestion-clientes.component').then((m) => m.GestionClientesComponent),
+  },
+  {
+    path: 'qr-mesa',
+    loadComponent: () => import('./pages/qr-mesa/qr-mesa.component').then((m) => m.QrMesaComponent),
   },
   {
     path: 'maitre-dashboard',

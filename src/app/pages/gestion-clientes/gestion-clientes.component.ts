@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { DatabaseService } from '../services/database.service';
+import { DatabaseService } from 'src/app/services/database.service';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs';
 import { Cliente } from 'src/app/clases/cliente';
-import { NotificationService } from '../services/notification.service';
+import { NotificationService } from 'src/app/services/notification.service';
 import { 
   IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton, 
   IonIcon, IonMenu, IonMenuButton, IonList, IonItem, IonLabel, 
   IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonAvatar,
   AlertController, Platform, IonBackButton } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
-import { EmailService } from '../services/email.service';
+import { EmailService } from 'src/app/services/email.service';
 
 @Component({
   selector: 'app-gestion-clientes',

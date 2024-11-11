@@ -1,5 +1,5 @@
 import { Component, inject, OnInit, OnDestroy, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 import { 
   IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton, 
   IonIcon, IonMenu, IonMenuButton, IonList, IonItem, IonLabel, 
@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
 import { FcmService } from '../services/fcm.service';
 import { Subscription } from 'rxjs';
 import { LoadingSpinnerComponent } from '../spinner/spinner.component';
+import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 
 interface UserProfile {
   email: string;
@@ -165,12 +166,45 @@ export class HomePage implements OnInit, OnDestroy {
     this.router.navigate(['qr-mesa'], navigationExtras);
   }
 
-  scan(){}
+  async scan(): Promise<void> {
+    const granted = await this.requestPermissions();
+    if (!granted) {
+      this.presentAlert();
+      return;
+    }
+    const { barcodes } = await BarcodeScanner.scan();
+    if (barcodes.length > 0) {
+      this.informacionQr = barcodes[0].rawValue;  // Asignar la información del primer código QR escaneado
+    } else {
+      this.informacionQr = 'No barcode detected';
+    }
+
+    if(this.informacionQr == 'propina' ||this.informacionQr == 'ingreso') {
+      this.router.navigateByUrl("qr-"+ this.informacionQr);
+    }else{
+
+      const navigationExtras: NavigationExtras = {
+        queryParams: { dato: this.informacionQr }
+      };
+     
+      this.router.navigate(['qr-mesa'], navigationExtras);
+    }
+  
+    }
+    async requestPermissions(): Promise<boolean> {
+      const { camera } = await BarcodeScanner.requestPermissions();
+      return camera === 'granted' || camera === 'limited';
+    }
   
 
   isAdminUser() {
     const userType = this.currentUser?.type;
     return userType === 'dueño' || userType === 'dueno' || userType === 'supervisor';
+  }
+
+
+  async stopScan(): Promise<void> {
+    await BarcodeScanner.stopScan();
   }
 
   navigateToClientManagement() {
