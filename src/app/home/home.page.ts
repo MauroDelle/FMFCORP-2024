@@ -17,6 +17,7 @@ import { DatabaseService } from '../services/database.service';
 import { CommonModule } from '@angular/common';
 import { FcmService } from '../services/fcm.service';
 import { Subscription } from 'rxjs';
+import { LoadingSpinnerComponent } from '../spinner/spinner.component';
 
 interface UserProfile {
   email: string;
@@ -39,6 +40,7 @@ interface UserProfile {
     IonContent,
     IonButtons,
     IonButton,
+    LoadingSpinnerComponent,
     IonIcon,
     IonMenu,
     IonMenuButton,
@@ -54,6 +56,7 @@ interface UserProfile {
 export class HomePage implements OnInit, OnDestroy {
   currentUser: UserProfile | null = null;
   isSupported = false;
+  isLoading: boolean = true;
   informacionQr: string | null = null;
   private authSubscription?: Subscription;
   public loggedUser: any;
@@ -78,6 +81,7 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    this.isLoading = true; 
     await this.platform.ready();
     
     // Subscribe to auth state changes
@@ -106,9 +110,12 @@ export class HomePage implements OnInit, OnDestroy {
           }
         } catch (error) {
           console.error('Error loading user data:', error);
+        }finally {
+          this.isLoading = false; 
         }
       } else {
         this.currentUser = null;
+        this.isLoading = false;
         this.router.navigate(['/login']);
       }
     });

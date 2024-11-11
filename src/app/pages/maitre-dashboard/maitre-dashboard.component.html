@@ -1,0 +1,80 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Panel del Maître</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-grid>
+    <ion-row>
+      <!-- Lista de Espera -->
+      <ion-col size="12" size-md="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Lista de Espera</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-list>
+              <ion-item *ngIf="clientesEnEspera.length === 0">
+                <ion-label>No hay clientes en espera</ion-label>
+              </ion-item>
+
+              <ion-item *ngFor="let cliente of clientesEnEspera" 
+                        [class.selected]="cliente === clienteSeleccionado"
+                        (click)="seleccionarCliente(cliente)"
+                        button>
+                <ion-avatar slot="start">
+                  <img [src]="cliente.urlFoto" />
+                </ion-avatar>
+                <ion-label>
+                  <h2>{{cliente.nombre}} {{cliente.apellido}}</h2>
+                  <p *ngIf="!cliente.anonimo">DNI: {{cliente.dni}}</p>
+                  <p *ngIf="cliente.anonimo">Cliente Anónimo</p>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <!-- Mesas Disponibles -->
+      <ion-col size="12" size-md="6">
+        <ion-card>
+          <ion-card-header>
+            <ion-card-title>Mesas Disponibles</ion-card-title>
+          </ion-card-header>
+
+          <ion-card-content>
+            <ion-grid>
+              <ion-row>
+                <ion-col size="6" *ngFor="let mesa of mesasDisponibles">
+                  <ion-card (click)="seleccionarMesa(mesa)"
+                           [class.selected]="mesa === mesaSeleccionada"
+                           button>
+                    <img [src]="mesa.imagen" />
+                    <ion-card-header>
+                      <ion-card-subtitle>Mesa {{mesa.numero}}</ion-card-subtitle>
+                    </ion-card-header>
+                    <ion-card-content>
+                      <p>{{mesa.cantidadComensales}} comensales</p>
+                      <p>{{mesa.tipo}}</p>
+                    </ion-card-content>
+                  </ion-card>
+                </ion-col>
+              </ion-row>
+            </ion-grid>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Botón de Asignación -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button [disabled]="!clienteSeleccionado || !mesaSeleccionada"
+                    (click)="asignarMesa()">
+      <ion-icon name="checkmark"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

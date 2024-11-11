@@ -31,6 +31,10 @@ export const routes: Routes = [
     path: 'gestion-clientes',
     loadComponent: () => import('./gestion-clientes/gestion-clientes.component').then((m) => m.GestionClientesComponent),
   },
+  {
+    path: 'maitre-dashboard',
+    loadComponent: () => import('./pages/maitre-dashboard/maitre-dashboard.component').then((m) => m.MaitreDashboardComponent),
+  },
   { 
     path: '', 
     redirectTo: 'splash', 

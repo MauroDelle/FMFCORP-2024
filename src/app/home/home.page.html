@@ -13,7 +13,10 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-  <!-- Contenido específico para Cliente -->
+  @if (isLoading) {
+    <app-loading-spinner message="Cargando usuario..."></app-loading-spinner>
+  } @else {
+  <!-- Cliente -->
   @if (currentUser?.type === 'cliente') {
     <h2>Bienvenido Cliente</h2>
     <div class="actions-grid">
@@ -37,64 +40,91 @@
     </div>
   }
 
-  <!-- Contenido específico para Empleado -->
-  @if (currentUser?.type === 'empleado') {
-    <h2>Panel de Empleado</h2>
+  <!-- Maître -->
+  @if (currentUser?.type === 'maitre') {
+    <h2>Panel de Maître</h2>
     <ion-list>
-      <ion-item button detail (click)="navigateTo('/pedidos')">
-        <ion-label>Ver Pedidos Pendientes</ion-label>
+      <ion-item button detail (click)="navigateTo('/maitre-dashboard')">
+        <ion-icon name="people-outline" slot="start"></ion-icon>
+        <ion-label>Lista de Espera</ion-label>
       </ion-item>
-      <ion-item button detail (click)="navigateTo('/asistencia')">
-        <ion-label>Registrar Asistencia</ion-label>
+      <ion-item button detail (click)="scan()">
+        <ion-icon name="qr-code-outline" slot="start"></ion-icon>
+        <ion-label>Escanear QR</ion-label>
+      </ion-item>
+      <ion-item button detail (click)="navigateTo('/registrar-cliente')">
+        <ion-icon name="person-add-outline" slot="start"></ion-icon>
+        <ion-label>Registrar Cliente</ion-label>
       </ion-item>
     </ion-list>
   }
 
-  <div *ngIf="currentUser?.type === 'dueño' || currentUser?.type === 'dueno' || currentUser?.type === 'supervisor'">
+  <!-- Mozo -->
+  @if (currentUser?.type === 'mozo') {
+    <h2>Panel de Mozo</h2>
+    <ion-list>
+      <ion-item button detail (click)="navigateTo('/pedidos-pendientes')">
+        <ion-icon name="clipboard-outline" slot="start"></ion-icon>
+        <ion-label>Pedidos Pendientes</ion-label>
+      </ion-item>
+      <ion-item button detail (click)="scan()">
+        <ion-icon name="qr-code-outline" slot="start"></ion-icon>
+        <ion-label>Escanear QR Mesa</ion-label>
+      </ion-item>
+    </ion-list>
+  }
+
+  <!-- Cocinero -->
+  @if (currentUser?.type === 'cocinero') {
+    <h2>Panel de Cocinero</h2>
+    <ion-list>
+      <ion-item button detail (click)="navigateTo('/pedidos-cocina')">
+        <ion-icon name="restaurant-outline" slot="start"></ion-icon>
+        <ion-label>Pedidos Pendientes</ion-label>
+      </ion-item>
+      <ion-item button detail (click)="navigateTo('/alta-producto')">
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+        <ion-label>Alta de Plato</ion-label>
+      </ion-item>
+    </ion-list>
+  }
+
+  <!-- Bartender -->
+  @if (currentUser?.type === 'bartender') {
+    <h2>Panel de Bartender</h2>
+    <ion-list>
+      <ion-item button detail (click)="navigateTo('/pedidos-bar')">
+        <ion-icon name="wine-outline" slot="start"></ion-icon>
+        <ion-label>Pedidos Pendientes</ion-label>
+      </ion-item>
+      <ion-item button detail (click)="navigateTo('/alta-producto')">
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+        <ion-label>Alta de Bebida</ion-label>
+      </ion-item>
+    </ion-list>
+  }
+
+  <!-- Supervisor/Dueño -->
+  @if (currentUser?.type === 'supervisor' || currentUser?.type === 'dueño' || currentUser?.type === 'dueno') {
     <h2>Panel de {{ currentUser?.type }}</h2>
     <ion-list>
-      <!-- ... otros items existentes ... -->
+      <ion-item button detail (click)="navigateTo('/dashboard')">
+        <ion-icon name="stats-chart-outline" slot="start"></ion-icon>
+        <ion-label>Dashboard</ion-label>
+      </ion-item>
       <ion-item button detail (click)="navigateTo('/gestion-clientes')">
         <ion-icon name="people-outline" slot="start"></ion-icon>
         <ion-label>Gestión de Clientes</ion-label>
       </ion-item>
-    </ion-list>
-  </div>
-
-  <!-- Contenido específico para Dueño -->
-  <div *ngIf="currentUser?.type === 'dueño' || currentUser?.type === 'dueno' || currentUser?.type === 'supervisor'">
-    <h2>Panel de {{ currentUser?.type }}</h2>
-    <ion-list>
-      <ion-item button detail (click)="navigateTo('/dashboard')">
-        <ion-label>Dashboard</ion-label>
-      </ion-item>
-      <ion-item button detail (click)="navigateTo('/gestion')">
-        <ion-label>Autorizar Cliente</ion-label>
-      </ion-item>
       <ion-item button detail (click)="navigateTo('/alta-mesa')">
+        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
         <ion-label>Alta Mesa</ion-label>
       </ion-item>
       <ion-item button detail (click)="navigateTo('/estadisticas')">
-        <ion-label>Ver Estadísticas</ion-label>
+        <ion-icon name="bar-chart-outline" slot="start"></ion-icon>
+        <ion-label>Estadísticas</ion-label>
       </ion-item>
     </ion-list>
-  </div>
-
-  <div *ngIf="currentUser?.type === 'cocinero' || currentUser?.type === 'bartender'">
-    <h2>Panel de {{ currentUser?.type }}</h2>
-    <ion-list>
-      <ion-item button detail (click)="navigateTo('/dashboard')">
-        <ion-label>Dashboard</ion-label>
-      </ion-item>
-      <ion-item button detail (click)="navigateTo('/alta-producto')">
-        <ion-label>Alta Producto</ion-label>
-      </ion-item>
-      <ion-item button detail (click)="navigateTo('/alta-mesa')">
-        <ion-label>Pedidos Pendientes</ion-label>
-      </ion-item>
-      <ion-item button detail (click)="navigateTo('/estadisticas')">
-        <ion-label>Ver Estadísticas</ion-label>
-      </ion-item>
-    </ion-list>
-  </div>
+  }
+}
 </ion-content>
