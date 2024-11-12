@@ -22,21 +22,13 @@ import { EmailService } from 'src/app/services/email.service';
     IonToolbar, 
     IonTitle, 
     IonContent,
-    IonButtons,
-    IonButton,
-    IonIcon,
-    IonMenu,
-    IonMenuButton,
     IonList,
     IonItem,
     IonLabel,
     IonCard,
-    IonCardHeader,
     IonCardTitle,
-    IonCardSubtitle,
     IonAvatar,
-    IonBackButton,
-    IonButtons],
+  ],
 })
 export class ListaEsperaComponent  implements OnInit {
 

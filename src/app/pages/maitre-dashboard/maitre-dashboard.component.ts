@@ -17,13 +17,24 @@ import {
   checkmarkCircle,
   personOutline
 } from 'ionicons/icons';
+import { Mesa } from 'src/app/clases/mesa';
+import { connectStorageEmulator } from '@angular/fire/storage';
+import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolbar/go-back-toolbar.component';
+
+interface Mozo {
+  id: string;
+  nombre: string;
+  apellido: string;
+  estado: 'disponible' | 'ocupado';
+  mesasAsignadas: string[];
+}
 
 @Component({
   selector: 'app-maitre-dashboard',
   templateUrl: './maitre-dashboard.component.html',
   styleUrls: ['./maitre-dashboard.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonicModule, LoadingSpinnerComponent]
+  imports: [CommonModule, IonicModule, LoadingSpinnerComponent, GoBackToolbarComponent]
 })
 export class MaitreDashboardComponent implements OnInit {
   clientesEnEspera: any[] = [];
@@ -32,6 +43,8 @@ export class MaitreDashboardComponent implements OnInit {
   mesaSeleccionada: any = null;
   isLoading: boolean = true;
   showConfirmModal: boolean = false;
+  mozosDisponibles: Mozo[] = [];
+  mozoAsignado: Mozo | null = null;
 
   constructor(
     private database: DatabaseService,
@@ -58,7 +71,8 @@ export class MaitreDashboardComponent implements OnInit {
     this.isLoading = true;
     await Promise.all([
       this.cargarClientesEnEspera(),
-      this.cargarMesasDisponibles()
+      this.cargarMesasDisponibles(),
+      this.cargarMozosDisponibles()
     ]);
     this.isLoading = false;
   }
@@ -79,11 +93,13 @@ export class MaitreDashboardComponent implements OnInit {
         },
         error: (error) => {
           console.error('Error al cargar clientes:', error);
+          /*
           this.toastService.presentToast(
             'Error al cargar la lista de espera',
             'bottom',
             'danger'
           );
+          */
           resolve(false);
         }
       });
@@ -96,21 +112,81 @@ export class MaitreDashboardComponent implements OnInit {
         next: (actions: any) => {
           this.mesasDisponibles = [];
           actions.forEach((action: any) => {
-            const mesa = action.payload.doc.data();
-            mesa.id = action.payload.doc.id;
-            if (!mesa.ocupada) {
+            const data = action.payload.doc.data();
+            const id = action.payload.doc.id;
+            
+            // Crear objeto mesa con tipado
+            const mesa = {
+              id,
+              numero: data.numero,
+              cantidadComensales: data.cantidadComensales,
+              tipo: data.tipo,
+              estado: data.estado || 'libre',
+              clienteId: data.clienteId,
+              mozoId: data.mozoId,
+              fechaAsignacion: data.fechaAsignacion,
+              urlFoto: data.urlFoto
+            };
+  
+            // Verificar si la mesa está disponible (estado libre)
+            if (mesa.estado === 'libre') {
               this.mesasDisponibles.push(mesa);
             }
           });
+  
+          // Ordenar mesas por número
+          this.mesasDisponibles.sort((a, b) => 
+            parseInt(a.numero) - parseInt(b.numero)
+          );
+
+          console.log(this.mesasDisponibles)
+  
           resolve(true);
         },
         error: (error) => {
           console.error('Error al cargar mesas:', error);
+          /*
           this.toastService.presentToast(
             'Error al cargar mesas disponibles',
             'bottom',
             'danger'
           );
+          */
+          resolve(false);
+        }
+      });
+    });
+  }
+
+  cargarMozosDisponibles() {
+    return new Promise((resolve) => {
+      this.database.obtenerTodos('usuarios')?.subscribe({
+        next: (actions: any) => {
+          this.mozosDisponibles = [];
+          actions.forEach((action: any) => {
+            const usuario = action.payload.doc.data();
+            usuario.id = action.payload.doc.id;
+            if (usuario.perfil?.toLowerCase() === 'mozo' && usuario.estado !== 'ocupado') {
+              this.mozosDisponibles.push({
+                id: usuario.id,
+                nombre: usuario.nombre,
+                apellido: usuario.apellido,
+                estado: usuario.estado || 'disponible',
+                mesasAsignadas: usuario.mesasAsignadas || []
+              });
+            }
+          });
+          resolve(true);
+        },
+        error: (error) => {
+          console.error('Error al cargar mozos:', error);
+          /*
+          this.toastService.presentToast(
+            'Error al cargar mozos disponibles',
+            'bottom',
+            'danger'
+          );
+          */
           resolve(false);
         }
       });
@@ -123,6 +199,10 @@ export class MaitreDashboardComponent implements OnInit {
 
   seleccionarMesa(mesa: any) {
     this.mesaSeleccionada = mesa;
+  }
+
+  seleccionarMozo(mozo: Mozo) {
+    this.mozoAsignado = mozo;
   }
 
   async verificarMesaDisponible(mesaId: string): Promise<boolean> {
@@ -188,18 +268,46 @@ export class MaitreDashboardComponent implements OnInit {
         mesaAsignada: this.mesaSeleccionada.id
       }, this.clienteSeleccionado.id);
 
-      // Actualizar estado de la mesa
-      await this.database.actualizar('mesas', {
-        ocupada: true,
-        clienteId: this.clienteSeleccionado.id,
-        fechaAsignacion: new Date().toISOString(),
+      // Crear objeto mesa con valores seguros
+      const mesaData = {
         numero: this.mesaSeleccionada.numero,
         cantidadComensales: this.mesaSeleccionada.cantidadComensales,
         tipo: this.mesaSeleccionada.tipo,
-        rutaImagen: this.mesaSeleccionada.rutaImagen
-      }, this.mesaSeleccionada.id);
+        estado: 'vigente',
+        clienteId: this.clienteSeleccionado.id,
+        fechaAsignacion: new Date().toISOString(),
+        urlFoto: this.mesaSeleccionada.urlFoto || null
+      };
 
-      // Enviar notificación al cliente
+      // Solo agregar mozoId si existe un mozo asignado
+      if (this.mozoAsignado?.id) {
+        Object.assign(mesaData, { mozoId: this.mozoAsignado.id });
+      }
+
+      // Actualizar la mesa
+      await this.database.actualizar('mesas', mesaData, this.mesaSeleccionada.id);
+
+      // Actualizar el estado del mozo si existe
+      if (this.mozoAsignado?.id) {
+        const mesasActualizadas = [
+          ...(this.mozoAsignado.mesasAsignadas || []),
+          this.mesaSeleccionada.id
+        ];
+
+        await this.database.actualizar('usuarios', {
+          mesasAsignadas: mesasActualizadas,
+          estado: mesasActualizadas.length >= 5 ? 'ocupado' : 'disponible'
+        }, this.mozoAsignado.id);
+
+        // Notificar al mozo
+        this.notificationService.sendNotificationToRole(
+          'Nueva Mesa Asignada',
+          `Se le ha asignado la mesa ${this.mesaSeleccionada.numero}`,
+          'Mozo'
+        ).subscribe();
+      }
+
+      // Notificar al cliente
       this.notificationService.sendNotificationToRole(
         'Mesa Asignada',
         `Su mesa ${this.mesaSeleccionada.numero} está lista. Por favor escanee el código QR de la mesa.`,
@@ -211,8 +319,7 @@ export class MaitreDashboardComponent implements OnInit {
             'bottom',
             'success'
           );
-          this.clienteSeleccionado = null;
-          this.mesaSeleccionada = null;
+          this.resetearSelecciones();
           this.cargarDatos();
         },
         (error) => {
@@ -221,15 +328,23 @@ export class MaitreDashboardComponent implements OnInit {
       );
     } catch (error) {
       console.error('Error al asignar mesa:', error);
+      /*
       this.toastService.presentToast(
         'Error al asignar mesa',
         'bottom',
         'danger'
-      );
+      );*/
     } finally {
       this.isLoading = false;
     }
   }
+
+  private resetearSelecciones() {
+    this.clienteSeleccionado = null;
+    this.mesaSeleccionada = null;
+    this.mozoAsignado = null;
+    this.showConfirmModal = false;
+}
 
   cancelarAsignacion() {
     this.showConfirmModal = false;

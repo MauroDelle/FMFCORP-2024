@@ -12,7 +12,7 @@ import {
   logOutOutline, personCircleOutline, homeOutline, menuOutline, 
   statsChartOutline, peopleOutline, restaurantOutline,
   calendarOutline, clipboardOutline, timeOutline, listOutline,
-  barChartOutline, gridOutline, settingsOutline, qrCodeOutline, personAddOutline, addCircleOutline, wineOutline } from 'ionicons/icons';
+  barChartOutline, gridOutline, settingsOutline, qrCodeOutline, personAddOutline, addCircleOutline, wineOutline, chatbubblesOutline } from 'ionicons/icons';
 import { DatabaseService } from '../services/database.service';
 import { CommonModule } from '@angular/common';
 import { FcmService } from '../services/fcm.service';
@@ -43,8 +43,6 @@ interface UserProfile {
     IonButton,
     LoadingSpinnerComponent,
     IonIcon,
-    IonMenu,
-    IonMenuButton,
     IonList,
     IonItem,
     IonLabel,
@@ -70,7 +68,7 @@ export class HomePage implements OnInit, OnDestroy {
     private platform: Platform,
     private fcm: FcmService
   ) {
-    addIcons({logOutOutline,peopleOutline,qrCodeOutline,personAddOutline,clipboardOutline,restaurantOutline,addCircleOutline,wineOutline,personCircleOutline,calendarOutline,listOutline,timeOutline,barChartOutline,gridOutline,statsChartOutline,settingsOutline,homeOutline,menuOutline});
+    addIcons({logOutOutline, chatbubblesOutline,peopleOutline,qrCodeOutline,personAddOutline,clipboardOutline,restaurantOutline,addCircleOutline,wineOutline,personCircleOutline,calendarOutline,listOutline,timeOutline,barChartOutline,gridOutline,statsChartOutline,settingsOutline,homeOutline,menuOutline});
     this.platform.ready().then(() => {
       this.loggedUser = this.authService.loggedUser;
       console.log(this.loggedUser.email);

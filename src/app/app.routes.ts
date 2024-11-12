@@ -61,6 +61,10 @@ export const routes: Routes = [
     path: 'pedidos-pendientes-barman',
     loadComponent: () => import('./pages/pedidos-pendientes-barman/pedidos-pendientes-barman.component').then( m => m.PedidosPendientesBarmanComponent)
   },
+  {
+    path: 'consultar-mozo',
+    loadComponent: () => import('./pages/consulta-mozo/consulta-mozo.component').then( m => m.ConsultaMozoComponent)
+  },
   { 
     path: '', 
     redirectTo: 'splash', 

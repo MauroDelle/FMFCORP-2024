@@ -2,10 +2,7 @@ ion-content {
     --background: linear-gradient(135deg, #1e2832 0%, #2c3e50 100%);
   }
   
-  ion-header ion-toolbar {
-    --background: #1e2832;
-    --color: white;
-  }
+
   
   .content-container {
     display: flex;
@@ -107,3 +104,4 @@ ion-content {
       color: white;
     }
   }
+  
