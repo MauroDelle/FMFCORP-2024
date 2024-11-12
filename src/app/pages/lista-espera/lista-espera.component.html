@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title class="ion-text-center">
+      <img routerLink="/home" src="../../../assets/images/back.png" alt="" height="15px"> Lista de Espera
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-text-center">
+  <br><br>
+  <ion-card>
+    <br>
+    <ion-card-title>Clientes pendientes</ion-card-title>
+
+    <ion-list inset="true">
+      <ion-item *ngFor="let cliente of arrayShow">
+        <ion-avatar slot="start">
+          <img [src]="cliente.urlFoto || '../../../assets/images/default-avatar.png'" alt="">
+        </ion-avatar>
+        <ion-label>{{ cliente.nombre }} {{ cliente.apellido }}</ion-label>
+      </ion-item>
+    </ion-list>
+
+    <div *ngIf="arrayShow.length === 0">
+      <img src="../../../assets/images/check.png" style="height: 100px;" alt="">
+      <h3>No hay clientes en lista de espera</h3>
+    </div>
+  </ion-card>
+</ion-content>

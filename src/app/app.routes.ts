@@ -47,6 +47,14 @@ export const routes: Routes = [
     path: 'menu',
     loadComponent: () => import('./pages/menu/menu.component').then((m)=> m.MenuComponent),
   },
+  {
+    path: 'lista-espera',
+    loadComponent: () => import('./pages/lista-espera/lista-espera.component').then( m => m.ListaEsperaComponent)
+  },
+  {
+    path: 'qr-ingreso',
+    loadComponent: () => import('./pages/qr-ingreso/qr-ingreso.component').then( m => m.QrIngresoComponent)
+  },
   { 
     path: '', 
     redirectTo: 'splash', 

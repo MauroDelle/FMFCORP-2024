@@ -26,7 +26,7 @@
         </ion-card-header>
       </ion-card>
 
-      <ion-card class="action-card" button (click)="navigateTo('/menu')">
+      <ion-card class="action-card" button (click)="navigateTo('/qr-ingreso')">
         <ion-card-header>
           <ion-card-title>Ver Carta</ion-card-title>
         </ion-card-header>
@@ -38,6 +38,7 @@
         </ion-card-header>
       </ion-card>
     </div>
+    }
   }
 
   <!-- Maître -->
@@ -52,7 +53,7 @@
         <ion-icon name="qr-code-outline" slot="start"></ion-icon>
         <ion-label>Escanear QR</ion-label>
       </ion-item>
-      <ion-item button detail (click)="navigateTo('/registrar-cliente')">
+      <ion-item button detail (click)="navigateTo('/registrarse-cliente')">
         <ion-icon name="person-add-outline" slot="start"></ion-icon>
         <ion-label>Registrar Cliente</ion-label>
       </ion-item>
@@ -140,5 +141,17 @@
       </ion-item>
     </ion-list>
   </div>
-  }
+
+
+  <div *ngIf="currentUser?.type === 'maitre'">
+    <h2>Panel de {{ currentUser?.type }}</h2>
+    <ion-list>
+      <ion-item button detail (click)="navigateTo('/lista-espera')">
+        <ion-label>Lista de Espera</ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+
+
 </ion-content>
