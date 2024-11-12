@@ -59,6 +59,10 @@ export const routes: Routes = [
     path: 'pedidos-pendientes',
     loadComponent: () => import('./pages/pedidos-pendientes/pedidos-pendientes.component').then( m => m.PedidosPendientesComponent)
   },
+  {
+    path: 'pedidos-pendientes-barman',
+    loadComponent: () => import('./pages/pedidos-pendientes-barman/pedidos-pendientes-barman.component').then( m => m.PedidosPendientesBarmanComponent)
+  },
   { 
     path: '', 
     redirectTo: 'splash', 
