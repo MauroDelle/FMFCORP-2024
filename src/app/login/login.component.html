@@ -1,28 +1,33 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>La Comanda</ion-title>
+  <ion-toolbar color="dark">
+    <ion-title class="ion-text-center">La Comanda</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
+  @if (isLoading) {
+    <app-loading-spinner message="Iniciando sesión..."></app-loading-spinner>
+  }@else{
   <div class="login-container">
     <h2>Bienvenido</h2>
     <p>Ingrese sus credenciales</p>
 
-    <ion-segment [(ngModel)]="userType" class="ion-margin-vertical">
-      <ion-segment-button value="cliente" (click)="fastLogin('cliente@cliente.com', '444444')">
-        <ion-label>Cliente</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="empleado" (click)="fastLogin('empleado@example.com', '123456')">
-        <ion-label>Empleado</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="supervisor" (click)="fastLogin('supervisor@supervisor.com', '222222')">
-        <ion-label>Supervisor</ion-label>
-      </ion-segment-button>
-      <ion-segment-button value="dueño" (click)="fastLogin('duenio@duenio.com', '111111')">
-        <ion-label>Dueño</ion-label>
-      </ion-segment-button>
-    </ion-segment>
+    <div class="segment-container">
+      <ion-segment [(ngModel)]="userType" class="ion-margin-vertical">
+        <ion-segment-button value="cliente">
+          <ion-label>Cliente</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="empleado">
+          <ion-label>Empleado</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="supervisor">
+          <ion-label>Supervisor</ion-label>
+        </ion-segment-button>
+        <ion-segment-button value="dueño">
+          <ion-label>Dueño</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
 
     <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
       <ion-item>
@@ -39,21 +44,37 @@
       </ion-item>
 
       <ion-button expand="block" class="ion-margin-top" type="submit" [disabled]="myForm.invalid">
-        Ingresar
+        INGRESAR
       </ion-button>
     </form>
 
-    <ion-button expand="block" fill="clear" class="ion-margin-top">
-      ¿Olvidaste tu contraseña?
-      <a [routerLink]="['/registrarse-cliente']" class="ion-text-center" style="font-size: medium;">No tenes cuenta? Registrate!</a>
-    </ion-button>
+    <div class="auth-links">
+      <ion-button expand="block" fill="outline" class="auth-button">
+        ¿OLVIDASTE TU CONTRASEÑA?
+      </ion-button>
+      <ion-button expand="block" fill="outline" class="auth-button" routerLink="/registrarse-cliente">
+        ¿NO TENÉS CUENTA? ¡REGISTRATE!
+      </ion-button>
+    </div>
   </div>
 
-  <!-- Botones de acceso rápido -->
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button size="small" color="success" (click)="fastLogin('cliente@cliente.com', '444444')">C</ion-fab-button>
-    <ion-fab-button size="small" color="primary" (click)="fastLogin('mozo@mozo.com', '666666')">E</ion-fab-button>
-    <ion-fab-button size="small" color="secondary" (click)="fastLogin('supervisor@supervisor.com', '222222')">S</ion-fab-button>
-    <ion-fab-button size="small" color="warning" (click)="fastLogin('duenio@duenio.com', '111111')">D</ion-fab-button>
+  <!-- Botones de acceso rápido horizontales -->
+  <ion-fab horizontal="center" vertical="bottom" slot="fixed">
+    <ion-fab-button class="fab-button-divider" size="small" color="success" (click)="fastLogin('cliente@cliente.com', '444444')">
+      C
+    </ion-fab-button>
+    <ion-fab-button class="fab-button-divider" size="small" color="primary" (click)="fastLogin('mozo@mozo.com', '666666')">
+      MO
+    </ion-fab-button>
+    <ion-fab-button class="fab-button-divider" size="small" color="tertiary" (click)="fastLogin('maitre@maitre.com', '555555')">
+      MA
+    </ion-fab-button>
+    <ion-fab-button class="fab-button-divider" size="small" color="secondary" (click)="fastLogin('supervisor@supervisor.com', '222222')">
+      S
+    </ion-fab-button>
+    <ion-fab-button class="fab-button-divider" size="small" color="warning" (click)="fastLogin('duenio@duenio.com', '111111')">
+      D
+    </ion-fab-button>
   </ion-fab>
+}
 </ion-content>

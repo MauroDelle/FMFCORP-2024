@@ -11,6 +11,8 @@ import { ValidatorsService } from '../services/validators.service';
 import { TestUser } from '../interface/testUser.Interface';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule, TitleCasePipe } from '@angular/common';
+import { LoadingSpinnerComponent } from '../spinner/spinner.component';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -25,6 +27,7 @@ import { CommonModule, TitleCasePipe } from '@angular/common';
     FormsModule,
     IonContent,
     IonHeader,
+    LoadingSpinnerComponent,
     IonToolbar,
     IonTitle,
     IonItem,
@@ -81,13 +84,34 @@ export class LoginComponent implements OnInit {
 
   login(email: string, password: string): void {
     this.isLoading = true;
-    this.authService.login(email, password).then(() => {
-      this.isLoading = false;
-      this.myForm.reset();
-    });
+    this.authService.login(email, password)
+      .then(() => {
+        this.isLoading = false;
+        this.myForm.reset();
+      })
+      .catch(() => {
+        this.isLoading = false;
+      });
   }
 
   fastLogin(email: string, password: string): void {
+    // Actualizar el segmento según el usuario seleccionado
+    switch (email) {
+      case 'cliente@cliente.com':
+        this.userType = 'cliente';
+        break;
+      case 'mozo@mozo.com':
+      case 'maitre@maitre.com':
+        this.userType = 'empleado';
+        break;
+      case 'supervisor@supervisor.com':
+        this.userType = 'supervisor';
+        break;
+      case 'duenio@duenio.com':
+        this.userType = 'dueño';
+        break;
+    }
+
     this.myForm.controls['email'].setValue(email);
     this.myForm.controls['password'].setValue(password);
   }

@@ -6,11 +6,12 @@ import {
   IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton, 
   IonIcon, IonMenu, IonMenuButton, IonList, IonItem, IonLabel, 
   IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonAvatar,
-  AlertController, Platform, IonBackButton } from '@ionic/angular/standalone';
+  AlertController, Platform, IonBackButton, IonFab, IonFabButton, IonCardContent, IonInput, IonFooter } from '@ionic/angular/standalone';
 import { Pedido } from 'src/app/clases/pedido';
 import { DatabaseService } from 'src/app/services/database.service';
 import Swal from 'sweetalert2';
 import { map, Observable } from 'rxjs';
+import { RouterModule } from '@angular/router';
   
 @Component({
   selector: 'app-menu',
@@ -37,7 +38,13 @@ import { map, Observable } from 'rxjs';
     IonCardSubtitle,
     IonAvatar,
     IonBackButton,
-    IonButtons
+    IonButtons,
+    IonFab,
+    IonFabButton,
+    IonCardContent,
+    IonInput,
+    IonFooter,
+    RouterModule
   ]
 })
 export class MenuComponent  implements OnInit {

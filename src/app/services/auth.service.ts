@@ -102,7 +102,7 @@ export class AuthService {
       .obtenerClientePorEmail(email)
       .then(async (cliente) => {
         if (cliente) {
-          if (cliente.estado === 'autorizado') {
+          if (cliente.estado != 'pendiente') {
             // Si el cliente está autorizado, proceder con el login
             return this.afAuth
               .signInWithEmailAndPassword(email, password)

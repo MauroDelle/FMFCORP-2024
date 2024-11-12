@@ -72,6 +72,28 @@ export class DatabaseService {
       });
   }
 
+  obtenerClientePorUid(uid: string): Promise<any | null> {
+    return this.firestore.collection('clientes', ref => ref.where('uid', '==', uid))
+      .snapshotChanges()
+      .pipe(
+        map(actions => {
+          if (actions.length === 0) {
+            return null; // No encontró cliente
+          }
+          const data = actions[0].payload.doc.data() as any;
+          const id = actions[0].payload.doc.id;
+          return { id, ...data }; // Retorna el primer cliente encontrado
+        }),
+        first()
+      )
+      .toPromise()
+      .catch(error => {
+        console.error('Error retrieving cliente:', error);
+        return null; // Return null in case of error
+      });
+  }
+
+
   obtenerPedidos(estado: string, confirmacionMozo: boolean) {
     try {
       return this.firestore.collection('pedidos', ref => ref

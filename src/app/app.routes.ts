@@ -29,7 +29,23 @@ export const routes: Routes = [
   },
   {
     path: 'gestion-clientes',
-    loadComponent: () => import('./gestion-clientes/gestion-clientes.component').then((m) => m.GestionClientesComponent),
+    loadComponent: () => import('./pages/gestion-clientes/gestion-clientes.component').then((m) => m.GestionClientesComponent),
+  },
+  {
+    path: 'qr-mesa',
+    loadComponent: () => import('./pages/qr-mesa/qr-mesa.component').then((m) => m.QrMesaComponent),
+  },
+  {
+    path: 'maitre-dashboard',
+    loadComponent: () => import('./pages/maitre-dashboard/maitre-dashboard.component').then((m)=> m.MaitreDashboardComponent),
+  },
+  {
+    path: 'vincular-mesa',
+    loadComponent: () => import('./pages/vincular-mesa/vincular-mesa.component').then((m)=> m.VincularMesaComponent),
+  },
+  {
+    path: 'menu',
+    loadComponent: () => import('./pages/menu/menu.component').then((m)=> m.MenuComponent),
   },
   { 
     path: '', 
