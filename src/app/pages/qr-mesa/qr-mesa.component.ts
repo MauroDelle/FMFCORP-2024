@@ -82,8 +82,6 @@ tiempoRestante:string="";
     }, error => {
       console.log(error);
     });
-    
-   
   }
 
   actualizarTiempoRestante() {
@@ -94,7 +92,6 @@ tiempoRestante:string="";
     const tiempoFinal = fechaPedido + tiempoPedido;
     const tiempoRestanteMs = tiempoFinal - ahora;
   
-    console.log("aca");
     if (tiempoRestanteMs > 0) {
       const horas = Math.floor((tiempoRestanteMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
       const minutos = Math.floor((tiempoRestanteMs % (1000 * 60 * 60)) / (1000 * 60));
@@ -147,8 +144,6 @@ tiempoRestante:string="";
               confirmButtonColor: 'var(--ion-color-primary)',
               heightAuto: false
             });
-
-
           }else{
             Swal.fire({
               title: 'Error',
@@ -180,7 +175,6 @@ tiempoRestante:string="";
         });
       }
   }
-
 
   redireccionar(path:string){
     console.log(path);
@@ -341,6 +335,7 @@ tiempoRestante:string="";
           this.usuarioVinculado = false;
         }
 
+        console.log("this.usuarioVinculado",this.usuarioVinculado);
         resolve(); // Resuelve la promesa después de verificar todos los usuarios
       }, error => {
         console.log(error);

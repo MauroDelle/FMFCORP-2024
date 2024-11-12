@@ -39,6 +39,14 @@ export const routes: Routes = [
     path: 'maitre-dashboard',
     loadComponent: () => import('./pages/maitre-dashboard/maitre-dashboard.component').then((m)=> m.MaitreDashboardComponent),
   },
+  {
+    path: 'vincular-mesa',
+    loadComponent: () => import('./pages/vincular-mesa/vincular-mesa.component').then((m)=> m.VincularMesaComponent),
+  },
+  {
+    path: 'menu',
+    loadComponent: () => import('./pages/menu/menu.component').then((m)=> m.MenuComponent),
+  },
   { 
     path: '', 
     redirectTo: 'splash', 
