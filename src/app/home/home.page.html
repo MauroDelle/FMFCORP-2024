@@ -79,7 +79,7 @@
   @if (currentUser?.type === 'cocinero') {
     <h2>Panel de Cocinero</h2>
     <ion-list>
-      <ion-item button detail (click)="navigateTo('/pedidos-cocina')">
+      <ion-item button detail (click)="navigateTo('/pedidos-pendientes')">
         <ion-icon name="restaurant-outline" slot="start"></ion-icon>
         <ion-label>Pedidos Pendientes</ion-label>
       </ion-item>

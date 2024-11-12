@@ -55,6 +55,10 @@ export const routes: Routes = [
     path: 'qr-ingreso',
     loadComponent: () => import('./pages/qr-ingreso/qr-ingreso.component').then( m => m.QrIngresoComponent)
   },
+  {
+    path: 'pedidos-pendientes',
+    loadComponent: () => import('./pages/pedidos-pendientes/pedidos-pendientes.component').then( m => m.PedidosPendientesComponent)
+  },
   { 
     path: '', 
     redirectTo: 'splash', 
