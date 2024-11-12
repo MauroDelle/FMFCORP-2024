@@ -37,7 +37,7 @@ export const routes: Routes = [
   },
   {
     path: 'maitre-dashboard',
-    loadComponent: () => import('./pages/maitre-dashboard/maitre-dashboard.component').then((m) => m.MaitreDashboardComponent),
+    loadComponent: () => import('./pages/maitre-dashboard/maitre-dashboard.component').then((m)=> m.MaitreDashboardComponent),
   },
   { 
     path: '', 

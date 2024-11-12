@@ -1,80 +1,152 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Panel del Maître</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Lista de Espera</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
-  <ion-grid>
-    <ion-row>
-      <!-- Lista de Espera -->
-      <ion-col size="12" size-md="6">
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>Lista de Espera</ion-card-title>
-          </ion-card-header>
+  @if (isLoading) {
+    <app-loading-spinner message="Cargando datos..."></app-loading-spinner>
+  } @else {
+    <ion-grid>
+      <ion-row>
+        <!-- Lista de Espera -->
+        <ion-col size="12" size-md="6">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Clientes en Espera</ion-card-title>
+            </ion-card-header>
 
-          <ion-card-content>
-            <ion-list>
-              <ion-item *ngIf="clientesEnEspera.length === 0">
-                <ion-label>No hay clientes en espera</ion-label>
-              </ion-item>
+            <ion-card-content>
+              <ion-list>
+                @if (clientesEnEspera.length === 0) {
+                  <ion-item>
+                    <ion-label class="ion-text-center">
+                      No hay clientes en espera
+                    </ion-label>
+                  </ion-item>
+                } @else {
+                  @for (cliente of clientesEnEspera; track cliente.id) {
+                    <ion-item [class.selected]="cliente === clienteSeleccionado" 
+                             (click)="seleccionarCliente(cliente)" 
+                             button>
+                      <ion-avatar slot="start">
+                        <img [src]="cliente.urlFoto || 'assets/avatar-default.png'" />
+                      </ion-avatar>
+                      <ion-label>
+                        <h2>{{cliente.nombre}} {{cliente.apellido}}</h2>
+                        <p *ngIf="!cliente.anonimo">DNI: {{cliente.dni}}</p>
+                        <p *ngIf="cliente.anonimo">Cliente Anónimo</p>
+                      </ion-label>
+                      @if (cliente === clienteSeleccionado) {
+                        <ion-icon name="checkmark-circle" color="primary" slot="end"></ion-icon>
+                      }
+                    </ion-item>
+                  }
+                }
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
 
-              <ion-item *ngFor="let cliente of clientesEnEspera" 
-                        [class.selected]="cliente === clienteSeleccionado"
-                        (click)="seleccionarCliente(cliente)"
-                        button>
-                <ion-avatar slot="start">
-                  <img [src]="cliente.urlFoto" />
-                </ion-avatar>
-                <ion-label>
-                  <h2>{{cliente.nombre}} {{cliente.apellido}}</h2>
-                  <p *ngIf="!cliente.anonimo">DNI: {{cliente.dni}}</p>
-                  <p *ngIf="cliente.anonimo">Cliente Anónimo</p>
-                </ion-label>
-              </ion-item>
-            </ion-list>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
+        <!-- Mesas Disponibles -->
+        <ion-col size="12" size-md="6">
+          <ion-card>
+            <ion-card-header>
+              <ion-card-title>Mesas Disponibles</ion-card-title>
+            </ion-card-header>
 
-      <!-- Mesas Disponibles -->
-      <ion-col size="12" size-md="6">
-        <ion-card>
-          <ion-card-header>
-            <ion-card-title>Mesas Disponibles</ion-card-title>
-          </ion-card-header>
+            <ion-card-content>
+              @if (mesasDisponibles.length === 0) {
+                <ion-item>
+                  <ion-label class="ion-text-center">
+                    No hay mesas disponibles
+                  </ion-label>
+                </ion-item>
+              } @else {
+                <ion-grid>
+                  <ion-row>
+                    @for (mesa of mesasDisponibles; track mesa.id) {
+                      <ion-col size="6">
+                        <ion-card (click)="seleccionarMesa(mesa)" 
+                                [class.selected]="mesa === mesaSeleccionada"
+                                button>
+                          <img [src]="mesa.imagen || 'assets/mesa-default.png'" />
+                          <ion-card-header>
+                            <ion-card-title class="mesa-title">Mesa {{mesa.numero}}</ion-card-title>
+                          </ion-card-header>
+                          <ion-card-content>
+                            <div class="mesa-info">
+                              <ion-text color="light">
+                                <p class="comensales">{{mesa.cantidadComensales}} comensales</p>
+                                <p class="tipo">{{mesa.tipo}}</p>
+                              </ion-text>
+                            </div>
+                          </ion-card-content>
+                        </ion-card>
+                      </ion-col>
+                    }
+                  </ion-row>
+                </ion-grid>
+              }
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-          <ion-card-content>
-            <ion-grid>
-              <ion-row>
-                <ion-col size="6" *ngFor="let mesa of mesasDisponibles">
-                  <ion-card (click)="seleccionarMesa(mesa)"
-                           [class.selected]="mesa === mesaSeleccionada"
-                           button>
-                    <img [src]="mesa.imagen" />
-                    <ion-card-header>
-                      <ion-card-subtitle>Mesa {{mesa.numero}}</ion-card-subtitle>
-                    </ion-card-header>
-                    <ion-card-content>
-                      <p>{{mesa.cantidadComensales}} comensales</p>
-                      <p>{{mesa.tipo}}</p>
-                    </ion-card-content>
-                  </ion-card>
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </ion-card-content>
-        </ion-card>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-
-  <!-- Botón de Asignación -->
-  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button [disabled]="!clienteSeleccionado || !mesaSeleccionada"
-                    (click)="asignarMesa()">
-      <ion-icon name="checkmark"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
+    <!-- Reemplazar el FAB existente con este -->
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button 
+    [disabled]="!clienteSeleccionado || !mesaSeleccionada"
+    (click)="asignarMesa()"
+    color="primary"
+    size="small">
+    <ion-icon name="add-outline" style="font-size: 24px;"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+  }
 </ion-content>
+
+
+
+<!-- Actualizar los estilos del modal -->
+<ion-modal 
+  [isOpen]="showConfirmModal" 
+  [breakpoints]="[0, 0.5, 0.8]" 
+  [initialBreakpoint]="0.5"
+  (didDismiss)="cancelarAsignacion()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar color="primary">
+        <ion-title>Confirmar Asignación</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="cancelarAsignacion()">
+            <ion-icon name="close-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding">
+      <div class="confirmation-content">
+        <h2>¿Desea asignar la mesa {{mesaSeleccionada?.numero}} al cliente?</h2>
+        <p><strong>Cliente:</strong> {{clienteSeleccionado?.nombre}} {{clienteSeleccionado?.apellido}}</p>
+        <p><strong>Mesa:</strong> {{mesaSeleccionada?.numero}} - {{mesaSeleccionada?.tipo}}</p>
+        
+        <div class="button-container">
+          <ion-button expand="block" color="primary" (click)="confirmarAsignacion()">
+            <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+            Confirmar Asignación
+          </ion-button>
+          <ion-button expand="block" color="medium" fill="outline" (click)="cancelarAsignacion()">
+            <ion-icon name="close-outline" slot="start"></ion-icon>
+            Cancelar
+          </ion-button>
+        </div>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
