@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { IonIcon, IonCol, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonItem, IonInput, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonLabel, IonText, IonAlert, IonSpinner, IonGrid, IonRow, IonFab, IonFabButton } from '@ionic/angular/standalone';
+import { IonIcon, IonCol, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonItem, IonInput, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonLabel, IonText, IonAlert, IonSpinner, IonGrid, IonRow, IonFab, IonFabButton, IonToggle } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
 import { cameraOutline } from 'ionicons/icons';
 import { Cliente } from 'src/app/clases/cliente';
@@ -23,7 +23,7 @@ addIcons({
   templateUrl: './alta-clientes.component.html',
   styleUrls: ['./alta-clientes.component.scss'],
   standalone: true,
-  imports: [ReactiveFormsModule, FormsModule, IonFabButton, IonFab, IonIcon, IonCol, IonRow, IonGrid, CommonModule, IonSpinner, IonAlert, ReactiveFormsModule, FormsModule, IonText, IonLabel, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonInput, IonItem, IonButton, IonHeader, IonToolbar, IonTitle, IonContent],
+  imports: [IonToggle, ReactiveFormsModule, FormsModule, IonFabButton, IonFab, IonIcon, IonCol, IonRow, IonGrid, CommonModule, IonSpinner, IonAlert, ReactiveFormsModule, FormsModule, IonText, IonLabel, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonInput, IonItem, IonButton, IonHeader, IonToolbar, IonTitle, IonContent],
 
 })
 export class AltaClientesComponent  implements OnInit {
@@ -219,7 +219,7 @@ export class AltaClientesComponent  implements OnInit {
 
     if (!this.clienteAnonimo && await this.verificarUsuarioExistente(this.form.value.dni)) {
       this.toastService.presentToast('Ya hay un usuario registrado con ese DNI', 'top', 'danger');
-    } else if(await this.verificarEmailExistente(this.form.value.email)){
+    } else if(!this.clienteAnonimo && await this.verificarEmailExistente(this.form.value.email)){
       this.toastService.presentToast('Ya hay un usuario registrado con ese CORREO', 'top', 'danger');
     }else {
       this.mostrarSpinner=true;

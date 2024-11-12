@@ -108,8 +108,6 @@ tiempoRestante:string="";
   }
 
   async vincularMesa(){
-
-
     await this.verificarUsuarioVinculado();
       if(!this.usuarioVinculado){
         await this.verificarMesaLibre()
@@ -171,8 +169,6 @@ tiempoRestante:string="";
             heightAuto: false
           });
         }
-
-
       }else{
         Swal.fire({
           title: 'Error',
@@ -183,9 +179,6 @@ tiempoRestante:string="";
           heightAuto: false
         });
       }
-
-
-
   }
 
 

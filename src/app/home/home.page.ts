@@ -87,6 +87,7 @@ export class HomePage implements OnInit, OnDestroy {
     
     // Subscribe to auth state changes
     this.authSubscription = this.authService.afAuth.authState.subscribe(async (user) => {
+      
       if (user) {
         try {
           // Get additional user data from database
@@ -94,6 +95,11 @@ export class HomePage implements OnInit, OnDestroy {
           if(userData == null || userData == undefined){
             userData = await this.database.obtenerClientePorEmail(user.email!);
           }
+
+          if(userData == null || userData == undefined){
+            userData = await this.database.obtenerClientePorUid(user.uid);
+          }
+          
           
           this.currentUser = {
             email: user.email!,
@@ -167,11 +173,6 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   async scan(): Promise<void> {
-    const granted = await this.requestPermissions();
-    if (!granted) {
-      this.presentAlert();
-      return;
-    }
     const { barcodes } = await BarcodeScanner.scan();
     if (barcodes.length > 0) {
       this.informacionQr = barcodes[0].rawValue;  // Asignar la información del primer código QR escaneado
