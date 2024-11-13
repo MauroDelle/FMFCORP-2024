@@ -1,35 +1,118 @@
 .content-background {
-    width: 100%;
-    height: 100%;
-    --background: rgba(255, 255, 255, 0.8) url(../../../assets/images/chat-back2.jpeg);
-    --background-size: cover;
-    --background-position: center;
+  --background: url('../../../assets/images/back.jpeg') no-repeat center center fixed;
+  background-size: cover;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.9);
+    z-index: 0;
   }
-  
-  .transparent-card {
-    --background: rgba(255, 255, 255, 0.5); /* Fondo semi-transparente para la tarjeta */
-    color: #000; /* Texto negro para mejor contraste */
-    margin: 10px; /* Añadir margen alrededor de las tarjetas */
+}
+
+.header-title {
+  margin: 20px 0;
+  position: relative;
+  z-index: 1;
+
+  h1 {
+    color: #1e2832;
+    font-size: 30px;
+    font-weight: 800;
+    margin: 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
   }
-  
-  ion-card-title, ion-card-content p {
-    color: #000; /* Texto negro para mejor contraste */
+}
+
+.transparent-card {
+  --background: rgba(255, 255, 255, 0.8);
+  margin: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+
+  ion-card-header {
+    padding: 16px;
+    background: rgba(30, 40, 50, 0.05);
+    border-radius: 12px 12px 0 0;
+
+    ion-card-title {
+      font-size: 22px;
+      font-weight: 600;
+      color: #1e2832;
+    }
   }
-  
-  p {
-    font-size: 1.2rem; /* Aumentar el tamaño de la fuente */
+
+  ion-card-content {
+    padding: 16px;
+
+    .order-details {
+      p {
+        margin: 10px 0;
+        font-size: 16px;
+        color: #1e2832;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        strong {
+          font-weight: 600;
+          color: #1e2832;
+        }
+      }
+    }
+
+    .button-container {
+      margin-top: 16px;
+
+      ion-button {
+        margin: 0;
+        height: 44px;
+        font-size: 16px;
+        text-transform: none;
+        --border-radius: 8px;
+        
+        &[color="success"] {
+          --background: #2dd36f;
+          --background-hover: #28bd62;
+        }
+        
+        &[color="danger"] {
+          --background: #eb445a;
+          --background-hover: #cf3c4f;
+        }
+      }
+    }
   }
-  
-  ion-button {
-    --background: #007bff; /* Fondo azul para los botones para mejor visibilidad */
-    --color: #fff; /* Texto blanco para los botones */
+}
+
+// Estado badges
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+
+  &.pending {
+    background: rgba(255, 196, 9, 0.2);
+    color: #ffc409;
   }
-  
-  .custom-title {
-    font-size: 1.2rem; /* Reducir tamaño de fuente del título */
-    text-align: center; /* Centrar el título */
-    white-space: nowrap; /* Evitar que el texto se rompa en varias líneas */
-    overflow: hidden; /* Ocultar el desbordamiento del texto */
-    text-overflow: ellipsis; /* Añadir puntos suspensivos si el texto es demasiado largo */
+
+  &.in-progress {
+    background: rgba(45, 211, 111, 0.2);
+    color: #2dd36f;
   }
-  
+
+  &.ready {
+    background: rgba(56, 128, 255, 0.2);
+    color: #3880ff;
+  }
+}

@@ -1,0 +1,118 @@
+.content-background {
+    --background: url('../../../assets/images/back.jpeg') no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+  
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(255, 255, 255, 0.9);
+      z-index: 0;
+    }
+  }
+  
+  .header-title {
+    margin: 20px 0;
+    position: relative;
+    z-index: 1;
+  
+    h1 {
+      color: #1e2832;
+      font-size: 30px;
+      font-weight: 800;
+      margin: 0;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+    }
+  }
+  
+  .transparent-card {
+    --background: rgba(255, 255, 255, 0.8);
+    margin: 16px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+  
+    ion-card-header {
+      padding: 16px;
+      background: rgba(30, 40, 50, 0.05);
+      border-radius: 12px 12px 0 0;
+  
+      ion-card-title {
+        font-size: 22px;
+        font-weight: 600;
+        color: #1e2832;
+      }
+    }
+  
+    ion-card-content {
+      padding: 16px;
+  
+      .order-details {
+        p {
+          margin: 10px 0;
+          font-size: 16px;
+          color: #1e2832;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+  
+          strong {
+            font-weight: 600;
+            color: #1e2832;
+          }
+        }
+      }
+  
+      .button-container {
+        margin-top: 16px;
+  
+        ion-button {
+          margin: 0;
+          height: 44px;
+          font-size: 16px;
+          text-transform: none;
+          --border-radius: 8px;
+          
+          &[color="success"] {
+            --background: #2dd36f;
+            --background-hover: #28bd62;
+          }
+          
+          &[color="danger"] {
+            --background: #eb445a;
+            --background-hover: #cf3c4f;
+          }
+        }
+      }
+    }
+  }
+  
+  // Estado badges
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+  
+    &.pending {
+      background: rgba(255, 196, 9, 0.2);
+      color: #ffc409;
+    }
+  
+    &.in-progress {
+      background: rgba(45, 211, 111, 0.2);
+      color: #2dd36f;
+    }
+  
+    &.ready {
+      background: rgba(56, 128, 255, 0.2);
+      color: #3880ff;
+    }
+  }

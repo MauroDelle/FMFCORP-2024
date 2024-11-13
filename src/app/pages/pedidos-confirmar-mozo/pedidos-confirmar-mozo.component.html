@@ -1,22 +1,60 @@
-<app-go-back-toolbar msj="Pedidos Pendientes" />
+<app-go-back-toolbar msj="Pedidos Pendientes"></app-go-back-toolbar>
 
 <ion-content class="content-background">
-  <ion-text class="ion-text-center">
-    <h1 style="color: black; font-size: 30px; font-weight: 800;">Mozo</h1>
-  </ion-text>
+  <div class="header-title">
+    <ion-text class="ion-text-center">
+      <h1>Mozo</h1>
+    </ion-text>
+  </div>
+
   <ion-card *ngFor="let pedido of pedidos" class="transparent-card">
     <ion-card-header>
       <ion-card-title>Pedido</ion-card-title>
     </ion-card-header>
+    
     <ion-card-content>
-      <ion-label>
-        <p>Estado: <strong>{{ pedido.estado | titlecase }} {{ pedido.confirmacionMozo ? '- En la cocina/bar' : '' }}</strong></p>
-        <p>Productos pedidos: <strong>{{ pedido.items | agruparProductos }}</strong></p>
-        <p>Tiempo de espera: <strong>{{ pedido.tiempo }} minutos</strong></p>
-      </ion-label>
-      <br *ngIf="!pedido.confirmacionMozo || pedido.estado === 'listo'">
-      <ion-button *ngIf="!pedido.confirmacionMozo" expand="full" color="success" (click)="confirmarPedido(pedido.id)">Confirmar</ion-button>
-      <ion-button *ngIf="pedido.estado === 'listo'" expand="full" color="danger" (click)="entregarPedido(pedido.id)">Entregar</ion-button>
+      <div class="order-details">
+        <p>
+          Estado: 
+          <strong [ngClass]="{'status-badge': true, 
+                            'pending': pedido.estado === 'pendiente',
+                            'in-progress': pedido.confirmacionMozo,
+                            'ready': pedido.estado === 'listo'}">
+            {{ pedido.estado | titlecase }}
+            {{ pedido.confirmacionMozo ? '- En la cocina/bar' : '' }}
+          </strong>
+        </p>
+        <p>
+          Productos pedidos: 
+          <strong>{{ pedido.items | agruparProductos }}</strong>
+        </p>
+        <p>
+          Tiempo de espera: 
+          <strong>{{ pedido.tiempo }} minutos</strong>
+        </p>
+      </div>
+
+      <div class="button-container" *ngIf="!pedido.confirmacionMozo || pedido.estado === 'listo'">
+        <ion-button *ngIf="!pedido.confirmacionMozo" 
+                    expand="full" 
+                    color="success" 
+                    (click)="confirmarPedido(pedido.id)">
+          Confirmar
+        </ion-button>
+        
+        <ion-button *ngIf="pedido.estado === 'listo'" 
+                    expand="full" 
+                    color="danger" 
+                    (click)="entregarPedido(pedido.id)">
+          Entregar
+        </ion-button>
+      </div>
     </ion-card-content>
   </ion-card>
+
+  <!-- Estado vacío -->
+  <div class="empty-state ion-text-center" *ngIf="pedidos?.length === 0">
+    <img src="assets/images/no-orders.png" alt="No hay pedidos">
+    <p>No hay pedidos pendientes</p>
+  </div>
 </ion-content>
