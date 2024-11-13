@@ -19,6 +19,7 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { IonicModule } from '@ionic/angular';
 import { NotificationService } from 'src/app/services/notification.service';
 import { AgruparProductosPipe } from 'src/app/pipes/agrupar-productos.pipe';
+import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolbar/go-back-toolbar.component';
 
 @Component({
   selector: 'app-pedidos-pendientes-barman',
@@ -29,6 +30,7 @@ import { AgruparProductosPipe } from 'src/app/pipes/agrupar-productos.pipe';
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
+    GoBackToolbarComponent,
     AgruparProductosPipe]
 })
 export class PedidosPendientesBarmanComponent  implements OnInit {

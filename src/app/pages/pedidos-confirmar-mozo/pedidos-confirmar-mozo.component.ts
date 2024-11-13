@@ -5,13 +5,14 @@ import { DatabaseService } from 'src/app/services/database.service';
 import { NotificationService } from 'src/app/services/notification.service';
 import Swal from 'sweetalert2';
 import { AgruparProductosPipe } from "../../pipes/agrupar-productos.pipe";
+import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolbar/go-back-toolbar.component';
 
 @Component({
   selector: 'app-pedidos-confirmar-mozo',
   templateUrl: './pedidos-confirmar-mozo.component.html',
   styleUrls: ['./pedidos-confirmar-mozo.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonButton, IonLabel, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonText, IonContent, IonTitle, IonToolbar, IonHeader, AgruparProductosPipe]
+  imports: [CommonModule, IonButton, GoBackToolbarComponent, IonLabel, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonText, IonContent, IonTitle, IonToolbar, IonHeader, AgruparProductosPipe]
 })
 export class PedidosConfirmarMozoComponent  implements OnInit {
   pedidos?: any[];
