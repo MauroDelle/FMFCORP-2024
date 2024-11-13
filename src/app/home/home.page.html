@@ -1,14 +1,12 @@
 @if (!isLoading) {
-<ion-header>
-  <ion-toolbar>
-    <ion-title>{{ getUserTypeTitle() }}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="handleLogout()">
-        <ion-icon slot="icon-only" name="log-out-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+  <ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-back-button (click)="handleLogout()"></ion-back-button>
+      </ion-buttons>
+      <ion-title>{{ getUserTypeTitle() }}</ion-title>
+    </ion-toolbar>
+  </ion-header>
 }
 
 <ion-content>
@@ -46,8 +44,8 @@
       <h2>Panel de Maître</h2>
       <div class="role-grid">
         <div class="role-button" (click)="navigateTo('/maitre-dashboard')">
-          <ion-icon name="people-outline"></ion-icon>
-          <span>Lista de Espera</span>
+          <ion-icon name="restaurant-outline"></ion-icon>
+          <span>Asignar Mesas</span>
         </div>
 
         <div class="role-button" (click)="scan()">
@@ -71,10 +69,6 @@
     @if (currentUser?.type === 'mozo') {
       <h2>Panel de Mozo</h2>
       <div class="role-grid">
-        <div class="role-button" (click)="navigateTo('/pedidos-pendientes')">
-          <ion-icon name="clipboard-outline"></ion-icon>
-          <span>Pedidos Pendientes</span>
-        </div>
 
         <div class="role-button" (click)="scan()">
           <ion-icon name="qr-code-outline"></ion-icon>
@@ -97,7 +91,7 @@
     @if (currentUser?.type === 'cocinero') {
       <h2>Panel de Cocinero</h2>
       <div class="role-grid">
-        <div class="role-button" (click)="navigateTo('/pedidos-pendientes')">
+        <div class="role-button" (click)="navigateTo('/pedidos-cocina')">
           <ion-icon name="restaurant-outline"></ion-icon>
           <span>Pedidos Pendientes</span>
         </div>

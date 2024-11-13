@@ -6,11 +6,12 @@ import { Cliente } from 'src/app/clases/cliente';
 import { NotificationService } from 'src/app/services/notification.service';
 import { 
   IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton, 
-  IonIcon, IonMenu, IonMenuButton, IonList, IonItem, IonLabel, 
+  IonIcon, IonMenu, IonMenuButton, IonList, IonItem, IonLabel, IonCardContent,
   IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonAvatar,
   AlertController, Platform, IonBackButton } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { EmailService } from 'src/app/services/email.service';
+import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolbar/go-back-toolbar.component';
 
 @Component({
   selector: 'app-lista-espera',
@@ -19,9 +20,12 @@ import { EmailService } from 'src/app/services/email.service';
   standalone: true,
   imports: [    CommonModule,
     IonHeader, 
+    GoBackToolbarComponent,
     IonToolbar, 
     IonTitle, 
     IonContent,
+    IonCardContent,
+    IonCardHeader,
     IonList,
     IonItem,
     IonLabel,

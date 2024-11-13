@@ -1,15 +1,6 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title class="ion-text-center"><img routerLink="/qr-mesa" src="../../../assets/images/back.png" alt="" height="15px"> Menu</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-go-back-toolbar msj="Menú" />
 
 <ion-content class="ion-text-center" *ngIf="menu.length>0">
-  <ion-fab size="large" slot="fixed" vertical="top" horizontal="start" edge="true">
-    <ion-fab-button (click)="verPedido()" color="success">
-      <img src="../../../assets/images/compra.png" style="padding: 8px;" alt="">
-    </ion-fab-button>
-  </ion-fab>
 
   <ion-fab slot="fixed" vertical="top" horizontal="end" edge="true" *ngIf="montoTotal > 0">
     <ion-fab-button color="primary" class="custom-fab-button">
@@ -151,7 +142,14 @@
 
   <br><br>
 
+  <ion-fab size="large" slot="fixed" vertical="top" horizontal="start" edge="true">
+    <ion-fab-button (click)="verPedido()" color="success">
+      <img src="../../../assets/images/compra.png" style="padding: 8px;" alt="">
+    </ion-fab-button>
+  </ion-fab>
+
 </ion-content>
+
 <ion-footer [translucent]="true">
   <ion-toolbar class="ion-text-center">
     <ion-button expand="full" *ngIf="pedidoParcial.length>0" color="success" (click)="finalizarPedido()">Finalizar Pedido</ion-button>

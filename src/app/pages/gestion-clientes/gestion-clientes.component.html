@@ -1,35 +1,47 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home" text=""></ion-back-button>
-    </ion-buttons>
-    <ion-title class="ion-text-center">Gestión de Clientes</ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-go-back-toolbar msj="Gestión de Clientes" />
 
-<ion-content [fullscreen]="true" class="ion-text-center">
-  <ion-card>
-    <ion-card-title>Clientes pendientes de aprobación</ion-card-title>
-    <ion-card-subtitle>Acceso único para Dueño/Supervisor</ion-card-subtitle>
-    
-    <ion-list>
-      <ion-item *ngFor="let cliente of clientesPendientes">
-        <ion-avatar slot="start">
-          <img [src]="cliente.urlFoto" alt="">
-        </ion-avatar>
-        <ion-label>
-          <h2>{{cliente.nombre}} {{cliente.apellido}}</h2>
-        </ion-label>
-        <div class="buttons-container">
-          <ion-button color="success" (click)="gestionarSolicitud(cliente, true)">AUTORIZAR</ion-button>
-          <ion-button color="danger" (click)="gestionarSolicitud(cliente, false)">RECHAZAR</ion-button>
-        </div>
-      </ion-item>
-    </ion-list>
-    
-    <div class="no-clients" *ngIf="clientesPendientes.length === 0">
-      <img src="../../../assets/images/check.png" alt="" style="height: 100px;">
-      <h3>No hay clientes pendientes de aprobación</h3>
-    </div>
-  </ion-card>
+<ion-content [fullscreen]="true">
+  <div class="content-container">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Clientes pendientes de aprobación</ion-card-title>
+        <ion-card-subtitle>Acceso único para Dueño/Supervisor</ion-card-subtitle>
+      </ion-card-header>
+
+      <ion-card-content>
+        @if (clientesPendientes.length > 0) {
+          <div class="clients-grid">
+            @for (cliente of clientesPendientes; track cliente.id) {
+              <div class="client-card">
+                <div class="client-info">
+                  <ion-avatar>
+                    <img [src]="cliente.urlFoto" alt="Foto de perfil">
+                  </ion-avatar>
+                  <div class="client-details">
+                    <h3>{{cliente.nombre}}</h3>
+                    <h3>{{cliente.apellido}}</h3>
+                  </div>
+                </div>
+                <div class="action-buttons">
+                  <ion-button color="success" (click)="gestionarSolicitud(cliente, true)">
+                    <ion-icon name="checkmark-outline" slot="start"></ion-icon>
+                    AUTORIZAR
+                  </ion-button>
+                  <ion-button color="danger" (click)="gestionarSolicitud(cliente, false)">
+                    <ion-icon name="close-outline" slot="start"></ion-icon>
+                    RECHAZAR
+                  </ion-button>
+                </div>
+              </div>
+            }
+          </div>
+        } @else {
+          <div class="empty-state">
+            <img src="../../../assets/images/check.png" alt="No hay clientes">
+            <h3>No hay clientes pendientes de aprobación</h3>
+          </div>
+        }
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

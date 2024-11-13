@@ -12,6 +12,7 @@ import { DatabaseService } from 'src/app/services/database.service';
 import Swal from 'sweetalert2';
 import { map, Observable } from 'rxjs';
 import { RouterModule } from '@angular/router';
+import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolbar/go-back-toolbar.component';
   
 @Component({
   selector: 'app-menu',
@@ -20,6 +21,7 @@ import { RouterModule } from '@angular/router';
   standalone: true,
   imports:[
     CommonModule,
+    GoBackToolbarComponent,
     IonHeader, 
     IonToolbar, 
     IonTitle, 

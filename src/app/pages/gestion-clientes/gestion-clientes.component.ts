@@ -8,9 +8,11 @@ import {
   IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton, 
   IonIcon, IonMenu, IonMenuButton, IonList, IonItem, IonLabel, 
   IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonAvatar,
-  AlertController, Platform, IonBackButton } from '@ionic/angular/standalone';
+  AlertController, Platform, IonBackButton, IonCardContent } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import { EmailService } from 'src/app/services/email.service';
+import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolbar/go-back-toolbar.component';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-gestion-clientes',
@@ -19,7 +21,9 @@ import { EmailService } from 'src/app/services/email.service';
   standalone: true,
   imports:[
     CommonModule,
+    GoBackToolbarComponent,
     IonHeader, 
+    IonCardContent,
     IonToolbar, 
     IonTitle, 
     IonContent,
@@ -46,7 +50,7 @@ export class GestionClientesComponent  implements OnInit {
   idUsuarioSeleccionado: any;
   clientesPendientes: any[] = [];
 
-  constructor(private database: DatabaseService, private notificationSvc: NotificationService, private emailService: EmailService) { }
+  constructor(private database: DatabaseService, private notificationSvc: NotificationService, private emailService: EmailService, private toastService: ToastService) { }
 
   ngOnInit() {
     this.cargarClientesPendientes();
@@ -103,6 +107,20 @@ async gestionarSolicitud(clienteSeleccionado: any, autorizar: boolean) {
       await this.database.actualizar("clientes", clienteActualizado.toJSON(), idUsuarioSeleccionado);
 
       this.emailService.enviarCorreo(clienteActualizado.email, autorizar == true ? 1 : 0 );
+
+      if (autorizar) {
+        this.toastService.presentToast(
+          `${clienteSeleccionado.nombre} ${clienteSeleccionado.nombre} ha sido autorizado correctamente`,
+          'bottom',
+          'success'
+        );
+      } else {
+        this.toastService.presentToast(
+          `${clienteSeleccionado.nombre} ${clienteSeleccionado.nombre} ha sido rechazado`,
+          'bottom',
+          'danger'
+        );
+      }
 
       console.log('Cliente actualizado con éxito.');
     } else {

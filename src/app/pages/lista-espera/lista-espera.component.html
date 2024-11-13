@@ -1,29 +1,36 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title class="ion-text-center">
-      <img routerLink="/home" src="../../../assets/images/back.png" alt="" height="15px"> Lista de Espera
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-go-back-toolbar msj="Lista de Espera" />
 
-<ion-content [fullscreen]="true" class="ion-text-center">
-  <br><br>
-  <ion-card>
-    <br>
-    <ion-card-title>Clientes pendientes</ion-card-title>
+<ion-content>
+  <div class="main-container">
+    <ion-card class="status-card">
+      <ion-card-header>
+        <ion-card-title>Clientes en Espera</ion-card-title>
+      </ion-card-header>
 
-    <ion-list inset="true">
-      <ion-item *ngFor="let cliente of arrayShow">
-        <ion-avatar slot="start">
-          <img [src]="cliente.urlFoto || '../../../assets/images/default-avatar.png'" alt="">
-        </ion-avatar>
-        <ion-label>{{ cliente.nombre }} {{ cliente.apellido }}</ion-label>
-      </ion-item>
-    </ion-list>
-
-    <div *ngIf="arrayShow.length === 0">
-      <img src="../../../assets/images/check.png" style="height: 100px;" alt="">
-      <h3>No hay clientes en lista de espera</h3>
-    </div>
-  </ion-card>
+      <ion-card-content>
+        @if (arrayShow.length > 0) {
+          <ion-list>
+            @for (cliente of arrayShow; track cliente) {
+              <ion-item>
+                <ion-avatar slot="start">
+                  <img [src]="cliente.urlFoto || '../../../assets/images/default-avatar.png'" alt="avatar">
+                </ion-avatar>
+                <ion-label>
+                  <h2>{{ cliente.nombre }} {{ cliente.apellido }}</h2>
+                  @if (cliente.anonimo) {
+                    <p>Cliente Anónimo</p>
+                  }
+                </ion-label>
+              </ion-item>
+            }
+          </ion-list>
+        } @else {
+          <div class="empty-state">
+            <img src="../../../assets/images/check.png" alt="No hay clientes">
+            <p>No hay clientes en lista de espera</p>
+          </div>
+        }
+      </ion-card-content>
+    </ion-card>
+  </div>
 </ion-content>

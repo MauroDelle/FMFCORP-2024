@@ -54,7 +54,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/qr-ingreso/qr-ingreso.component').then( m => m.QrIngresoComponent)
   },
   {
-    path: 'pedidos-pendientes',
+    path: 'pedidos-cocina',
     loadComponent: () => import('./pages/pedidos-pendientes/pedidos-pendientes.component').then( m => m.PedidosPendientesComponent)
   },
   {
