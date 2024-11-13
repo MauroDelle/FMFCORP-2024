@@ -52,6 +52,7 @@ export class AltaClientesComponent  implements OnInit {
   clienteAnonimo: boolean = false;
   mostrarSpinner= false;
   fotoUrl: any = '';
+  photoUrl: any = '';
   barcodes: Barcode[] = [];
   informacionQr: string | null = null;
   isLoading:boolean = false;
@@ -145,7 +146,6 @@ export class AltaClientesComponent  implements OnInit {
 
   async tomarFoto(){
     try {
-      console.log("tomar foto");
       this.isLoading = true;
       const image = await Camera.getPhoto({
         quality: 90,
@@ -162,10 +162,7 @@ export class AltaClientesComponent  implements OnInit {
           type: 'image/jpeg',
         });
         this.fotoUrl = file
-
-        // const base64 = await this.convertirABase64(file);
-        // console.log("Base64:", base64);
-
+        this.photoUrl = photoUrl;
       }
     } catch (error) {
       console.error('Error al tomar la foto:', error);
@@ -240,12 +237,13 @@ export class AltaClientesComponent  implements OnInit {
       return;
     }
 
+    this.mostrarSpinner=true;
+
     if (!this.clienteAnonimo && await this.verificarUsuarioExistente(this.form.value.dni)) {
       this.toastService.presentToast('Ya hay un usuario registrado con ese DNI', 'top', 'danger');
     } else if(!this.clienteAnonimo && !(await this.verificarEmailExistente(this.form.value.email))){
       this.toastService.presentToast('Ya hay un usuario registrado con ese CORREO', 'top', 'danger');
     }else {
-      this.mostrarSpinner=true;
 
       const imagenGuardada = await this.guardarImagen();
 
@@ -282,5 +280,6 @@ export class AltaClientesComponent  implements OnInit {
         this.toastService.presentToast('No se pudo guardar la imagen, abortando creación de usuario.', 'top', 'danger');
       }
     }
+    this.mostrarSpinner=false;
   }
 }
