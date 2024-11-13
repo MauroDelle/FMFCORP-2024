@@ -121,5 +121,7 @@ export class AltaMesaComponent {
     }
   }
 
+  scan(){}
+
 
 }

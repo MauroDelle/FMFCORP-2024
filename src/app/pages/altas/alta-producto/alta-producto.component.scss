@@ -1,0 +1,160 @@
+ion-content {
+    --background: url('../../../../assets/images/food-back.jpg') repeat center center fixed;
+    --padding-bottom: 80px;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 0;
+    }
+  }
+  
+  .form-container {
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100%;
+    width: 100%;
+  }
+
+  ion-fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+  
+    ion-fab-button {
+      --background: var(--ion-color-primary);
+      
+      img {
+        width: 35px;  // Aumentado el tamaño del ícono QR
+        height: 35px;
+        padding: 5px;
+      }
+    }
+  }
+  
+  ion-card {
+    background: rgba(40, 40, 40, 0.9);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    width: 85%;
+    margin: 10px auto;
+  }
+  
+  ion-item {
+    --background: rgba(60, 60, 60, 0.6);
+    --color: white;
+    --border-color: rgba(255, 255, 255, 0.1);
+    --highlight-background: rgba(var(--ion-color-primary-rgb), 0.3);
+    margin-bottom: 15px;
+    border-radius: 8px;
+  
+    ion-label {
+      --color: white;
+      font-weight: 500;
+    }
+  
+    ion-input, ion-select {
+      --color: white;
+      --placeholder-color: rgba(255, 255, 255, 0.6);
+    }
+  }
+  
+  .error-message {
+    color: var(--ion-color-danger);
+    font-size: 0.8rem;
+    margin: -10px 0 15px 15px;
+  }
+  
+  .photo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    padding: 15px 0;
+  
+    ion-label {
+      color: white;
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+  }
+  
+  .photos-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    width: 100%;
+    
+    .product-image {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+  }
+  
+  .photo-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    --background: var(--ion-color-primary);
+    --border-radius: 25px;
+    --padding-start: 20px;
+    --padding-end: 20px;
+  }
+  
+  ion-button {
+    margin: 10px 0;
+    height: 48px;
+    font-size: 1.1rem;
+    text-transform: none;
+    --border-radius: 10px;
+  
+    &[color="success"] {
+      --background: #2dd36f;
+      --background-hover: #28bd62;
+    }
+  
+    &[color="danger"] {
+      --background: #eb445a;
+      --background-hover: #cf3c4f;
+    }
+  
+    &:disabled {
+      opacity: 0.7;
+    }
+  }
+  
+  ion-fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+  
+    ion-fab-button {
+      --background: var(--ion-color-primary);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    ion-card {
+      width: 95%;
+      padding: 15px;
+    }
+    
+    .photos-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }

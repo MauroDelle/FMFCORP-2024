@@ -7,11 +7,10 @@
   
   <div class="form-container">
     <ion-card>
-      <div class="ion-text-center">
-        <img src="../../../../assets/images/user-icon.png" style="height: 80px; margin: 20px 0;" alt="Usuario">
-      </div>
-
       <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+        <div class="ion-text-center">
+          <img src="../../../../assets/images/mesa-icon.png" style="height: 80px; margin: 20px 0;" alt="Mesa">
+        </div>
         <ion-item>
           <ion-label position="floating">Número</ion-label>
           <ion-input formControlName="numero" type="number"></ion-input>
@@ -72,5 +71,12 @@
         </ion-button>
       </form>
     </ion-card>
+
+    <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+      <ion-fab-button (click)="scan()">
+        <img src="../../../../assets/icon/qr.png" alt="QR Scanner">
+      </ion-fab-button>
+    </ion-fab>
+    
   </div>
 </ion-content>

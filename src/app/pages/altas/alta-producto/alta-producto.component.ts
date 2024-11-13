@@ -17,7 +17,8 @@ import Swal from 'sweetalert2';
 import { ValidatorsService } from 'src/app/services/validators.service';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
 import { IonicModule } from '@ionic/angular';
-
+import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolbar/go-back-toolbar.component';
+import { LoadingSpinnerComponent } from 'src/app/spinner/spinner.component';
 
 @Component({
   selector: 'app-alta-producto',
@@ -26,6 +27,8 @@ import { IonicModule } from '@ionic/angular';
   standalone  : true,
   imports: [IonicModule, // Keeps all Ionic components in one import
     CommonModule,
+    GoBackToolbarComponent,
+    LoadingSpinnerComponent,
     ReactiveFormsModule,
     FormsModule]
 })
@@ -198,5 +201,7 @@ export class AltaProductoComponent  implements OnInit {
       this.register();
     }
   }
+
+  scan(){}
 
 }

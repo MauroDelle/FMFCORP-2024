@@ -48,6 +48,23 @@ ion-content {
       --placeholder-color: rgba(255, 255, 255, 0.6);
     }
   }
+
+  ion-fab {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+  
+    ion-fab-button {
+      --background: var(--ion-color-primary);
+      
+      img {
+        width: 35px;  // Aumentado el tamaño del ícono QR
+        height: 35px;
+        padding: 5px;
+      }
+    }
+  }
   
   .error-message {
     color: var(--ion-color-danger);

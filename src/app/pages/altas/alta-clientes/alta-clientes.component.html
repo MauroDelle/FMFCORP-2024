@@ -7,11 +7,12 @@
 
   <div class="form-container">
 
-    <div class="ion-text-center">
-      <img src="../../../assets/images/user-icon.png" style="height: 80px; margin: 20px 0;" alt="">
-    </div>
+
 
     <ion-card>
+      <div class="ion-text-center">
+        <img src="../../../assets/images/user-icon.png" style="height: 80px; margin: 20px 0;" alt="">
+      </div>
       <ion-item lines="none">
         <ion-label>¿Desea registrarse como Cliente Anónimo?</ion-label>
         <ion-toggle slot="end" [ngModel]="clienteAnonimo" (ionChange)="toggleAnonimo($event)"></ion-toggle>
