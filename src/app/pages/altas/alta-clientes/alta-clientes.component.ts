@@ -202,8 +202,7 @@ export class AltaClientesComponent  implements OnInit {
 
   async verificarEmailExistente(email: string): Promise<boolean> {
     try {
-      const response = await this.databaseService.obtenerUsuarioPorEmail(email);
-      console.log("response getUsuairoByEmail", response);
+      const response = await this.databaseService.obtenerClientePorEmail(email);
   
       return response == null;
     } catch (error) {
@@ -219,7 +218,7 @@ export class AltaClientesComponent  implements OnInit {
 
     if (!this.clienteAnonimo && await this.verificarUsuarioExistente(this.form.value.dni)) {
       this.toastService.presentToast('Ya hay un usuario registrado con ese DNI', 'top', 'danger');
-    } else if(!this.clienteAnonimo && await this.verificarEmailExistente(this.form.value.email)){
+    } else if(!this.clienteAnonimo && !(await this.verificarEmailExistente(this.form.value.email))){
       this.toastService.presentToast('Ya hay un usuario registrado con ese CORREO', 'top', 'danger');
     }else {
       this.mostrarSpinner=true;
