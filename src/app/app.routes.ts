@@ -77,6 +77,10 @@ export const routes: Routes = [
     path: 'pedir-cuenta',
     loadComponent: () => import('./pages/pedir-cuenta/pedir-cuenta.component').then( m => m.PedirCuentaComponent)
   },
+  {
+    path: 'encuesta',
+    loadComponent: () => import('./pages/encuesta/encuesta.component').then( m => m.EncuestaComponent)
+  },
   { 
     path: '', 
     redirectTo: 'splash', 
