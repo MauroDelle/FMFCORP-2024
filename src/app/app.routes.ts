@@ -65,6 +65,10 @@ export const routes: Routes = [
     path: 'consultar-mozo',
     loadComponent: () => import('./pages/consulta-mozo/consulta-mozo.component').then( m => m.ConsultaMozoComponent)
   },
+  {
+    path: 'pedidos-por-confirmar-mozo',
+    loadComponent: () => import('./pages/pedidos-confirmar-mozo/pedidos-confirmar-mozo.component').then( m => m.PedidosConfirmarMozoComponent)
+  },
   { 
     path: '', 
     redirectTo: 'splash', 
