@@ -69,6 +69,10 @@ export const routes: Routes = [
     path: 'pedidos-por-confirmar-mozo',
     loadComponent: () => import('./pages/pedidos-confirmar-mozo/pedidos-confirmar-mozo.component').then( m => m.PedidosConfirmarMozoComponent)
   },
+  {
+    path: 'qr-propina',
+    loadComponent: () => import('./pages/qr-propina/qr-propina.component').then( m => m.QrPropinaComponent)
+  },
   { 
     path: '', 
     redirectTo: 'splash', 
