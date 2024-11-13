@@ -1,78 +1,76 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home" text=""></ion-back-button>
-    </ion-buttons>
-    <ion-title>Alta Mesa</ion-title>
-    <ion-buttons slot="end">
-    </ion-buttons>
-  </ion-toolbar>
+<app-go-back-toolbar msj="Alta Mesa" />
 
-  <!-- <app-loading-spinner *ngIf="isLoading"></app-loading-spinner> -->
-
-  <ion-fab slot="fixed" vertical="top" horizontal="end">
-    <ion-fab-button >
-      <img style="height: 40px; padding: 5px;" src="../../../../assets/images/qr.png" alt="">
-    </ion-fab-button>
-  </ion-fab>
-</ion-header>
-
-<ion-content class="ion-padding ion-text-center">
-  <br><br>
-  <div>
-    <img class="ion-text-center" src="../../../../assets/images/user-icon.png" style="height: 80px;" alt="">
-    <br><br>
+<ion-content class="ion-padding">
+  @if (isLoading) {
+    <app-loading-spinner message="Procesando imagen..." textColor="#ffffff"></app-loading-spinner>
+  }
+  
+  <div class="form-container">
     <ion-card>
+      <div class="ion-text-center">
+        <img src="../../../../assets/images/user-icon.png" style="height: 80px; margin: 20px 0;" alt="Usuario">
+      </div>
+
       <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
         <ion-item>
-          <ion-label position="stacked">Número</ion-label>
+          <ion-label position="floating">Número</ion-label>
           <ion-input formControlName="numero" type="number"></ion-input>
         </ion-item>
-        <div *ngIf="isValidField('numero')" class="error-message">
-          {{ getErrorByField("numero") }}
-        </div>
+        @if (isValidField('numero')) {
+          <div class="error-message">
+            {{ getErrorByField("numero") }}
+          </div>
+        }
 
         <ion-item>
-          <ion-label position="stacked">Cantidad de Comensales</ion-label>
+          <ion-label position="floating">Cantidad de Comensales</ion-label>
           <ion-input formControlName="cantidadComensales" type="number"></ion-input>
         </ion-item>
-        <div *ngIf="isValidField('cantidadComensales')" class="error-message">
-          {{ getErrorByField("cantidadComensales") }}
-        </div>
+        @if (isValidField('cantidadComensales')) {
+          <div class="error-message">
+            {{ getErrorByField("cantidadComensales") }}
+          </div>
+        }
 
         <ion-item>
-          <ion-label position="stacked">Tipo</ion-label>
-          <ion-select formControlName="tipo">
+          <ion-label position="floating">Tipo</ion-label>
+          <ion-select formControlName="tipo" interface="action-sheet">
             <ion-select-option value="estandar">Estándar</ion-select-option>
             <ion-select-option value="discapacitados">Discapacitados</ion-select-option>
             <ion-select-option value="vip">VIP</ion-select-option>
           </ion-select>
         </ion-item>
-        <div *ngIf="isValidField('tipo')" class="error-message">
-          {{ getErrorByField("tipo") }}
+        @if (isValidField('tipo')) {
+          <div class="error-message">
+            {{ getErrorByField("tipo") }}
+          </div>
+        }
+
+        <div class="photo-container">
+          @if (rutaImagen) {
+            <img [src]="rutaImagen" height="150">
+          }
+          <ion-button class="photo-button" (click)="takePhoto()">
+            <ion-icon name="camera-outline"></ion-icon>
+            Tomar foto
+          </ion-button>
         </div>
 
-
-
-        <ion-item>
-          <br>
-          <br>
-          <div class="photo-container">
-            <img *ngIf="rutaImagen" [src]="rutaImagen"  height="100px">
-            <ion-button shape="round" (click)="takePhoto()" class="photo-button">
-              <img src="../../../../assets/images/camera.png" style="height: 30px; padding:3px;" alt="">
-              &nbsp;Tomar foto
-            </ion-button>
-          </div>
-          <br>
-          <br>
-        </ion-item>
-        <ion-button class="ion-padding" color="success" expand="block" type="submit"  [disabled]="myForm.invalid || !rutaImagen">
+        <ion-button 
+          expand="block" 
+          color="success" 
+          type="submit" 
+          [disabled]="myForm.invalid || !rutaImagen">
           Aceptar
         </ion-button>
-        <ion-button class="ion-padding" color="danger" expand="block" routerLink="/auth/login">Cancelar</ion-button>
+        
+        <ion-button 
+          expand="block" 
+          color="danger" 
+          routerLink="/home">
+          Cancelar
+        </ion-button>
       </form>
-      <br><br>
     </ion-card>
   </div>
 </ion-content>

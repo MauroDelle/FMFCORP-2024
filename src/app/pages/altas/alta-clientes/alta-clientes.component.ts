@@ -13,6 +13,8 @@ import { FirestoreService } from 'src/app/services/firestore.service';
 import { StorageService } from 'src/app/services/storage.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { Capacitor } from '@capacitor/core';
+import { LoadingSpinnerComponent } from 'src/app/spinner/spinner.component';
+import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolbar/go-back-toolbar.component';
 
 addIcons({
   'camera-outline': cameraOutline
@@ -23,7 +25,25 @@ addIcons({
   templateUrl: './alta-clientes.component.html',
   styleUrls: ['./alta-clientes.component.scss'],
   standalone: true,
-  imports: [IonToggle, ReactiveFormsModule, FormsModule, IonFabButton, IonFab, IonIcon, IonCol, IonRow, IonGrid, CommonModule, IonSpinner, IonAlert, ReactiveFormsModule, FormsModule, IonText, IonLabel, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonInput, IonItem, IonButton, IonHeader, IonToolbar, IonTitle, IonContent],
+  imports: [
+    IonToggle, 
+    LoadingSpinnerComponent, 
+    GoBackToolbarComponent, 
+    ReactiveFormsModule, 
+    FormsModule, 
+    IonFabButton, 
+    IonFab, 
+    IonIcon, 
+    CommonModule,  
+    ReactiveFormsModule, 
+    FormsModule, 
+    IonLabel, 
+    IonCard, 
+    IonInput, 
+    IonItem, 
+    IonButton, 
+    IonContent
+  ],
 
 })
 export class AltaClientesComponent  implements OnInit {
@@ -34,7 +54,8 @@ export class AltaClientesComponent  implements OnInit {
   fotoUrl: any = '';
   barcodes: Barcode[] = [];
   informacionQr: string | null = null;
-  
+  isLoading:boolean = false;
+
   constructor(private fb: FormBuilder, private firesoreService: FirestoreService, private toastService: ToastService, private storageService: StorageService, private databaseService: DatabaseService, private authService: AuthService) { 
     this.form = this.fb.group(
       {
@@ -125,6 +146,7 @@ export class AltaClientesComponent  implements OnInit {
   async tomarFoto(){
     try {
       console.log("tomar foto");
+      this.isLoading = true;
       const image = await Camera.getPhoto({
         quality: 90,
         allowEditing: false,
@@ -148,6 +170,8 @@ export class AltaClientesComponent  implements OnInit {
     } catch (error) {
       console.error('Error al tomar la foto:', error);
       alert('Ocurrió un error al tomar la foto.');
+    }finally{
+      this.isLoading = false;
     }
   }
 

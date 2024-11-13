@@ -16,7 +16,8 @@ import { Capacitor } from '@capacitor/core';
 import { ValidatorsService } from 'src/app/services/validators.service';
 import { PhotoStorageService } from 'src/app/services/photo-storage.service';
 import Swal from 'sweetalert2';
-import { LoadingSpinnerComponent } from 'src/app/shared/components/loading-spinner/loading-spinner.component';
+import { LoadingSpinnerComponent } from 'src/app/spinner/spinner.component';
+import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolbar/go-back-toolbar.component';
 import { IonicModule } from '@ionic/angular';
 
 
@@ -29,6 +30,8 @@ import { IonicModule } from '@ionic/angular';
   imports: [ CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    LoadingSpinnerComponent,
+    GoBackToolbarComponent,
     IonicModule],
 })
 export class AltaMesaComponent {
