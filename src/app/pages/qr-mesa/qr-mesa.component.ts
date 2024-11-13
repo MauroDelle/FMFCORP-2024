@@ -82,6 +82,8 @@ tiempoRestante:string="";
     }, error => {
       console.log(error);
     });
+    
+   
   }
 
   actualizarTiempoRestante() {
@@ -98,7 +100,6 @@ tiempoRestante:string="";
       const segundos = Math.floor((tiempoRestanteMs % (1000 * 60)) / 1000);
   
       this.tiempoRestante = `${minutos}:${segundos}s`;
-      console.log(this.tiempoRestante)
     } else {
       this.tiempoRestante = "Tiempo cumplido";
     }
@@ -106,10 +107,14 @@ tiempoRestante:string="";
 
   async vincularMesa(){
     await this.verificarUsuarioVinculado();
+    console.log("this.usuarioVinculado", this.usuarioVinculado);
       if(!this.usuarioVinculado){
         await this.verificarMesaLibre()
+        console.log("this.mesaEscaneadaLibre", this.mesaEscaneadaLibre);
         if(this.mesaEscaneadaLibre){
+          console.log("this.clienteEnEspera", this.clienteEnEspera);
           if(this.clienteEnEspera){
+            
             const mesaActualizada = {
               estado: "ocupada",
               numeroMesa: this.mesaEscaneada
@@ -144,6 +149,8 @@ tiempoRestante:string="";
               confirmButtonColor: 'var(--ion-color-primary)',
               heightAuto: false
             });
+
+
           }else{
             Swal.fire({
               title: 'Error',
@@ -164,6 +171,8 @@ tiempoRestante:string="";
             heightAuto: false
           });
         }
+
+
       }else{
         Swal.fire({
           title: 'Error',
@@ -174,7 +183,11 @@ tiempoRestante:string="";
           heightAuto: false
         });
       }
+
+
+
   }
+
 
   redireccionar(path:string){
     console.log(path);
@@ -220,7 +233,7 @@ tiempoRestante:string="";
 
       mesasObservable.subscribe(data => {
         this.mesas = data;
-        console.log(this.mesas);
+        console.log("this.mesas",this.mesas);
 
         this.mesas.forEach(mesa =>{
           console.log(mesa.numeroMesa, this.mesaEscaneada, mesa.estado)
@@ -335,7 +348,6 @@ tiempoRestante:string="";
           this.usuarioVinculado = false;
         }
 
-        console.log("this.usuarioVinculado",this.usuarioVinculado);
         resolve(); // Resuelve la promesa después de verificar todos los usuarios
       }, error => {
         console.log(error);
@@ -457,5 +469,6 @@ tiempoRestante:string="";
           this.router.navigateByUrl("pedir-cuenta");
         }
       }
+
 
   }

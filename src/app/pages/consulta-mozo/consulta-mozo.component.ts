@@ -11,36 +11,23 @@ import {
   IonIcon, IonMenu, IonMenuButton, IonList, IonItem, IonLabel, 
   IonCard, IonCardHeader, IonCardTitle, IonFooter, IonInput, IonBackButton, IonListHeader, IonAvatar, IonBadge } from '@ionic/angular/standalone';
 import { LoadingSpinnerComponent } from 'src/app/spinner/spinner.component';
-import { FormsModule } from '@angular/forms';
-import { Mesa } from 'src/app/clases/mesa';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { addIcons } from 'ionicons';
 import { paperPlane } from 'ionicons/icons';
 import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolbar/go-back-toolbar.component';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-consulta-mozo',
   templateUrl: './consulta-mozo.component.html',
   styleUrls: ['./consulta-mozo.component.scss'],
   standalone: true,
-  imports:[
+  imports: [IonicModule, // Keeps all Ionic components in one import
     CommonModule,
-    IonToolbar, 
-    IonContent,
-    IonButton,
-    IonIcon,
-    IonList,
-    IonItem,
-    IonLabel,
-    IonCard,
-    IonCardTitle,
-    IonFooter, 
-    IonInput,
-    FormsModule,
-    IonListHeader, 
-    IonBadge,
     GoBackToolbarComponent,
     LoadingSpinnerComponent,
-  ]
+    ReactiveFormsModule,
+    FormsModule]
 })
 export class ConsultaMozoComponent  implements OnInit {
 
@@ -48,276 +35,196 @@ export class ConsultaMozoComponent  implements OnInit {
 
   usuarioLogeado: any;
   nuevoMensaje: string = "";
-  mesasVigentes: Mesa[] = [];
+  mensajes: any[] = [];
+  email: any = "";
+  info: string = "";
   mostrarChat = false;
-  perfilUsuarioActual: string = "";
-  consultasDelUsuario: any[] = [];
-  idConsulta: string = "";
-  consultaActual: any;
-  esMozo: boolean = false;
-  isLoading: boolean = false;
+  usuarioLogeadoBool: boolean = true;
+  consultaId: string = ''; // ID de la consulta actual
+  usuarios:any[]=[];
+  consultas:any[]=[];
+  idConsulta:string="";
+  consultasDelUsuario:any = [];
+  perfilUsuarioActual:string="";
+  mesasVigentes:any[]=[];
+  consultaActual:any;
+
 
   constructor(
     private authService: AuthService,
+    private firestore: AngularFirestore,
+    private router: ActivatedRoute,
     private database: DatabaseService,
     private notificationSvc: NotificationService
-  ) {
-    addIcons({
-      'paper-plane': paperPlane
-    });
-  }
+  ) {}
+
 
   ngOnInit() {
     this.usuarioLogeado = this.authService.loggedUser;
-    this.obtenerPerfilUsuario();
-    this.cargarMesasVigentes();
-    this.cargarConsultasCliente();
-  }
 
-  private obtenerPerfilUsuario() {
-    this.database.obtenerTodos('usuarios')!.pipe(
-      map(actions => actions.map(a => ({
-        id: a.payload.doc.id,
-        ...a.payload.doc.data() as any
-      })))
-    ).subscribe(usuarios => {
-      const usuario = usuarios.find(u => u.email === this.usuarioLogeado.email);
-      if (usuario) {
-        this.perfilUsuarioActual = usuario.perfil;
-        this.esMozo = usuario.perfil.toLowerCase() === 'mozo';
-      } else {
-        // Si no se encuentra en usuarios, asumimos que es un cliente
-        this.perfilUsuarioActual = 'Cliente';
-        this.esMozo = false;
-        this.cargarConsultasCliente();
-      }
-    });
-  }
-
-  private cargarMesasVigentes() {
-    this.database.obtenerTodos('mesas')!.pipe(
+    //obtengo las mesas que se encuentran actualmente con comensales, busco estado==vigente
+    const numerosMesas: Observable<any[]> = this.database.obtenerTodos('mesa-cliente')!.pipe(
       map(actions => actions.map(a => {
-        const data:any = a.payload.doc.data();
-        // Crear una nueva instancia de Mesa con los datos
-        return new Mesa(
-          data['numero'],
-          data['cantidadComensales'],
-          data['tipo'],
-          data['estado'],
-          data['clienteId'],
-          data['mozoId'],
-          data['fechaAsignacion'] ? new Date(data['fechaAsignacion']) : undefined,
-          data['urlFoto']
-        );
+        const data = a.payload.doc.data() as any;
+        const id = a.payload.doc.id;
+        return { id, ...data };
       }))
-    ).subscribe(mesas => {
-      this.mesasVigentes = mesas
-      .filter(mesa => mesa.estado === 'vigente' && mesa.clienteId !== null)
-      .sort((a, b) => {
-        const numeroA = parseInt(a.numero);
-        const numeroB = parseInt(b.numero);
-        return numeroB - numeroA; 
-      });
-    });
-  }
+    );
 
-  private cargarConsultasCliente() {
-    this.isLoading = true;
-    return this.database.obtenerTodos('consultas')!.subscribe(actions => {
-      const consultas = actions.map(a => ({
-        id: a.payload.doc.id,
-        ...a.payload.doc.data() as any
-      }));
+    numerosMesas.subscribe(
+      data => {
+        const mesas = data;
+        console.log(mesas);
 
-      console.log('Todas las consultas:', consultas);
-      
-      const consultaUsuario = consultas.find(c => c.idCliente === this.usuarioLogeado.uid);
-      
-      if (consultaUsuario) {
-        console.log('Consulta encontrada:', consultaUsuario);
-        this.consultasDelUsuario = consultaUsuario.consultas?.mensajes || [];
-        this.idConsulta = consultaUsuario.id;
-        this.consultaActual = consultaUsuario;
-        this.mostrarChat = true;
+        mesas.forEach(item => {
+          if (item.estado === 'vigente') {
+            this.mesasVigentes.push(item);
+          }
+        });
+        console.log(this.mesasVigentes);
+      },
+      error => {
+        console.log(error);
       }
-      this.isLoading = false;
+    );
+
+
+    const consultasObservable: Observable<any[]> = this.database.obtenerTodos('consultas')!.pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as any;
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      }))
+
+    );
+
+    consultasObservable.subscribe(data => {
+      const mesas = data;
+      this.consultas=data;
     }, error => {
-      console.error('Error cargando consultas:', error);
-      this.isLoading = false;
+      console.log(error);
     });
-  }
 
-    // Modificamos la creación de consulta nueva
-    private crearNuevaConsulta(clienteId: string) {
-      const nuevaConsulta = {
-        idCliente: clienteId,
-        consultas: {
-          mensajes: [] // Inicializamos con array vacío
-        },
-        fechaCreacion: new Date().toISOString()
-      };
-  
-      this.database.crear('consultas', nuevaConsulta).then(doc => {
-        this.idConsulta = doc.id;
-        this.consultasDelUsuario = [];
-        this.consultaActual = nuevaConsulta;
-        console.log('Nueva consulta creada:', this.consultaActual); // Debug
-      });
-    }
+    //obtengo perfil del usuario actualmente loggeado
+    const usuarios: Observable<any[]> = this.database.obtenerTodos('usuarios')!.pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data() as any;
+        const id = a.payload.doc.id;
+        return { id, ...data };
+      }))
+    );
 
-  vincularChatConConsultaDelUsuario(mesa: Mesa) {
-    // Nos suscribimos a los cambios en tiempo real
-    return this.database.obtenerTodos('consultas')!.subscribe(actions => {
-      const consultas = actions.map(a => ({
-        id: a.payload.doc.id,
-        ...a.payload.doc.data() as any
-      }));
+    usuarios.subscribe(data => {
+      this.usuarios = data;
+      const usuarioEncontrado = this.usuarios.find(item => item.email == this.usuarioLogeado.email);
+      if (usuarioEncontrado) {
+        this.perfilUsuarioActual = usuarioEncontrado.perfil;
+      }else{
 
-      console.log('Buscando consulta para clienteId:', mesa.clienteId);
-      const consultaEncontrada = consultas.find(c => c.idCliente === mesa.clienteId);
+        const menuObservable: Observable<any[]> = this.database.obtenerTodos('consultas')!.pipe(
+          map(actions => actions.map(a => {
+            const data = a.payload.doc.data() as any;
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          }))
+        );
 
-      if (consultaEncontrada) {
-        console.log('Consulta encontrada:', consultaEncontrada);
-        
-        // Actualizamos el estado del componente
-        this.consultasDelUsuario = consultaEncontrada.consultas?.mensajes || [];
-        this.idConsulta = consultaEncontrada.id;
-        this.consultaActual = consultaEncontrada;
-        this.mostrarChat = true;
-
-        // Actualizar última lectura
-        if (mesa.id) {
-          this.ultimasLecturas[mesa.id] = new Date().toISOString();
+        if(!this.perfilUsuarioActual){
+          this.mostrarChat=true;
+          this.perfilUsuarioActual= "Cliente";
+          console.log(this.perfilUsuarioActual);
+        menuObservable.subscribe(data => {
+          this.consultas = data;
+          console.log(this.consultas);
+          console.log(this.usuarioLogeado.uid);
+          this.consultas.forEach(item => {
+            if (item.idCliente == this.usuarioLogeado.uid) {
+              this.consultasDelUsuario = item.consultas?.mensajes || [];  // Inicializa como un array si está indefinido
+              console.log(this.consultasDelUsuario);
+              this.idConsulta = item.id;
+              this.consultaActual= item;
+              console.log("Id de la consulta", item.id);
+              return;
+            }
+          });
+        }, error => {
+          console.log(error);
+          });
         }
 
-        console.log('Mensajes cargados:', this.consultasDelUsuario);
-      } else {
-        console.log('No se encontró consulta, creando nueva...');
-        this.crearNuevaConsulta(mesa.clienteId!);
+
       }
+    }, error => {
+      console.log(error);
     });
+
+
+    //si no enconto el perfil del usuario significa que es cliente
+
+
+    //obtengo toda la lista de cosnsultas
+
   }
 
-  // Modificamos enviarMensaje para manejar mejor la actualización
+
+
+
   enviarMensaje() {
-    if (!this.nuevoMensaje.trim() || !this.usuarioLogeado?.uid) return;
+    if (this.nuevoMensaje === "" || !this.usuarioLogeado || !this.usuarioLogeado.uid) return;
 
     const mensaje = {
       emisorUid: this.usuarioLogeado.uid,
-      texto: this.nuevoMensaje.trim(),
-      timestamp: new Date().toISOString()
+      texto: this.nuevoMensaje,
+      timestamp: new Date().toISOString()  // Usar ISO string para la fecha
     };
 
-    if (!this.idConsulta || !this.consultaActual) {
+    console.log(mensaje);
+
+    if (this.consultasDelUsuario.length === 0) {
+      // Crear un nuevo documento si no existe uno para el usuario
       const nuevaConsulta = {
         idCliente: this.usuarioLogeado.uid,
-        consultas: {
-          mensajes: [mensaje]
-        },
-        fechaCreacion: new Date().toISOString()
+        consultas: { mensajes: [mensaje] }  // Inicializar con el nuevo mensaje
       };
-
-      this.database.crear('consultas', nuevaConsulta)
-        .then((docRef) => {
-          console.log('Nueva consulta creada con ID:', docRef.id);
-          this.idConsulta = docRef.id;
-          this.consultasDelUsuario = [mensaje];
-          this.consultaActual = nuevaConsulta;
-          this.enviarNotificacion(mensaje.texto);
-          this.scrollToTheLastItem();
-        })
-        .catch(error => console.error('Error al crear consulta:', error));
+      this.database.crear('consultas', nuevaConsulta).then(() => {
+        console.log('Nuevo documento creado.');
+        this.scrollToTheLastItem();
+        this.notificationSvc.sendNotificationToRole('Nueva consulta realizada!', mensaje.texto, 'Mozo').subscribe(
+          response => console.log('Notificación a Mozo enviada con éxito', response),
+          error => console.error('Error al enviar notificación a Mozo', error)
+        );
+      }).catch(error => {
+        console.log('Error al crear el documento:', error);
+      });
     } else {
-      const mensajesActualizados = [...(this.consultasDelUsuario || []), mensaje];
-      
+      this.consultasDelUsuario.push(mensaje);
+
       const actualizacionConsulta = {
         idCliente: this.consultaActual.idCliente,
         consultas: {
-          mensajes: mensajesActualizados
-        },
-        fechaUltimaActualizacion: new Date().toISOString()
+          mensajes: this.consultasDelUsuario
+        }
       };
 
-      this.database.actualizar('consultas', actualizacionConsulta, this.idConsulta)
-        .then(() => {
-          console.log('Consulta actualizada con nuevo mensaje');
-          this.consultasDelUsuario = mensajesActualizados;
-          this.enviarNotificacion(mensaje.texto);
-          this.scrollToTheLastItem();
-        })
-        .catch(error => console.error('Error al actualizar consulta:', error));
+      this.database.actualizar('consultas', actualizacionConsulta, this.idConsulta).then(() => {
+        console.log('Documento actualizado.');
+        this.scrollToTheLastItem();
+        this.notificationSvc.sendNotificationToRole('Nueva consulta realizada!', mensaje.texto, 'Mozo').subscribe(
+          response => console.log('Notificación a Mozo enviada con éxito', response),
+          error => console.error('Error al enviar notificación a Mozo', error)
+        );
+      }).catch(error => {
+        console.log('Error al actualizar el documento:', error);
+      });
     }
 
     this.nuevoMensaje = "";
   }
 
-  private enviarNotificacion(mensaje: string) {
-    const destinatario = this.perfilUsuarioActual.toLowerCase() === 'cliente' ? 'Mozo' : 'Cliente';
-    const titulo = `Nueva consulta de ${this.perfilUsuarioActual}`;
-    
-    this.notificationSvc.sendNotificationToRole(titulo, mensaje, destinatario).subscribe(
-      response => console.log(`Notificación enviada a ${destinatario}`, response),
-      error => console.error(`Error al enviar notificación a ${destinatario}`, error)
-    );
-  }
-
-  obtenerEstadoMesa(mesa: Mesa): string {
-    if (this.tieneMensajesNuevos(mesa)) {
-      return 'Nuevos mensajes';
-    }
-    return 'Consulta activa';
-  }
-
-  
-    private ultimasLecturas: any = {};  // Almacena localmente última lectura por mesa
-  
-    tieneMensajesNuevos(mesa: Mesa): boolean {
-      try {
-        // Si no hay consulta actual para esta mesa, no hay mensajes nuevos
-        if (!this.consultaActual?.consultas?.mensajes?.length) {
-          return false;
-        }
-  
-        // Obtener el timestamp del último mensaje
-        const mensajes = this.consultaActual.consultas.mensajes;
-        const ultimoMensaje = mensajes[mensajes.length - 1];
-        
-        // Si no tenemos registro de última lectura para esta mesa, es nuevo
-        if(mesa.id){
-          if (!this.ultimasLecturas[mesa.id]) {
-            return true;
-          }else{
-            return new Date(ultimoMensaje.timestamp) > new Date(this.ultimasLecturas[mesa.id]);
-          }
-        }
-    
-        return false;
-      } catch (error) {
-        console.error('Error verificando mensajes nuevos:', error);
-        return false;
-      }
-    }
-  
-    // Llamar a esta función después de cada actualización de mensajes
-  ngAfterViewChecked() {
-    this.scrollToTheLastItem();
-  }
-
-  // Mejorar el scroll
   scrollToTheLastItem() {
     try {
-      if (this.contenedorDeMensajes) {
-        setTimeout(() => {
-          const element = this.contenedorDeMensajes.nativeElement;
-          element.scrollTo({
-            top: element.scrollHeight,
-            behavior: 'smooth'
-          });
-        }, 100);
-      }
-    } catch (err) {
-      console.error('Error en scroll:', err);
-    }
+      this.contenedorDeMensajes.nativeElement.scrollTop = this.contenedorDeMensajes.nativeElement.scrollHeight;
+    } catch (err) { }
   }
 
   esUsuarioLogeado(emisorUid: string): boolean {
@@ -341,5 +248,20 @@ export class ConsultaMozoComponent  implements OnInit {
     });
 
     return `${fecha} - ${hora}`;
+  }
+
+  vincularChatConConsultaDelUsuario(mesaSeleccionada:any){
+    this.consultas.forEach(item => {
+      if (item.idCliente == mesaSeleccionada.idCliente) {
+        this.consultasDelUsuario = item.consultas?.mensajes || [];  // Inicializa como un array si está indefinido
+        console.log(this.consultasDelUsuario);
+        this.idConsulta = item.id;
+        this.consultaActual=item;
+        console.log("Id de la consulta", item.id);
+        return;
+      }
+    });
+
+    this.mostrarChat=true;
   }
 }

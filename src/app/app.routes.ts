@@ -34,10 +34,6 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/qr-mesa/qr-mesa.component').then((m) => m.QrMesaComponent),
   },
   {
-    path: 'maitre-dashboard',
-    loadComponent: () => import('./pages/maitre-dashboard/maitre-dashboard.component').then((m)=> m.MaitreDashboardComponent),
-  },
-  {
     path: 'vincular-mesa',
     loadComponent: () => import('./pages/vincular-mesa/vincular-mesa.component').then((m)=> m.VincularMesaComponent),
   },

@@ -96,10 +96,12 @@ export class PedidosPendientesComponent  implements OnInit {
 
   async terminarPedido(pedidoId: string) {
     // Actualiza la variable terminoCocinero a true para indicar que el cocinero ha terminado
+    console.log("pedidoId", pedidoId);
     const dataPedido = {
       terminoCocinero: true,
     };
 
+    
     this.database.actualizar2('pedidos', dataPedido, pedidoId)
       .then(() => {
 
@@ -119,17 +121,19 @@ export class PedidosPendientesComponent  implements OnInit {
 
   private verificarTerminacionPedido(pedidoId: string) {
     // Obtener el pedido actual
+    
     this.database.obtenerDocumento('pedidos', pedidoId)
       .subscribe((pedido: any) => {
         if (pedido) {
           const confirmacionCocinero = pedido.confirmacionCocinero || false;
-          const confirmacionBartender = pedido.confirmacionBartender || false;
+          const confirmacionBartender = true;
           const terminoCocinero = pedido.terminoCocinero || false;
-          const terminoBartender = pedido.terminoBartender || false;
+          const terminoBartender = true;
 
           // Verificar si ambos han confirmado y terminado
           if (confirmacionCocinero && confirmacionBartender && terminoCocinero && terminoBartender) {
             // Ambos han confirmado y terminado, actualizar el estado a 'listo'
+            console.log("pedidoId ACTUALIZAR 2", pedidoId);
             this.database.actualizar2('pedidos', { estado: 'listo' }, pedidoId)
               .then(() => {
                 Swal.fire({

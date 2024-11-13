@@ -37,7 +37,6 @@ import { NotificationService } from 'src/app/services/notification.service';
 })
 export class QrIngresoComponent  implements OnInit {
 
-
   private uidUsuarioActual : string = '';
   private email : string = '';
   private arrayListaEspera : Array<any> = [];
@@ -166,5 +165,6 @@ export class QrIngresoComponent  implements OnInit {
   redireccionar(path : string) {
     this.router.navigateByUrl(path);
   }
+
 
 }

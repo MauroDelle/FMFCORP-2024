@@ -80,7 +80,8 @@ export class AltaMesaComponent {
   register() {
     const { numero, cantidadComensales, tipo } = this.myForm.value;
     const mesa = {
-      numero: numero,
+      numeroMesa: numero,
+      estado: "libre",
       cantidadComensales: cantidadComensales,
       tipo: tipo,
       imagen: this.rutaImagen
