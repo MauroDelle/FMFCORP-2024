@@ -10,7 +10,7 @@ import { IonicModule } from '@ionic/angular';
     <div class="spinner-overlay">
       <div class="spinner-container">
         <img src="assets/icon/fmcLogo.png" height="70px"/>
-        <p>{{ message }}</p>
+        <p [style.color]="textColor">{{ message }}</p>
       </div>
     </div>
   `,
@@ -43,7 +43,6 @@ import { IonicModule } from '@ionic/angular';
       }
 
       p {
-        color: var(--ion-color-dark);
         margin: 0;
         font-weight: 500;
       }
@@ -58,4 +57,5 @@ import { IonicModule } from '@ionic/angular';
 })
 export class LoadingSpinnerComponent {
   @Input() message: string = 'Cargando...';
+  @Input() textColor: string = 'var(--ion-color-dark)'; // Color por defecto
 }

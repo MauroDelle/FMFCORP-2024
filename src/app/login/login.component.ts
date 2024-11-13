@@ -21,7 +21,6 @@ import { LoadingSpinnerComponent } from '../spinner/spinner.component';
   providers: [AuthService],
   imports: [
     CommonModule,
-    TitleCasePipe,
     RouterModule,
     ReactiveFormsModule,
     FormsModule,
@@ -37,7 +36,6 @@ import { LoadingSpinnerComponent } from '../spinner/spinner.component';
     IonIcon,
     IonSegment,
     IonSegmentButton,
-    IonButtons,
     IonFab,
     IonFabButton
   ],
