@@ -73,6 +73,10 @@ export const routes: Routes = [
     path: 'qr-propina',
     loadComponent: () => import('./pages/qr-propina/qr-propina.component').then( m => m.QrPropinaComponent)
   },
+  {
+    path: 'pedir-cuenta',
+    loadComponent: () => import('./pages/pedir-cuenta/pedir-cuenta.component').then( m => m.PedirCuentaComponent)
+  },
   { 
     path: '', 
     redirectTo: 'splash', 
