@@ -7,30 +7,40 @@ import { Observable, map, switchMap, forkJoin } from 'rxjs';
 import { NotificationService } from 'src/app/services/notification.service';
 import { CommonModule } from '@angular/common';
 import { 
-  IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton, 
-  IonIcon, IonMenu, IonMenuButton, IonList, IonItem, IonLabel, 
-  IonCard, IonCardHeader, IonCardTitle, IonFooter, IonInput, IonBackButton, IonListHeader, IonAvatar, IonBadge } from '@ionic/angular/standalone';
+  IonToolbar, IonContent, IonButton, 
+  IonIcon, IonList, IonItem, IonLabel, 
+  IonCard, IonCardTitle, IonFooter, IonInput, IonListHeader, IonBadge, IonHeader, IonTitle } from '@ionic/angular/standalone';
 import { LoadingSpinnerComponent } from 'src/app/spinner/spinner.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { addIcons } from 'ionicons';
-import { paperPlane } from 'ionicons/icons';
+import { FormsModule } from '@angular/forms';
 import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolbar/go-back-toolbar.component';
-import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'app-consulta-mozo',
   templateUrl: './consulta-mozo.component.html',
   styleUrls: ['./consulta-mozo.component.scss'],
   standalone: true,
-  imports: [IonicModule, // Keeps all Ionic components in one import
-    CommonModule,
+  imports: [CommonModule,
+    IonHeader,
+    IonTitle,
+    IonToolbar, 
+    IonContent,
+    IonButton,
+    IonIcon,
+    IonList,
+    IonItem,
+    IonLabel,
+    IonCard,
+    IonCardTitle,
+    IonFooter, 
+    IonInput,
+    FormsModule,
+    IonListHeader, 
+    IonBadge,
     GoBackToolbarComponent,
     LoadingSpinnerComponent,
-    ReactiveFormsModule,
     FormsModule]
 })
 export class ConsultaMozoComponent  implements OnInit {
-
   @ViewChild('contenedorDeMensajes') contenedorDeMensajes!: ElementRef;
 
   usuarioLogeado: any;
@@ -48,6 +58,8 @@ export class ConsultaMozoComponent  implements OnInit {
   perfilUsuarioActual:string="";
   mesasVigentes:any[]=[];
   consultaActual:any;
+  esMozo: boolean = false;
+  isLoading:boolean = false;
 
 
   constructor(
@@ -74,20 +86,16 @@ export class ConsultaMozoComponent  implements OnInit {
     numerosMesas.subscribe(
       data => {
         const mesas = data;
-        console.log(mesas);
-
         mesas.forEach(item => {
           if (item.estado === 'vigente') {
             this.mesasVigentes.push(item);
           }
         });
-        console.log(this.mesasVigentes);
       },
       error => {
         console.log(error);
       }
     );
-
 
     const consultasObservable: Observable<any[]> = this.database.obtenerTodos('consultas')!.pipe(
       map(actions => actions.map(a => {
@@ -99,7 +107,6 @@ export class ConsultaMozoComponent  implements OnInit {
     );
 
     consultasObservable.subscribe(data => {
-      const mesas = data;
       this.consultas=data;
     }, error => {
       console.log(error);
@@ -119,6 +126,7 @@ export class ConsultaMozoComponent  implements OnInit {
       const usuarioEncontrado = this.usuarios.find(item => item.email == this.usuarioLogeado.email);
       if (usuarioEncontrado) {
         this.perfilUsuarioActual = usuarioEncontrado.perfil;
+        this.esMozo= usuarioEncontrado.perfil.toLowerCase() === 'mozo' ? true : false;
       }else{
 
         const menuObservable: Observable<any[]> = this.database.obtenerTodos('consultas')!.pipe(
@@ -132,18 +140,14 @@ export class ConsultaMozoComponent  implements OnInit {
         if(!this.perfilUsuarioActual){
           this.mostrarChat=true;
           this.perfilUsuarioActual= "Cliente";
-          console.log(this.perfilUsuarioActual);
+
         menuObservable.subscribe(data => {
           this.consultas = data;
-          console.log(this.consultas);
-          console.log(this.usuarioLogeado.uid);
           this.consultas.forEach(item => {
             if (item.idCliente == this.usuarioLogeado.uid) {
               this.consultasDelUsuario = item.consultas?.mensajes || [];  // Inicializa como un array si está indefinido
-              console.log(this.consultasDelUsuario);
               this.idConsulta = item.id;
               this.consultaActual= item;
-              console.log("Id de la consulta", item.id);
               return;
             }
           });
@@ -151,23 +155,11 @@ export class ConsultaMozoComponent  implements OnInit {
           console.log(error);
           });
         }
-
-
       }
     }, error => {
       console.log(error);
     });
-
-
-    //si no enconto el perfil del usuario significa que es cliente
-
-
-    //obtengo toda la lista de cosnsultas
-
   }
-
-
-
 
   enviarMensaje() {
     if (this.nuevoMensaje === "" || !this.usuarioLogeado || !this.usuarioLogeado.uid) return;
@@ -178,17 +170,14 @@ export class ConsultaMozoComponent  implements OnInit {
       timestamp: new Date().toISOString()  // Usar ISO string para la fecha
     };
 
-    console.log(mensaje);
-
     if (this.consultasDelUsuario.length === 0) {
       // Crear un nuevo documento si no existe uno para el usuario
       const nuevaConsulta = {
         idCliente: this.usuarioLogeado.uid,
         consultas: { mensajes: [mensaje] }  // Inicializar con el nuevo mensaje
       };
+
       this.database.crear('consultas', nuevaConsulta).then(() => {
-        console.log('Nuevo documento creado.');
-        this.scrollToTheLastItem();
         this.notificationSvc.sendNotificationToRole('Nueva consulta realizada!', mensaje.texto, 'Mozo').subscribe(
           response => console.log('Notificación a Mozo enviada con éxito', response),
           error => console.error('Error al enviar notificación a Mozo', error)
@@ -207,8 +196,6 @@ export class ConsultaMozoComponent  implements OnInit {
       };
 
       this.database.actualizar('consultas', actualizacionConsulta, this.idConsulta).then(() => {
-        console.log('Documento actualizado.');
-        this.scrollToTheLastItem();
         this.notificationSvc.sendNotificationToRole('Nueva consulta realizada!', mensaje.texto, 'Mozo').subscribe(
           response => console.log('Notificación a Mozo enviada con éxito', response),
           error => console.error('Error al enviar notificación a Mozo', error)
@@ -254,10 +241,8 @@ export class ConsultaMozoComponent  implements OnInit {
     this.consultas.forEach(item => {
       if (item.idCliente == mesaSeleccionada.idCliente) {
         this.consultasDelUsuario = item.consultas?.mensajes || [];  // Inicializa como un array si está indefinido
-        console.log(this.consultasDelUsuario);
         this.idConsulta = item.id;
         this.consultaActual=item;
-        console.log("Id de la consulta", item.id);
         return;
       }
     });

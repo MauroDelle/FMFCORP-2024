@@ -192,7 +192,6 @@ tiempoRestante:string="";
   redireccionar(path:string){
     console.log(path);
     this.router.navigateByUrl(path);
-
   }
 
   mostrarPedido(){

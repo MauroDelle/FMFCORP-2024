@@ -4,34 +4,65 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="perfilUsuarioActual &&  perfilUsuarioActual.toLowerCase() ==='mozo'" class="chat-background">
+<ion-content [fullscreen]="true" class="chat-background">
+  @if (isLoading) {
+    <app-loading-spinner message="Cargando mensajes..."></app-loading-spinner>
+  } @else {
+  <!-- Vista del Mozo -->
+  @if (perfilUsuarioActual.toLowerCase() === 'mozo') {
+    @if (!mostrarChat) {
+      <ion-list class="mesas-list">
+        <ion-list-header>
+          <ion-label>Mesas Asignadas</ion-label>
+        </ion-list-header>
 
-  <div *ngIf="!mostrarChat && mesasVigentes">
-    <h1 class="ion-text-center">Mesas con clientes:</h1><br>
-    <ion-card *ngFor="let item of mesasVigentes" class="ion-text-center">
-      <br>
-      <ion-card-title>Numero de Mesa: {{item.numeroMesa}}</ion-card-title>
-      <ion-button style="margin-top: 9px;" color="secondary"  (click)="vincularChatConConsultaDelUsuario(item)" >Ver Chat</ion-button>
-      <br><br>
-    </ion-card>
-  </div>
+        <ion-card *ngFor="let item of mesasVigentes" class="ion-text-center">
+          <br>
+          <ion-card-title>Numero de Mesa: {{item.numeroMesa}}</ion-card-title>
+          <ion-button style="margin-top: 9px;" 
+                      color="secondary"  
+                      (click)="vincularChatConConsultaDelUsuario(item)">
+            Ver Chat
+          </ion-button>
+          <br><br>
+        </ion-card>
 
+        @if (mesasVigentes.length === 0) {
+          <ion-item lines="none">
+            <ion-label class="ion-text-center">
+              No hay mesas con consultas activas
+            </ion-label>
+          </ion-item>
+        }
+      </ion-list>
+    }
+  }
 
-
-  <br>
-  <div class="message-list" #contenedorDeMensajes *ngIf="mostrarChat">
-    <div *ngFor="let mensaje of consultasDelUsuario" class="msj">
-      <div class="contenedor-mensaje"
-           [ngClass]="{
-             'usuario-actual': esUsuarioLogeado(mensaje.emisorUid),
-             'usuario-ajeno': !esUsuarioLogeado(mensaje.emisorUid)
-           }">
-
-           <span style="font-size: small;">{{ formatTimestamp(mensaje.timestamp) }}</span>
-           <p style="font-weight: 600;color:black;">{{ mensaje.texto }}</p>
-      </div>
+  <!-- Chat Interface (común para mozo y cliente) -->
+  @if (mostrarChat || perfilUsuarioActual.toLowerCase() === 'cliente') {
+    <div class="chat-container">
+      @if (consultasDelUsuario && consultasDelUsuario.length > 0) {
+        <div class="messages-container" #contenedorDeMensajes>
+          @for (mensaje of consultasDelUsuario; track mensaje.timestamp) {
+            <div class="message" [class.outgoing]="esUsuarioLogeado(mensaje.emisorUid)"
+                                [class.incoming]="!esUsuarioLogeado(mensaje.emisorUid)">
+              <div class="message-content">
+                <p class="message-text">{{ mensaje.texto }}</p>
+                <span class="message-time">{{ formatTimestamp(mensaje.timestamp) }}</span>
+              </div>
+            </div>
+          }
+        </div>
+      } @else {
+        <div class="empty-chat">
+          <ion-icon name="chatbubbles-outline" class="empty-icon"></ion-icon>
+          <p>No hay mensajes aún</p>
+          <small>Los mensajes aparecerán aquí</small>
+        </div>
+      }
     </div>
-  </div>
+  }
+}
 </ion-content>
 
 <ion-content *ngIf="perfilUsuarioActual.toLowerCase() ==='cliente'" class="chat-background"  >
@@ -50,10 +81,6 @@
     </div>
   </div>
 </ion-content>
-
-
-
-
 
 <ion-footer style="height: 10vh;" *ngIf="mostrarChat">
   <ion-toolbar>
