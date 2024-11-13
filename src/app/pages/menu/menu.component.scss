@@ -1,23 +1,149 @@
 ion-content {
-    --background: rgba(255, 255, 255, 0.8) url('../../../assets/images/chat-back2.jpeg');
-    --background-size: cover;
-    --background-position: center;
+  --background: url('../../../assets/images/chat-back2.jpeg') no-repeat center center fixed;
+  background-size: cover;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(255, 255, 255, 0.9);
+    z-index: 0;
   }
-  
-  
-  .transparent {
-    --background: rgba(255, 255, 255, 0.5); /* Fondo semi-transparente */
-    color: #000; /* Color de texto negro para mejor contraste */
+}
+
+/* Títulos de sección como cards */
+h2 {
+  color: #1e2832;
+  font-size: 18px;
+  font-weight: 800;
+  margin: 20px 16px;
+  padding: 16px;
+  position: relative;
+  z-index: 1;
+  background: var(--ion-color-light);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Cards de productos */
+.custom-card-background {
+  --background: var(--ion-color-light);
+  margin: 16px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1;
+
+  ion-card-header {
+    padding: 16px;
+
+    ion-card-title {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1e2832;
+
+      &:last-child {
+        color:  #229954;
+        font-weight: 700;
+      }
+    }
   }
-  
-  .custom-fab-button {
-    width: 80px; /* Ajusta el ancho según tus necesidades */
-    height: 80px; /* Ajusta la altura según tus necesidades */
-    font-size: 1rem; /* Ajusta el tamaño del texto */
-    line-height: 1.2; /* Ajusta el espaciado entre líneas */
+
+  ion-card-content {
+    padding: 16px;
   }
-  
-  .custom-card-background {
-    --ion-background-color: #bde1d3
-  
+}
+
+/* FAB Buttons ajustados */
+ion-fab {
+  &[vertical="bottom"] {
+    bottom: 16px;
   }
+
+  &[horizontal="end"] {
+    right: 16px;
+  }
+}
+
+.custom-fab-button {
+  --background: var(--ion-color-primary);
+  width: 80px;
+  height: 80px;
+}
+
+/* Footer transparente */
+ion-footer {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('../../../assets/images/chat-back2.jpeg') no-repeat center center fixed;
+    background-size: cover;
+    z-index: -1;
+  }
+
+  ion-toolbar {
+    --background: transparent;
+    padding: 8px 16px;
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('../../../assets/images/chat-back2.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      z-index: -1;
+    }
+
+    ion-button {
+      margin: 4px 0;
+      height: 44px;
+      
+      &[color="danger"] {
+        --background: transparent;
+        --color: #eb445a;
+        --border-color: #eb445a;
+        --border-style: solid;
+        --border-width: 2px;
+      }
+
+      &[color="success"] {
+        --background: #2dd36f;
+      }
+    }
+  }
+}
+
+/* Input cantidad */
+ion-input {
+  margin: 8px 16px;
+  max-width: 150px;
+  --padding-start: 12px;
+  --padding-end: 12px;
+  border: 2px solid var(--ion-color-medium);
+  border-radius: 25px;
+  
+  &.has-focus {
+    border-color: var(--ion-color-success);
+  }
+}
+
+/* Ajuste del botón de agregar */
+ion-fab-button[size="small"] {
+  width: 40px;
+  height: 40px;
+  margin-right: 16px;
+  margin-bottom: 16px;
+}

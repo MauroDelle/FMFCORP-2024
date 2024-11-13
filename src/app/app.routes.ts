@@ -58,7 +58,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/pedidos-pendientes/pedidos-pendientes.component').then( m => m.PedidosPendientesComponent)
   },
   {
-    path: 'pedidos-pendientes-barman',
+    path: 'pedidos-bar',
     loadComponent: () => import('./pages/pedidos-pendientes-barman/pedidos-pendientes-barman.component').then( m => m.PedidosPendientesBarmanComponent)
   },
   {
