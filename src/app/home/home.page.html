@@ -1,8 +1,6 @@
+@if (!isLoading) {
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/home" text=""></ion-back-button>
-    </ion-buttons>
     <ion-title>{{ getUserTypeTitle() }}</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="handleLogout()">
@@ -11,151 +9,156 @@
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
+}
 
-<ion-content class="ion-padding">
+<ion-content>
   @if (isLoading) {
     <app-loading-spinner message="Cargando usuario..."></app-loading-spinner>
   } @else {
-  <!-- Cliente -->
-  @if (currentUser?.type === 'cliente') {
-    <h2>Bienvenido Cliente</h2>
-    <div class="actions-grid">
-      <ion-card class="action-card" button (click)="scan()">
-        <ion-card-header>
-          <ion-card-title>Escanear QR Mesa</ion-card-title>
-        </ion-card-header>
-      </ion-card>
+    <!-- Cliente -->
+    @if (currentUser?.type === 'cliente') {
+      <h2>Bienvenido Cliente</h2>
+      <div class="role-grid">
+        <div class="role-button" (click)="scan()">
+          <ion-icon name="qr-code-outline"></ion-icon>
+          <span>Escanear QR Mesa</span>
+        </div>
 
-      <ion-card class="action-card" button (click)="navigateTo('/menu')">
-        <ion-card-header>
-          <ion-card-title>Ver Carta</ion-card-title>
-        </ion-card-header>
-      </ion-card>
+        <div class="role-button" (click)="navigateTo('/menu')">
+          <ion-icon name="restaurant-outline"></ion-icon>
+          <span>Ver Carta</span>
+        </div>
 
-      <ion-card class="action-card" button (click)="navigateTo('/reservas')">
-        <ion-card-header>
-          <ion-card-title>Hacer Reserva</ion-card-title>
-        </ion-card-header>
-      </ion-card>
+        <div class="role-button" (click)="navigateTo('/reservas')">
+          <ion-icon name="calendar-outline"></ion-icon>
+          <span>Hacer Reserva</span>
+        </div>
 
-      <ion-item button detail (click)="navigateTo('/consultar-mozo')">
-        <ion-icon name="chatbox-outline" slot="start"></ion-icon>
-        <ion-label>Consultar Mozo</ion-label>
-      </ion-item>
-    </div>
+        <div class="role-button" (click)="navigateTo('/consultar-mozo')">
+          <ion-icon name="chatbox-outline"></ion-icon>
+          <span>Consultar Mozo</span>
+        </div>
+      </div>
+    }
+
+    <!-- Maître -->
+    @if (currentUser?.type === 'maitre') {
+      <h2>Panel de Maître</h2>
+      <div class="role-grid">
+        <div class="role-button" (click)="navigateTo('/maitre-dashboard')">
+          <ion-icon name="people-outline"></ion-icon>
+          <span>Lista de Espera</span>
+        </div>
+
+        <div class="role-button" (click)="scan()">
+          <ion-icon name="qr-code-outline"></ion-icon>
+          <span>Escanear QR</span>
+        </div>
+
+        <div class="role-button" (click)="navigateTo('/registrarse-cliente')">
+          <ion-icon name="person-add-outline"></ion-icon>
+          <span>Registrar Cliente</span>
+        </div>
+
+        <div class="role-button" (click)="navigateTo('/lista-espera')">
+          <ion-icon name="time-outline"></ion-icon>
+          <span>Lista Clientes en Espera</span>
+        </div>
+      </div>
+    }
+
+    <!-- Mozo -->
+    @if (currentUser?.type === 'mozo') {
+      <h2>Panel de Mozo</h2>
+      <div class="role-grid">
+        <div class="role-button" (click)="navigateTo('/pedidos-pendientes')">
+          <ion-icon name="clipboard-outline"></ion-icon>
+          <span>Pedidos Pendientes</span>
+        </div>
+
+        <div class="role-button" (click)="scan()">
+          <ion-icon name="qr-code-outline"></ion-icon>
+          <span>Escanear QR Mesa</span>
+        </div>
+
+        <div class="role-button" (click)="navigateTo('/consultar-mozo')">
+          <ion-icon name="chatbox-outline"></ion-icon>
+          <span>Chat con clientes</span>
+        </div>
+
+        <div class="role-button" (click)="navigateTo('/pedidos-por-confirmar-mozo')">
+          <ion-icon name="restaurant-outline"></ion-icon>
+          <span>Pedidos Pendientes</span>
+        </div>
+      </div>
+    }
+
+    <!-- Cocinero -->
+    @if (currentUser?.type === 'cocinero') {
+      <h2>Panel de Cocinero</h2>
+      <div class="role-grid">
+        <div class="role-button" (click)="navigateTo('/pedidos-pendientes')">
+          <ion-icon name="restaurant-outline"></ion-icon>
+          <span>Pedidos Pendientes</span>
+        </div>
+
+        <div class="role-button" (click)="navigateTo('/alta-producto')">
+          <ion-icon name="add-circle-outline"></ion-icon>
+          <span>Alta de Plato</span>
+        </div>
+
+        <div class="role-button" (click)="navigateTo('/estadisticas')">
+          <ion-icon name="bar-chart-outline"></ion-icon>
+          <span>Ver Estadísticas</span>
+        </div>
+      </div>
+    }
+
+    <!-- Bartender -->
+    @if (currentUser?.type === 'bartender') {
+      <h2>Panel de Bartender</h2>
+      <div class="role-grid">
+        <div class="role-button" (click)="navigateTo('/pedidos-bar')">
+          <ion-icon name="wine-outline"></ion-icon>
+          <span>Pedidos Pendientes</span>
+        </div>
+
+        <div class="role-button" (click)="navigateTo('/alta-producto')">
+          <ion-icon name="add-circle-outline"></ion-icon>
+          <span>Alta de Bebida</span>
+        </div>
+
+        <div class="role-button" (click)="navigateTo('/estadisticas')">
+          <ion-icon name="bar-chart-outline"></ion-icon>
+          <span>Ver Estadísticas</span>
+        </div>
+      </div>
+    }
+
+    <!-- Supervisor/Dueño -->
+    @if (currentUser?.type === 'supervisor' || currentUser?.type === 'dueño' || currentUser?.type === 'dueno') {
+      <h2>Panel de {{ currentUser?.type }}</h2>
+      <div class="role-grid">
+        <div class="role-button" (click)="scan()">
+          <ion-icon name="qr-code-outline"></ion-icon>
+          <span>Escanear QR</span>
+        </div>
+
+        <div class="role-button" (click)="navigateTo('/gestion-clientes')">
+          <ion-icon name="people-outline"></ion-icon>
+          <span>Gestión de Clientes</span>
+        </div>
+
+        <div class="role-button" (click)="navigateTo('/alta-mesa')">
+          <ion-icon name="add-circle-outline"></ion-icon>
+          <span>Alta Mesa</span>
+        </div>
+
+        <div class="role-button" (click)="navigateTo('/estadisticas')">
+          <ion-icon name="bar-chart-outline"></ion-icon>
+          <span>Ver Estadísticas</span>
+        </div>
+      </div>
     }
   }
-
-  <!-- Maître -->
-  @if (currentUser?.type === 'maitre') {
-    <h2>Panel de Maître</h2>
-    <ion-list>
-      <ion-item button detail (click)="navigateTo('/maitre-dashboard')">
-        <ion-icon name="people-outline" slot="start"></ion-icon>
-        <ion-label>Lista de Espera</ion-label>
-      </ion-item>
-      <ion-item button detail (click)="scan()">
-        <ion-icon name="qr-code-outline" slot="start"></ion-icon>
-        <ion-label>Escanear QR</ion-label>
-      </ion-item>
-      <ion-item button detail (click)="navigateTo('/registrarse-cliente')">
-        <ion-icon name="person-add-outline" slot="start"></ion-icon>
-        <ion-label>Registrar Cliente</ion-label>
-      </ion-item>
-      <ion-item button detail (click)="navigateTo('/lista-espera')">
-        <ion-label>Lista Clientes en Espera</ion-label>
-      </ion-item>
-    </ion-list>
-  }
-
-  <!-- Mozo -->
-  @if (currentUser?.type === 'mozo') {
-    <h2>Panel de Mozo</h2>
-    <ion-list>
-      <ion-item button detail (click)="navigateTo('/pedidos-pendientes')">
-        <ion-icon name="clipboard-outline" slot="start"></ion-icon>
-        <ion-label>Pedidos Pendientes</ion-label>
-      </ion-item>
-      <ion-item button detail (click)="scan()">
-        <ion-icon name="qr-code-outline" slot="start"></ion-icon>
-        <ion-label>Escanear QR Mesa</ion-label>
-      </ion-item>
-      <ion-item button detail (click)="navigateTo('/consultar-mozo')">
-        <ion-icon name="chatbox-outline" slot="start"></ion-icon>
-        <ion-label>Chat con clientes</ion-label>
-      </ion-item>
-      <ion-item button detail (click)="navigateTo('/pedidos-por-confirmar-mozo')">
-        <ion-icon name="wine-outline" slot="start"></ion-icon>
-        <ion-label>Pedidos Pendientes</ion-label>
-      </ion-item>
-    </ion-list>
-  }
-
-  <!-- Cocinero -->
-  @if (currentUser?.type === 'cocinero') {
-    <h2>Panel de Cocinero</h2>
-    <ion-list>
-      <ion-item button detail (click)="navigateTo('/pedidos-pendientes')">
-        <ion-icon name="restaurant-outline" slot="start"></ion-icon>
-        <ion-label>Pedidos Pendientes</ion-label>
-      </ion-item>
-      <ion-item button detail (click)="navigateTo('/alta-producto')">
-        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
-        <ion-label>Alta de Plato</ion-label>
-      </ion-item>
-    </ion-list>
-  }
-
-  <!-- Bartender -->
-  @if (currentUser?.type === 'bartender') {
-    <h2>Panel de Bartender</h2>
-    <ion-list>
-      <ion-item button detail (click)="navigateTo('/pedidos-bar')">
-        <ion-icon name="wine-outline" slot="start"></ion-icon>
-        <ion-label>Pedidos Pendientes</ion-label>
-      </ion-item>
-      <ion-item button detail (click)="navigateTo('/alta-producto')">
-        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
-        <ion-label>Alta de Bebida</ion-label>
-      </ion-item>
-    </ion-list>
-  }
-
-  <!-- Supervisor/Dueño -->
-  @if (currentUser?.type === 'supervisor' || currentUser?.type === 'dueño' || currentUser?.type === 'dueno') {
-    <h2>Panel de {{ currentUser?.type }}</h2>
-    <ion-list>
-      <ion-button (click)="scan()">
-        <img style="height: 200px" src="../../../assets/images/qr.png" alt="Imagen de QR" />
-      </ion-button>
-      <!-- ... otros items existentes ... -->
-      <ion-item button detail (click)="navigateTo('/gestion-clientes')">
-        <ion-icon name="people-outline" slot="start"></ion-icon>
-        <ion-label>Gestión de Clientes</ion-label>
-      </ion-item>
-      <ion-item button detail (click)="navigateTo('/alta-mesa')">
-        <ion-icon name="add-circle-outline" slot="start"></ion-icon>
-        <ion-label>Alta Mesa</ion-label>
-      </ion-item>
-    </ion-list>
-  }
-
-  <div *ngIf="currentUser?.type === 'cocinero' || currentUser?.type === 'bartender'">
-    <h2>Panel de {{ currentUser?.type }}</h2>
-    <ion-list>
-      <ion-item button detail (click)="navigateTo('/dashboard')">
-        <ion-label>Dashboard</ion-label>
-      </ion-item>
-      <ion-item button detail (click)="navigateTo('/alta-producto')">
-        <ion-label>Alta Producto</ion-label>
-      </ion-item>
-      <ion-item button detail (click)="navigateTo('/alta-mesa')">
-        <ion-label>Pedidos Pendientes</ion-label>
-      </ion-item>
-      <ion-item button detail (click)="navigateTo('/estadisticas')">
-        <ion-label>Ver Estadísticas</ion-label>
-      </ion-item>
-    </ion-list>
-  </div>
-
 </ion-content>

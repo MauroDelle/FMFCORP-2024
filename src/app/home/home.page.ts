@@ -2,17 +2,16 @@ import { Component, inject, OnInit, OnDestroy, CUSTOM_ELEMENTS_SCHEMA } from '@a
 import { NavigationExtras, Router } from '@angular/router';
 import { 
   IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton, 
-  IonIcon, IonMenu, IonMenuButton, IonList, IonItem, IonLabel, 
+  IonIcon, IonList, IonItem, IonLabel, 
   IonCard, IonCardHeader, IonCardTitle,
   AlertController, Platform 
 } from '@ionic/angular/standalone';
 import { AuthService } from '../services/auth.service';
 import { addIcons } from 'ionicons';
 import { 
-  logOutOutline, personCircleOutline, homeOutline, menuOutline, 
-  statsChartOutline, peopleOutline, restaurantOutline,
-  calendarOutline, clipboardOutline, timeOutline, listOutline,
-  barChartOutline, gridOutline, settingsOutline, qrCodeOutline, personAddOutline, addCircleOutline, wineOutline, chatbubblesOutline } from 'ionicons/icons';
+  logOutOutline,  peopleOutline, restaurantOutline,
+  calendarOutline, clipboardOutline, timeOutline, chatboxOutline,
+  qrCodeOutline, personAddOutline, addCircleOutline, wineOutline, barChartOutline } from 'ionicons/icons';
 import { DatabaseService } from '../services/database.service';
 import { CommonModule } from '@angular/common';
 import { FcmService } from '../services/fcm.service';
@@ -43,12 +42,6 @@ interface UserProfile {
     IonButton,
     LoadingSpinnerComponent,
     IonIcon,
-    IonList,
-    IonItem,
-    IonLabel,
-    IonCard,
-    IonCardHeader,
-    IonCardTitle
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
@@ -68,7 +61,20 @@ export class HomePage implements OnInit, OnDestroy {
     private platform: Platform,
     private fcm: FcmService
   ) {
-    addIcons({logOutOutline, chatbubblesOutline,peopleOutline,qrCodeOutline,personAddOutline,clipboardOutline,restaurantOutline,addCircleOutline,wineOutline,personCircleOutline,calendarOutline,listOutline,timeOutline,barChartOutline,gridOutline,statsChartOutline,settingsOutline,homeOutline,menuOutline});
+    addIcons({
+      qrCodeOutline,
+      restaurantOutline,
+      calendarOutline,
+      chatboxOutline,
+      peopleOutline,
+      personAddOutline,
+      timeOutline,
+      clipboardOutline,
+      wineOutline,
+      addCircleOutline,
+      logOutOutline,
+      barChartOutline
+    });
     this.platform.ready().then(() => {
       this.loggedUser = this.authService.loggedUser;
       console.log(this.loggedUser.email);
@@ -138,7 +144,10 @@ export class HomePage implements OnInit, OnDestroy {
     
     switch (this.currentUser.type.toLowerCase()) {
       case 'cliente': return 'Cliente';
-      case 'empleado': return 'Empleado';
+      case 'mozo': return 'Mozo';
+      case 'cocinero': return 'Cocinero';
+      case 'maitre': return 'Maitre';
+      case 'bartender': return 'Bartender';
       case 'supervisor': return 'Supervisor';
       case 'dueño':
       case 'dueno': return 'Dueño';
