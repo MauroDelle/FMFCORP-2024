@@ -24,6 +24,7 @@ import { DatabaseService } from 'src/app/services/database.service';
 export class GraficosComponent  implements AfterViewInit {
 
   listaEncuestas: any[] = [];
+  isLoading:boolean = true;
 
   constructor(private location: Location, private database: DatabaseService) {}
 
@@ -33,6 +34,7 @@ export class GraficosComponent  implements AfterViewInit {
       this.dibujarGraficoTorta();
       this.dibujarGraficoBarrasHorizontal();
       this.dibujarGraficoBarrasVertical();
+      this.isLoading = false;
     });
   }
 

@@ -1,13 +1,12 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title class="ion-text-center"><img (click)="volver()" src="../../../assets/images/back.png" alt="" height="15px">
-      Gráficos de Encuestas
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
+<app-go-back-toolbar msj="Gráficos de Encuestas" />
 
 <ion-content class="ion-text-center">
-  <div >
+  <div *ngIf="isLoading">
+    <app-loading-spinner message="Cargando Gráficos..." textColor="#ffffff"></app-loading-spinner>
+  </div>
+
+ 
+    <div [class.hidden]="isLoading">
   <ion-card>
     <ion-card-header style="color:black; ">
       Valoración de Caracteristicas
@@ -47,5 +46,6 @@
       </ion-list>
     </ion-card-content>
   </ion-card>
-</div>
+    </div>
+ 
 </ion-content>
