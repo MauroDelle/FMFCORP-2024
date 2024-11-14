@@ -77,6 +77,10 @@ export const routes: Routes = [
     path: 'encuesta',
     loadComponent: () => import('./pages/encuesta/encuesta.component').then( m => m.EncuestaComponent)
   },
+  {
+    path: 'graficos',
+    loadComponent: () => import('./pages/graficos/graficos.component').then( m => m.GraficosComponent)
+  },
   { 
     path: '', 
     redirectTo: 'splash', 

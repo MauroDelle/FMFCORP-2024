@@ -1,30 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
-import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
-import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
-import { IonIcon, IonCol, IonHeader, IonToolbar, IonTitle, IonContent, IonButton, IonItem, IonInput, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonLabel, IonText, IonAlert, IonSpinner, IonGrid, IonRow, IonFab, IonFabButton } from '@ionic/angular/standalone';
-import { addIcons } from 'ionicons';
-import { cameraOutline } from 'ionicons/icons';
-import { Cliente } from 'src/app/clases/cliente';
-import { AuthService } from 'src/app/services/auth.service';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule,
+   ReactiveFormsModule } from '@angular/forms';
 import { DatabaseService } from 'src/app/services/database.service';
-import { FirestoreService } from 'src/app/services/firestore.service';
-import { StorageService } from 'src/app/services/storage.service';
-import { ToastService } from 'src/app/services/toast.service';
-import { Capacitor } from '@capacitor/core';
 import Swal from 'sweetalert2';
-import { ValidatorsService } from 'src/app/services/validators.service';
-import { AngularFireStorage } from '@angular/fire/compat/storage';
-import { IonicModule } from '@ionic/angular';
+
 import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolbar/go-back-toolbar.component';
 import { LoadingSpinnerComponent } from 'src/app/spinner/spinner.component';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { Observable,map } from 'rxjs';
-import { NgForm } from '@angular/forms';
 
-
+import { 
+  IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton, 
+  IonIcon, IonMenu, IonMenuButton, IonList, IonItem, IonLabel, IonCardContent,
+  IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonAvatar,
+  AlertController, Platform,IonCheckbox,IonRadio, IonBackButton } from '@ionic/angular/standalone';
 
 
 @Component({
@@ -32,11 +23,27 @@ import { NgForm } from '@angular/forms';
   templateUrl: './encuesta.component.html',
   styleUrls: ['./encuesta.component.scss'],
   standalone: true,
-  imports: [IonicModule, // Keeps all Ionic components in one import
-    CommonModule,
+  imports: [CommonModule,
+    ReactiveFormsModule,
+    IonCardHeader,
+    IonCardContent,
+    IonRadio,
+    IonHeader,
+    IonTitle,
+    IonCheckbox,
+    IonToolbar,
+    FormsModule,
+    IonContent,
+    IonButton,
+    IonIcon,
+    IonList,
+    IonItem,
+    IonLabel,
+    IonCard,
+    IonCardTitle,
+    FormsModule,
     GoBackToolbarComponent,
     LoadingSpinnerComponent,
-    ReactiveFormsModule,
     FormsModule]
 })
 export class EncuestaComponent  implements OnInit {
@@ -45,11 +52,11 @@ export class EncuestaComponent  implements OnInit {
   encuestaForm: FormGroup;
 
   constructor(private database: DatabaseService, private afAuth: AngularFireAuth, private router: Router,private fb: FormBuilder) // Añadido FormBuilder
-{    this.encuestaForm = this.fb.group({
-      valoracionPlatos: ['', [Validators.required]],
-      valoracionAtencion: ['', Validators.required],
-      caracteristicas: this.fb.array([], Validators.required),
-      valoracionPersonal: ['', [Validators.required]],
+  {    this.encuestaForm = this.fb.group({
+      valoracionPlatos: ['', []],
+      valoracionAtencion: ['', ],
+      caracteristicas: this.fb.array([], ),
+      valoracionPersonal: ['', []],
     });
   }
 
@@ -63,7 +70,6 @@ export class EncuestaComponent  implements OnInit {
   
 
   ngOnInit() {
-
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.uidUsuarioActual = user.uid;
@@ -129,10 +135,10 @@ export class EncuestaComponent  implements OnInit {
   habilitarEncuesta(item:any){
     this.mostrarFormEncuesta=true;
     this.encuestaSeleccionada=item;
-
   }
 
   onSubmit() {
+    console.log("this.encuestaForm",this.encuestaForm);
     if (this.encuestaForm.valid) {
       const nuevaEncuesta = {
         valoracionPlatos: this.encuestaForm.get('valoracionPlatos')?.value,
@@ -152,7 +158,7 @@ export class EncuestaComponent  implements OnInit {
             idCliente: this.encuestaSeleccionada.idCliente,
             numeroMesa: this.encuestaSeleccionada.numeroMesa
           };
-  
+          
           return this.database.actualizar("mesa-cliente", dataActualizada, this.encuestaSeleccionada.id);
         })
         .then(() => {
