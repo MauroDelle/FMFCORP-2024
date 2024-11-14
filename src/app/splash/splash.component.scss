@@ -4,78 +4,83 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.container {
+ }
+ 
+ .container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   text-align: center;
   height: 100%;
-
+  padding: 20px;
+ 
   img {
     max-width: 80%;
     height: auto;
     margin: 80px 0;
   }
-
+ 
   .background-image {
     width: 100%;
     height: 56%;
     object-fit: cover;
+    margin: 20px 0;
     @extend .slide-bck-center;
     @extend .scale-in-tl;
-  }
-
+   }
+ 
   .text {
-    position: absolute;
+    position: relative;
     width: 100%;
     text-align: center;
     color: rgb(255, 255, 255);
     font-family: Arial, sans-serif;
     font-weight: bold;
-
-    /* Aplicar la animación bounce-in-top */
+ 
     &.bounce-in-top {
       animation: bounce-in-top 1s both;
     }
   }
-
+ 
   .top-text {
-    top: 190px;
     font-size: 30px;
+    margin-top: 40px;
   }
-
+ 
   .bottom-text1 {
-    bottom: 25%;
-    font-size: 34px;
+    margin-bottom: 20px;
+    font-size: 28px;
   }
-
+ 
   .bottom-text2 {
-    bottom: 15%;
-    font-size: 34px;
+    margin-bottom: 20px;
+    font-size: 28px;
   }
-
+ 
   .bottom-text3 {
-    bottom: 5%;
-    font-size: 34px;
+    margin-bottom: 40px;
+    font-size: 28px;
   }
-}
-
-ion-content {
-  --background: #ff0000;
+ }
+ 
+ .bottom-texts {
+  margin-bottom: 40px;
+ }
+ 
+ ion-content {
+  --background: #403C3D;
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-/* Animación bounce-in-top */
-.bounce-in-top {
+ }
+ 
+ /* Animación bounce-in-top */
+ .bounce-in-top {
   animation: bounce-in-top 1s both;
-}
-
-@keyframes bounce-in-top {
+ }
+ 
+ @keyframes bounce-in-top {
   0% {
     transform: translateY(-500px);
     animation-timing-function: ease-in;
@@ -110,28 +115,28 @@ ion-content {
     transform: translateY(0);
     animation-timing-function: ease-out;
   }
-}
-
-/* Animación slide-bck-center */
-.slide-bck-center {
+ }
+ 
+ /* Animación slide-bck-center */
+ .slide-bck-center {
   animation: slide-bck-center 3s cubic-bezier(.47, 0, .745, .715) both;
-}
-
-@keyframes slide-bck-center {
+ }
+ 
+ @keyframes slide-bck-center {
   0% {
     transform: translateZ(0);
   }
   100% {
     transform: translateZ(-400px);
   }
-}
-
-/* Animación scale-in-tl */
-.scale-in-tl {
+ }
+ 
+ /* Animación scale-in-tl */
+ .scale-in-tl {
   animation: scale-in-tl 1s cubic-bezier(.25, .46, .45, .94) both;
-}
-
-@keyframes scale-in-tl {
+ }
+ 
+ @keyframes scale-in-tl {
   0% {
     transform: scale(0);
     transform-origin: 0 0;
@@ -142,4 +147,4 @@ ion-content {
     transform-origin: 0 0;
     opacity: 1;
   }
-}
+ }
