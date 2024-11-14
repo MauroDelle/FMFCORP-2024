@@ -8,12 +8,13 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import Swal from 'sweetalert2';
 import { IonHeader, IonCardTitle, IonToolbar, IonTitle, IonContent, IonCard, IonButton } from "@ionic/angular/standalone";
 import { CommonModule } from '@angular/common';
+import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolbar/go-back-toolbar.component';
 
 @Component({
   selector: 'app-qr-mesa',
   templateUrl: './qr-mesa.component.html',
   styleUrls: ['./qr-mesa.component.scss'],
-  imports: [CommonModule, IonButton, IonCard, IonContent, IonTitle, IonToolbar, IonCardTitle, IonHeader, ],
+  imports: [CommonModule, GoBackToolbarComponent, IonButton, IonCard, IonContent, IonTitle, IonToolbar, IonCardTitle, IonHeader, ],
   standalone: true
 })
 export class QrMesaComponent  implements OnInit {

@@ -13,6 +13,8 @@ import {
 import { LoadingSpinnerComponent } from 'src/app/spinner/spinner.component';
 import { FormsModule } from '@angular/forms';
 import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolbar/go-back-toolbar.component';
+import { addIcons } from 'ionicons';
+import { send } from 'ionicons/icons';
 
 @Component({
   selector: 'app-consulta-mozo',
@@ -68,7 +70,11 @@ export class ConsultaMozoComponent  implements OnInit {
     private router: ActivatedRoute,
     private database: DatabaseService,
     private notificationSvc: NotificationService
-  ) {}
+  ) {
+    addIcons({
+      'send': send
+    });
+  }
 
 
   ngOnInit() {

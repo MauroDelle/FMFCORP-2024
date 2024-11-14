@@ -7,6 +7,7 @@ import { DatabaseService } from 'src/app/services/database.service';
 import { Observable, map } from 'rxjs';
 import Swal from 'sweetalert2';
 import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
+import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolbar/go-back-toolbar.component';
 
 
 @Component({
@@ -14,7 +15,7 @@ import { Barcode, BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
   templateUrl: './pedir-cuenta.component.html',
   styleUrls: ['./pedir-cuenta.component.scss'],
   standalone: true,
-  imports: [CommonModule,IonFooter, IonCardSubtitle, IonButton, IonCol, IonRow, IonCardTitle, IonCard, IonContent, IonTitle, IonToolbar, IonHeader, ]
+  imports: [CommonModule,IonFooter, GoBackToolbarComponent, IonCardSubtitle, IonButton, IonCol, IonRow, IonCardTitle, IonCard, IonContent, IonTitle, IonToolbar, IonHeader, ]
 })
 export class PedirCuentaComponent  implements OnInit {
 

@@ -2,13 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { IonToolbar, IonHeader, IonTitle, IonContent, IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonButton, IonFooter } from "@ionic/angular/standalone";
+import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolbar/go-back-toolbar.component';
 
 @Component({
   selector: 'app-qr-propina',
   templateUrl: './qr-propina.component.html',
   styleUrls: ['./qr-propina.component.scss'],
   standalone: true,
-  imports: [CommonModule, IonFooter, IonButton, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonContent, IonTitle, IonHeader, IonToolbar, ]
+  imports: [CommonModule, GoBackToolbarComponent, IonFooter, IonButton, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonContent, IonTitle, IonHeader, IonToolbar, ]
 })
 export class QrPropinaComponent  implements OnInit {
 

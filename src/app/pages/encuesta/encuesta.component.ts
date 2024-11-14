@@ -10,13 +10,7 @@ import { LoadingSpinnerComponent } from 'src/app/spinner/spinner.component';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router, RouterModule } from '@angular/router';
 import { Observable,map } from 'rxjs';
-
-import { 
-  IonHeader, IonToolbar, IonTitle, IonContent, IonButtons, IonButton, 
-  IonIcon, IonMenu, IonMenuButton, IonList, IonItem, IonLabel, IonCardContent,
-  IonCard, IonCardHeader, IonCardTitle, IonCardSubtitle, IonAvatar,
-  AlertController, Platform,IonCheckbox,IonRadio, IonBackButton } from '@ionic/angular/standalone';
-
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-encuesta',

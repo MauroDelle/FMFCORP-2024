@@ -8,6 +8,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Observable, map } from 'rxjs';
 import Swal from 'sweetalert2';
 import { NotificationService } from 'src/app/services/notification.service';
+import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolbar/go-back-toolbar.component';
 
 @Component({
   selector: 'app-qr-ingreso',
@@ -33,6 +34,7 @@ import { NotificationService } from 'src/app/services/notification.service';
     IonCardSubtitle,
     IonAvatar,
     IonBackButton,
+    GoBackToolbarComponent,
     IonButtons],
 })
 export class QrIngresoComponent  implements OnInit {
