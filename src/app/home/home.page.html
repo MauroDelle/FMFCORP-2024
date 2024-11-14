@@ -43,10 +43,13 @@
     @if (currentUser?.type === 'maitre') {
       <h2>Panel de Maître</h2>
       <div class="role-grid">
+
+        <!--
         <div class="role-button" (click)="navigateTo('/gestion-clientes')">
           <ion-icon name="restaurant-outline"></ion-icon>
           <span>Asignar Mesas</span>
         </div>
+        -->
 
         <div class="role-button" (click)="scan()">
           <ion-icon name="qr-code-outline"></ion-icon>
@@ -137,11 +140,12 @@
           <ion-icon name="qr-code-outline"></ion-icon>
           <span>Escanear QR</span>
         </div>
-
+        <!--
         <div class="role-button" (click)="navigateTo('/gestion-clientes')">
           <ion-icon name="people-outline"></ion-icon>
           <span>Gestión de Clientes</span>
         </div>
+        -->
 
         <div class="role-button" (click)="navigateTo('/alta-mesa')">
           <ion-icon name="add-circle-outline"></ion-icon>

@@ -8,9 +8,9 @@
   @if (perfilUsuarioActual.toLowerCase() === 'mozo') {
     @if (!mostrarChat) {
       <ion-list class="mesas-list">
-        <ion-list-header>
-          <ion-label>Mesas Asignadas</ion-label>
-        </ion-list-header>
+        <div class="header-card">
+          <h2>Mesas Asignadas</h2>
+        </div>
 
         <ion-card *ngFor="let item of mesasVigentes" class="ion-text-center">
           <br>
@@ -76,7 +76,7 @@
         (click)="enviarMensaje()"
         class="send-button"
         color="primary">
-        <ion-icon name="paper-plane" slot="icon-only"></ion-icon>
+        <ion-icon name="send" slot="icon-only"></ion-icon>
       </ion-button>
     </ion-item>
   </ion-toolbar>
