@@ -93,6 +93,12 @@ tiempoRestante:string="";
   }
 
   actualizarTiempoRestante() {
+    if (this.pedidoDelUsuario.estado === 'finalizado' || 
+        this.pedidoDelUsuario.estado === 'entregado-confirmado') {
+        this.tiempoRestante = "0:0s";
+      return;
+    }
+
     const ahora = new Date().getTime();
     const fechaPedido = new Date(this.pedidoDelUsuario.fecha).getTime();
     const tiempoPedido = this.pedidoDelUsuario.tiempo * 60 * 1000; // convertir minutos a milisegundos
@@ -391,6 +397,11 @@ tiempoRestante:string="";
         console.log(pedidoActualizado);
 
         this.database.actualizar("pedidos", pedidoActualizado, this.pedidoDelUsuario.id)
+        .then(() => {
+          // Actualizar el pedido local para que el timer se detenga en cero
+          this.pedidoDelUsuario = pedidoActualizado;
+          this.tiempoRestante = "0:0s";
+        });
       });
 
     }else{
