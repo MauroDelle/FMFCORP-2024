@@ -9,7 +9,16 @@ import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolba
   templateUrl: './qr-propina.component.html',
   styleUrls: ['./qr-propina.component.scss'],
   standalone: true,
-  imports: [CommonModule, GoBackToolbarComponent, IonFooter, IonButton, IonCardContent, IonCardTitle, IonCardHeader, IonCard, IonContent, IonTitle, IonHeader, IonToolbar, ]
+  imports: [CommonModule, 
+    GoBackToolbarComponent, 
+    IonFooter, 
+    IonButton, 
+    IonCardContent, 
+    IonCardTitle, 
+    IonCardHeader, 
+    IonCard, 
+    IonContent, 
+    IonToolbar, ]
 })
 export class QrPropinaComponent  implements OnInit {
 

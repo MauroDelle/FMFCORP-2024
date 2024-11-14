@@ -40,7 +40,6 @@ interface UserProfile {
     IonTitle, 
     IonContent,
     IonButtons,
-    IonButton,
     LoadingSpinnerComponent,
     IonIcon,
   ],

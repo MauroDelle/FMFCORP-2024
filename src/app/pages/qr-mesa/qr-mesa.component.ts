@@ -14,7 +14,12 @@ import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolba
   selector: 'app-qr-mesa',
   templateUrl: './qr-mesa.component.html',
   styleUrls: ['./qr-mesa.component.scss'],
-  imports: [CommonModule, GoBackToolbarComponent, IonButton, IonCard, IonContent, IonTitle, IonToolbar, IonCardTitle, IonHeader, ],
+  imports: [CommonModule, GoBackToolbarComponent, 
+    IonButton, 
+    IonCard, 
+    IonContent,  
+    IonCardTitle, 
+    ],
   standalone: true
 })
 export class QrMesaComponent  implements OnInit {
