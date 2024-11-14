@@ -61,7 +61,7 @@ export class ConsultaMozoComponent  implements OnInit {
   mesasVigentes:any[]=[];
   consultaActual:any;
   esMozo: boolean = false;
-  isLoading:boolean = false;
+  isLoading:boolean = true;
 
 
   constructor(
@@ -78,6 +78,7 @@ export class ConsultaMozoComponent  implements OnInit {
 
 
   ngOnInit() {
+    this.isLoading = true;
     this.usuarioLogeado = this.authService.loggedUser;
 
     //obtengo las mesas que se encuentran actualmente con comensales, busco estado==vigente
@@ -162,9 +163,11 @@ export class ConsultaMozoComponent  implements OnInit {
           });
         }
       }
+      this.isLoading = false;
     }, error => {
       console.log(error);
     });
+    
   }
 
   enviarMensaje() {
