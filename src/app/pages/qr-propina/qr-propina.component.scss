@@ -1,0 +1,109 @@
+ion-content {
+    --background: url('../../../assets/images/chat-back2.jpeg') no-repeat center center fixed;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background: rgba(0, 0, 0, 0.7);
+      z-index: 0;
+    }
+  }
+  
+  ion-card {
+    background: rgba(40, 40, 40, 0.9) !important;
+    border-radius: 15px;
+    margin: 20px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    position: relative;
+    z-index: 1;
+  
+    ion-card-header {
+      padding: 0 0 20px 0;
+  
+      ion-card-title {
+        color: #00b4db;
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin: 0;
+      }
+    }
+  
+    ion-card-content {
+      padding: 0;
+  
+      ion-button {
+        margin: 10px 0;
+        height: 50px;
+        font-size: 1.1rem;
+        --border-radius: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: transform 0.3s ease;
+  
+        &:hover {
+          transform: translateY(-2px);
+        }
+  
+        &[color="primary"] {
+          --background: #0084ff;
+          --background-hover: #0066cc;
+        }
+  
+        &[color="success"] {
+          --background: #2dd36f;
+          --background-hover: #28bd62;
+        }
+      }
+    }
+  }
+  
+  .etiqueta-grande {
+    color: white;
+    font-size: 1.2rem;
+    margin: 15px 0;
+    
+    &.with-divider {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 15px;
+      margin-bottom: 15px;
+    }
+  
+    strong {
+      color: #00b4db;
+      font-weight: 600;
+    }
+  }
+  
+  ion-footer {
+    ion-toolbar {
+      --background: rgba(40, 40, 40, 0.95);
+      padding: 10px;
+  
+      ion-button {
+        --background: #00b4db;
+        --background-hover: #0099cc;
+        height: 50px;
+        font-size: 1.1rem;
+        --border-radius: 12px;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+  
+        &:disabled {
+          --background: rgba(0, 180, 219, 0.5);
+        }
+      }
+    }
+  }
+  
+  @media (max-width: 576px) {
+    ion-card {
+      margin: 15px;
+      padding: 15px;
+    }
+  }

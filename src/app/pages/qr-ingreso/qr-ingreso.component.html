@@ -1,12 +1,16 @@
 <app-go-back-toolbar msj="QR Ingreso al local" />
 
-<ion-content [fullscreen]="true" class="ion-text-center content-background">
+<ion-content [fullscreen]="true">
   <div class="container">
-    <ion-button class="custom-button" expand="full" (click)="agregarListaEspera()">
-      Agregarme a la lista de espera
-    </ion-button>
-    <ion-button class="custom-button" expand="full" (click)="redireccionar('graficos')">
-      Ver gráficos de encuestas
-    </ion-button>
+    <div class="main-actions">
+      <ion-button expand="block" (click)="agregarListaEspera()">
+        <ion-icon name="people-outline"></ion-icon>
+        Agregarme a la lista de espera
+      </ion-button>
+      <ion-button expand="block" (click)="redireccionar('graficos')">
+        <ion-icon name="bar-chart-outline"></ion-icon>
+        Ver gráficos de encuestas
+      </ion-button>
+    </div>
   </div>
 </ion-content>
