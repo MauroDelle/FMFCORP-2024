@@ -1,12 +1,12 @@
 <app-go-back-toolbar msj="Encuesta" />
 
 <ion-content [fullscreen]="true" class="ion-text-center">
-<div style="background-image: url('../../../assets/images/back.jpeg');" >
+<div>
   <div *ngIf="encuestasIncompletasDelUsuario!==undefined && !mostrarFormEncuesta" class="ion-text-center"  >
     <br>
     <h2 style="color: #000;">Encuestas Pendientes</h2>
-    <img src="../../../assets/images/encuesta.png" style="height: 100px;" alt="" >
-    <ion-card  *ngFor="let item of encuestasIncompletasDelUsuario"style="background-color:  #ededed;;" >
+    <img src="../../../assets/images/encuesta.png" style="height: 80px;" alt="" >
+    <ion-card  *ngFor="let item of encuestasIncompletasDelUsuario"style="background-color:  #ededed;" class="survey-card">
       <ion-card-header>
         <ion-card-title  (click)="habilitarEncuesta(item)"> Visita: <span style="font-size: small;">{{ formatTimestamp(item.fecha) }}</span>
         </ion-card-title>
@@ -16,9 +16,9 @@
   </div>
 
   <div *ngIf="!encuestasIncompletasDelUsuario || encuestasIncompletasDelUsuario.length===0">
-    <ion-card>
+    <ion-card class="survey-card">
 
-      <ion-card-content style="color: #000; font-size: 18px;">
+      <ion-card-content style="color: #00b4db; font-size: 18px;">
         Usted no tiene encuestas pendientes por completar
 
       </ion-card-content>
@@ -27,10 +27,10 @@
 
   <div *ngIf="!mostrarFormEncuesta" >
     <h2 style="color: #000; ">Gráficos</h2>
-    <img src="../../../assets/images/grafico.png" style="height: 100px;" alt="">
-    <ion-card>
+    <img src="../../../assets/images/grafico.png" style="height: 80px;" alt="">
+    <ion-card class="survey-card">
       <ion-card-content>
-        <p style="color: #000; font-size: 18px;">Accede a los gráficos y reseñas de los clientes que ya pasaron por nuestro local</p>
+        <p style="color: #00b4db; font-size: 18px;">Accede a los gráficos y reseñas de los clientes que ya pasaron por nuestro local</p>
         <br>
         <ion-button (click)="goToGraficos()" size="large">Ver Gráficos</ion-button>
       </ion-card-content>
@@ -40,7 +40,7 @@
 </div>
 
 
-<div *ngIf="mostrarFormEncuesta" >
+<div *ngIf="mostrarFormEncuesta">
   <form [formGroup]="encuestaForm" (ngSubmit)="onSubmit()">
     <ion-list>
 
