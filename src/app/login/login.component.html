@@ -10,24 +10,8 @@
   }@else{
   <div class="login-container">
     <h2>Bienvenido</h2>
-    <p>Ingrese sus credenciales</p>
-
-    <div class="segment-container">
-      <ion-segment [(ngModel)]="userType" class="ion-margin-vertical">
-        <ion-segment-button value="cliente">
-          <ion-label>Cliente</ion-label>
-        </ion-segment-button>
-        <ion-segment-button value="Cocinero">
-          <ion-label>Cocinero</ion-label>
-        </ion-segment-button>
-        <ion-segment-button value="supervisor">
-          <ion-label>Supervisor</ion-label>
-        </ion-segment-button>
-        <ion-segment-button value="dueño">
-          <ion-label>Dueño</ion-label>
-        </ion-segment-button>
-      </ion-segment>
-    </div>
+    <h3>Ingrese sus credenciales</h3>
+    <br>
 
     <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
       <ion-item>
@@ -49,38 +33,37 @@
     </form>
 
     <div class="auth-links">
-      <ion-button expand="block" fill="solid" class="auth-button" color="secondary">
-        ¿OLVIDASTE TU CONTRASEÑA?
-      </ion-button>
+      <br>
       <ion-button expand="block" fill="solid" class="auth-button"  color="secondary" routerLink="/registrarse-cliente">
         ¿NO TENÉS CUENTA? ¡REGISTRATE!
       </ion-button>
     </div>
-  </div>
 
-  <!-- Botones de acceso rápido horizontales -->
-  <ion-fab horizontal="center" vertical="bottom" slot="fixed">
-    <ion-fab-button class="fab-button-divider" size="small" color="success" (click)="fastLogin('cliente@cliente.com', '444444')">
-      CLI
-    </ion-fab-button>
-    <ion-fab-button class="fab-button-divider" size="small" color="primary" (click)="fastLogin('mozo@mozo.com', '666666')">
-      MO
-    </ion-fab-button>
-    <ion-fab-button class="fab-button-divider" size="small" color="tertiary" (click)="fastLogin('maitre@maitre.com', '555555')">
-      MA
-    </ion-fab-button>
-    <ion-fab-button class="fab-button-divider" size="small" color="medium" (click)="fastLogin('bartender@bartender.com', '888888')">
-      B
-    </ion-fab-button>
-    <ion-fab-button class="fab-button-divider" size="small" color="light" (click)="fastLogin('cocinero@cocinero.com', '777777')">
-      CO
-    </ion-fab-button>
-    <ion-fab-button class="fab-button-divider" size="small" color="secondary" (click)="fastLogin('supervisor@supervisor.com', '222222')">
-      S
-    </ion-fab-button>
-    <ion-fab-button class="fab-button-divider" size="small" color="warning" (click)="fastLogin('duenio@duenio.com', '111111')">
-      D
-    </ion-fab-button>
-  </ion-fab>
+    <!-- Botones de acceso rápido horizontales -->
+    <ion-fab horizontal="center" vertical="bottom" slot="fixed">
+      <ion-fab-button class="fab-button-divider" size="small" color="success" (click)="fastLogin('cliente@cliente.com', '444444')">
+        CLI
+      </ion-fab-button>
+      <ion-fab-button class="fab-button-divider" size="small" color="primary" (click)="fastLogin('mozo@mozo.com', '666666')">
+        MO
+      </ion-fab-button>
+      <ion-fab-button class="fab-button-divider" size="small" color="tertiary" (click)="fastLogin('maitre@maitre.com', '555555')">
+        MA
+      </ion-fab-button>
+      <ion-fab-button class="fab-button-divider" size="small" color="medium" (click)="fastLogin('bartender@bartender.com', '888888')">
+        B
+      </ion-fab-button>
+      <ion-fab-button class="fab-button-divider" size="small" color="light" (click)="fastLogin('cocinero@cocinero.com', '777777')">
+        CO
+      </ion-fab-button>
+      <ion-fab-button class="fab-button-divider" size="small" color="secondary" (click)="fastLogin('supervisor@supervisor.com', '222222')">
+        S
+      </ion-fab-button>
+      <ion-fab-button class="fab-button-divider" size="small" color="warning" (click)="fastLogin('duenio@duenio.com', '111111')">
+        D
+      </ion-fab-button>
+    </ion-fab>
+
+  </div>
 }
 </ion-content>
