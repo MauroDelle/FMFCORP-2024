@@ -24,9 +24,6 @@ import { Router } from '@angular/router';
 import { Observable,map } from 'rxjs';
 import { NgForm } from '@angular/forms';
 
-
-
-
 @Component({
   selector: 'app-encuesta',
   templateUrl: './encuesta.component.html',
