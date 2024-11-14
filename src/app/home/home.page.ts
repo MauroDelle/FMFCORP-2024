@@ -180,7 +180,6 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   async scan(): Promise<void> {
-    // this.router.navigate(['encuesta']);
     const { barcodes } = await BarcodeScanner.scan();
     if (barcodes.length > 0) {
       this.informacionQr = barcodes[0].rawValue;  // Asignar la información del primer código QR escaneado

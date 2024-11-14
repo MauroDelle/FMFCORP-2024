@@ -1,16 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule,
-   ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import { DatabaseService } from 'src/app/services/database.service';
 import Swal from 'sweetalert2';
-
-import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolbar/go-back-toolbar.component';
-import { LoadingSpinnerComponent } from 'src/app/spinner/spinner.component';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { Router, RouterModule } from '@angular/router';
 import { Observable,map } from 'rxjs';
 import { NgForm } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { IonCardHeader, IonCardContent, IonRadio, IonHeader, IonTitle, 
+  IonCheckbox, IonToolbar, IonContent, IonButton, IonIcon, IonList, IonItem, IonLabel, 
+  IonCard, IonCardTitle } from '@ionic/angular/standalone';
+import { GoBackToolbarComponent } from 'src/app/shared/components/go-back-toolbar/go-back-toolbar.component';
+import { LoadingSpinnerComponent } from 'src/app/spinner/spinner.component';
+import { IonRange,IonRadioGroup,IonInput } from '@ionic/angular/standalone';
+
+
 
 @Component({
   selector: 'app-encuesta',
@@ -22,6 +27,9 @@ import { NgForm } from '@angular/forms';
     IonCardHeader,
     IonCardContent,
     IonRadio,
+    IonInput,
+    IonRadioGroup,
+    IonRange,
     IonHeader,
     IonTitle,
     IonCheckbox,
