@@ -18,6 +18,7 @@ import { FcmService } from '../services/fcm.service';
 import { Subscription } from 'rxjs';
 import { LoadingSpinnerComponent } from '../spinner/spinner.component';
 import { BarcodeScanner } from '@capacitor-mlkit/barcode-scanning';
+import { uid } from 'chart.js/dist/helpers/helpers.core';
 
 interface UserProfile {
   email: string;
@@ -76,7 +77,7 @@ export class HomePage implements OnInit, OnDestroy {
       barChartOutline
     });
     this.platform.ready().then(() => {
-      this.loggedUser = this.authService.loggedUser;
+      this.loggedUser = this.authService.loggedUser;  
       console.log(this.loggedUser.email);
       console.log(this.loggedUser.uid);
       this.fcm.initPush(this.loggedUser.uid);  // Asegúrate de pasar el UID del usuario aquí
@@ -114,6 +115,8 @@ export class HomePage implements OnInit, OnDestroy {
           };
 
           console.log('Current user:', this.currentUser);
+
+          console.log('user UUID', user.uid);
 
           // Initialize push notifications if we have a user
           if (this.currentUser.uid) {

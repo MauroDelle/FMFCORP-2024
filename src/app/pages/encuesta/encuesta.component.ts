@@ -69,6 +69,9 @@ export class EncuestaComponent  implements OnInit {
   mostrarFormEncuesta:boolean=false;
   encuestaSeleccionada:any;
  
+  goToGraficos() {
+    this.router.navigate(['/graficos']);
+  }
   
 
   ngOnInit() {
