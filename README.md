@@ -53,7 +53,7 @@ Utilizamos Jira para gestiónar nuestro proyecto, cada módulo y objetivo a desa
 
  IMAGENES
 
- 
+
 ---
 
 
@@ -69,7 +69,7 @@ Utilizamos Jira para gestiónar nuestro proyecto, cada módulo y objetivo a desa
     - [Autorización Clientes](https://afi-pps-2024.atlassian.net/browse/KAN-26)
 - **Fecha de inicio de la tarea:** 27/10/2024 
 - **Fecha de finalización de la tarea:** 04/11/2024 
----
+
 
 IMAGENES
 
@@ -92,7 +92,7 @@ IMAGENES
 IMAGENES
 
 
-
+---
 
 
 
@@ -128,3 +128,7 @@ IMAGENES
 - **Fecha de inicio de la tarea:** 11/11/2024 
 - **Fecha de finalización de la tarea:** 14/11/2024 
 
+IMAGENES
+
+
+---
