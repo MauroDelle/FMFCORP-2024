@@ -126,7 +126,7 @@ Utilizamos Jira para gestiónar nuestro proyecto, cada módulo y objetivo a desa
     - [Confirmar Pedidos (Cocinero y Bartender)](https://afi-pps-2024.atlassian.net/browse/KAN-32)
     - [Listado Pedidos Pendientes (Mozo)](https://afi-pps-2024.atlassian.net/browse/KAN-33)
 - **Fecha de inicio de la tarea:** 05/11/2024 
-- **Fecha de finalización de la tarea:** 09/11/2024 
+- **Fecha de finalización de la tarea:** 11/11/2024 
 
 
 <img src="https://github.com/user-attachments/assets/efc04b06-1521-4ef6-9b20-2f46cf63cc18" width="230">
@@ -139,7 +139,7 @@ Utilizamos Jira para gestiónar nuestro proyecto, cada módulo y objetivo a desa
 - **Módulos (objetivos) a desarrollar:** 
     - [QR de Ingreso al Local](https://afi-pps-2024.atlassian.net/browse/KAN-7)
     - [Alta de Productos](https://afi-pps-2024.atlassian.net/browse/KAN-6)
-- **Fecha de inicio de la tarea:** 11/11/2024 
+- **Fecha de inicio de la tarea:** 12/11/2024 
 - **Fecha de finalización de la tarea:** 14/11/2024 
 
 
