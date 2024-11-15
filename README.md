@@ -33,6 +33,7 @@ Utilizamos Jira para gestiónar nuestro proyecto, cada módulo y objetivo a desa
 - **Fecha de finalización de la tarea:** 04/11/2024 
 
  ACA IMAGENES
+ ![image](https://github.com/user-attachments/assets/85cdc790-d634-4eed-a1d2-c22a8b35ff99)
 
 
  - **Módulos (objetivos) a desarrollar:** 
