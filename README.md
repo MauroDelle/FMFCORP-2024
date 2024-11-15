@@ -144,6 +144,7 @@ Utilizamos Jira para gestiónar nuestro proyecto, cada módulo y objetivo a desa
 
 
 <img src="https://github.com/user-attachments/assets/4630e972-0da8-4d25-88fb-bcda6fbc350b" width="230">
+<img src="https://github.com/user-attachments/assets/0e52e11d-9256-45f4-836f-852d875a7258" width="230">
 
 
 ---
