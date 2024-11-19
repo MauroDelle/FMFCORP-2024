@@ -43,8 +43,8 @@ h2 {
     padding: 16px;
 
     ion-card-title {
-      font-size: 20px;
-      font-weight: 600;
+      font-size: 40px;
+      font-weight: 650;
       color: #1e2832;
 
       &:last-child {
@@ -72,8 +72,10 @@ ion-fab {
 
 .custom-fab-button {
   --background: var(--ion-color-primary);
-  width: 80px;
-  height: 80px;
+  width: 90px;
+  height: 90px;
+  margin-top: 5px;
+  font-size: medium;
 }
 
 /* Footer transparente */
@@ -142,8 +144,8 @@ ion-input {
 
 /* Ajuste del botón de agregar */
 ion-fab-button[size="small"] {
-  width: 40px;
-  height: 40px;
+  width: 50px;
+  height: 50px;
   margin-right: 16px;
   margin-bottom: 16px;
 }
